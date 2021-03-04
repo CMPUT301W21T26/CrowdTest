@@ -1,11 +1,18 @@
 package com.example.crowdtest;
 
+/**
+ *
+ */
 public class UserProfile {
 
+    // UserProfile attributes
     private String username;
     private String email;
     private String phoneNumber;
 
+    /**
+     * UserProfile constructor
+     */
     public UserProfile() {
         // TODO: Generate unique username
         email = "";
@@ -13,7 +20,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for getting user's username
      * @return
      */
     public String getUsername() {
@@ -21,7 +28,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's username
      * @return
      */
     public void setUsername(String username) {
@@ -29,7 +36,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for getting user's email
      * @return
      */
     public String getEmail() {
@@ -37,7 +44,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's email
      * @return
      */
     public void setEmail(String email) {
@@ -45,7 +52,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for getting user's phone number
      * @return
      */
     public String getPhoneNumber() {
@@ -53,7 +60,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's phone number
      * @return
      */
     public void setPhoneNumber(String phoneNumber) {
