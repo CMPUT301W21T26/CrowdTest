@@ -7,20 +7,27 @@ public class Experiment {
 
     // Experiment attributes
     private String experimentID;
-    private Owner owner;
+    private Experimenter owner;
+    private String status;
     private String description;
     private String region;
-    private String status;
 
     private ExperimentManager experimentManager;
 
     /**
-     * Experiment constructor
-     * @return
+     *
+     * @param owner
+     * @param experimentManager
+     * @param addExperiment
      */
-    public Experiment(ExperimentManager experimentManager) {
-        experimentID = this.experimentManager.generateExperimentID();
+    public Experiment(Experimenter owner, ExperimentManager experimentManager, boolean addExperiment) {
+        this.owner = owner;
+        experimentID = experimentManager.generateExperimentID();
         this.experimentManager = experimentManager;
+
+        if (addExperiment) {
+            experimentManager.publishExperiment(this);
+        }
     }
 
     /**
@@ -43,7 +50,7 @@ public class Experiment {
      * Function for getting experiment owner
      * @return
      */
-    public Owner getOwner() {
+    public Experimenter getOwner() {
         return owner;
     }
 
