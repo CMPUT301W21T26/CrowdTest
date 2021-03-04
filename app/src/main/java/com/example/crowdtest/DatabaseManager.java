@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  *
@@ -59,6 +60,17 @@ public class DatabaseManager {
     }
 
     /**
+     * Function for adding a document and its corresponding set of data to a collection
+     * @param collectionPath
+     * @param document
+     */
+    public void addDataToCollection(String collectionPath, String document) {
+        // Add key-value pair to DB
+        final CollectionReference collectionReference = database.collection(collectionPath);
+        collectionReference.document(document);
+    }
+
+    /**
      * Function for deleting a document from a collection
      * @param collectionPath
      * @param document
@@ -84,7 +96,32 @@ public class DatabaseManager {
     }
 
     /**
-     * Function fro retrieving all documents from a collection
+     * Function for generating a unique document ID
+     * @param prefix
+     * @param collectionPath
+     * @return
+     */
+    public String generateDocumentID(String prefix, String collectionPath) {
+        // Generate a random number between 0 and 9999
+        Random rand = new Random();
+        int generatedNumber = rand.nextInt(10000);
+
+        // Create the generated username
+        String returnedDocumentID = "";
+        String generatedDocumentID = prefix + String.valueOf(generatedNumber);
+
+        // Validate the username and return if valid
+        if (isValidDocument(generatedDocumentID, collectionPath)) {
+            returnedDocumentID = generatedDocumentID;
+        } else {
+            generateDocumentID(prefix, collectionPath);
+        }
+
+        return returnedDocumentID;
+    }
+
+    /**
+     * Function for retrieving all documents from a collection
      * @param collectionPath
      */
     public ArrayList getAllDocuments(String collectionPath) {
@@ -103,4 +140,18 @@ public class DatabaseManager {
         return documentList;
     }
 
+    /**
+     * Function for checking whether a document already exists within a collection
+     * @param documentName
+     * @param collectionPath
+     * @return
+     */
+    public boolean isValidDocument(String documentName, String collectionPath) {
+        // Check if document is already in the collection
+        if (getAllDocuments(collectionPath).contains(documentName)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
