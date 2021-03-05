@@ -13,8 +13,8 @@ public class UserProfile {
     /**
      * UserProfile constructor
      */
-    public UserProfile() {
-        // TODO: Generate unique username
+    public UserProfile(String username) {
+        this.username = username;
         email = "";
         phoneNumber = "";
     }
