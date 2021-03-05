@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import java.util.ArrayList;
+
 /**
  *
  */
@@ -9,25 +11,22 @@ public class Experiment {
     private String experimentID;
     private Experimenter owner;
     private String status;
+    private String title;
     private String description;
     private String region;
-
-    private ExperimentManager experimentManager;
+    private ArrayList<String> subscribers;
+    private ArrayList<Question> questions;
 
     /**
-     *
+     * Experiment constructor
      * @param owner
-     * @param experimentManager
-     * @param addExperiment
+     * @param experimentID
      */
-    public Experiment(Experimenter owner, ExperimentManager experimentManager, boolean addExperiment) {
+    public Experiment(Experimenter owner, String experimentID) {
+        this.status = "active";
         this.owner = owner;
-        experimentID = experimentManager.generateExperimentID();
-        this.experimentManager = experimentManager;
-
-        if (addExperiment) {
-            experimentManager.publishExperiment(this);
-        }
+        this.experimentID = experimentID;
+        subscribers = new ArrayList<>();
     }
 
     /**
@@ -39,14 +38,6 @@ public class Experiment {
     }
 
     /**
-     * Function for setting experimentID
-     * @return
-     */
-    public void setExperimentID(String experimentID) {
-        this.experimentID = experimentID;
-    }
-
-    /**
      * Function for getting experiment owner
      * @return
      */
@@ -55,15 +46,23 @@ public class Experiment {
     }
 
     /**
-     * Function for setting experiment owner
+     * Function for getting experiment title
      * @return
      */
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * Function for getting experiment description
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Function for getting experiment title
      * @return
      */
     public String getDescription() {
@@ -108,5 +107,37 @@ public class Experiment {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<String> getSubscribers() {
+        return subscribers;
+    }
+
+    /**
+     *
+     * @param username
+     */
+    public void addSubscriber(String username) {
+        subscribers.add(username);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    /**
+     *
+     * @param question
+     */
+    public void addQuestion(Question question) {
+        questions.add(question);
     }
 }
