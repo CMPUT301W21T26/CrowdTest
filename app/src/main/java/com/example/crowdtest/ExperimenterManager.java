@@ -27,10 +27,48 @@ public class ExperimenterManager extends DatabaseManager {
     }
 
     /**
-     * Function for adding a experimenter to the database
+     *
+     * @return
+     */
+    public ArrayList<String> getAllExperimenterIDs() {
+        return getAllDocuments(collectionPath);
+    }
+
+    /**
+     * Function for adding an experimenter to the database
+     */
+    public Experimenter addExperimenter() {
+        // Generate initial unique username and create an experimenter
+        String username = generateUsername();
+        Experimenter experimenter = new Experimenter(username);
+
+        // Retrieve Experimenter data
+        String status = experimenter.getStatus();
+        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
+
+        // Retrieve UserProfile data
+        UserProfile userProfile = experimenter.getUserProfile();
+        String email = userProfile.getEmail();
+        String phoneNumber = userProfile.getPhoneNumber();
+
+        // Add experimenter data to HashMap
+        HashMap<String, Object> experimenterData = new HashMap<>();
+        experimenterData.put("status", status);
+        experimenterData.put("email", email);
+        experimenterData.put("phoneNumber", phoneNumber);
+        experimenterData.put("subscribed", subscribedExperiments);
+
+        // Add experimenter data to database
+        addDataToCollection(collectionPath, username, experimenterData);
+
+        return  experimenter;
+    }
+
+    /**
+     * Function for updating a given experimenter in the database
      * @param experimenter
      */
-    public void addExperimenter(Experimenter experimenter) {
+    public void updateExperimenter(Experimenter experimenter) {
         // Retrieve Experimenter data
         String status = experimenter.getStatus();
         ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
@@ -42,19 +80,14 @@ public class ExperimenterManager extends DatabaseManager {
         String phoneNumber = userProfile.getPhoneNumber();
 
         // Add experimenter data to HashMap
-        HashMap<String, String> experimenterData = new HashMap<>();
+        HashMap<String, Object> experimenterData = new HashMap<>();
         experimenterData.put("status", status);
         experimenterData.put("email", email);
         experimenterData.put("phoneNumber", phoneNumber);
+        experimenterData.put("subscribed", subscribedExperiments);
 
         // Add experimenter data to database
         addDataToCollection(collectionPath, username, experimenterData);
-
-        // Add experimenter's subscribed data to database
-        String subscribedExperimentsPath = collectionPath + "/" + username + "/Subscribed";
-        for (String experimentID : subscribedExperiments) {
-            addDataToCollection(subscribedExperimentsPath, experimentID);
-        }
     }
 
     /**
