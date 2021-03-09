@@ -1,6 +1,7 @@
 package com.example.crowdtest;
 
 import java.util.ArrayList;
+import java.util.Arrays; //TODO: remove this
 import java.util.HashMap;
 
 /**
@@ -9,7 +10,13 @@ import java.util.HashMap;
 public class ExperimentManager extends DatabaseManager {
 
     // ExperimentManager attributes
-    private ArrayList<Experiment> experiments; // TODO: remove this
+    private ArrayList<Experiment> experiments = new ArrayList<Experiment>(
+            Arrays.asList(
+                    new Experiment(new Experimenter("User1"), "1"),
+                    new Experiment(new Experimenter("User2"), "2"),
+                    new Experiment(new Experimenter("User2"), "3"))
+    ); // TODO: remove this
+
     final private String collectionPath = "Experiments";
 
     /**
@@ -41,6 +48,30 @@ public class ExperimentManager extends DatabaseManager {
      * @return
      */
     public ArrayList<Experiment> getAllExperimentInfo() {
+        return experiments;
+    }
+
+    /**
+     * Get owned experiments for the signed in user
+     * @param owner
+     *     The user whose owned experiments are being obtained
+     * @return
+     *     ArrayList of experiments owned  by given user
+     */
+    public ArrayList<Experiment> getOwnedExperiments(Experimenter owner) {
+
+        return experiments;
+    }
+
+    /**
+     *
+     * @param subscriber
+     *    The currently signed in user
+     * @return
+     *     An array list of all the experiments that user is subscribed to
+     */
+    public ArrayList<Experiment> getSubscribedExperiments(Experimenter subscriber) {
+
         return experiments;
     }
 
