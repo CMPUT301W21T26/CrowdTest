@@ -27,6 +27,12 @@ public class Experiment {
         this.owner = owner;
         this.experimentID = experimentID;
         subscribers = new ArrayList<>();
+
+        //TODO: remove the following initializations:
+        this.status = "Open";
+        this.title = "Experiment " + experimentID;
+        this.description = "Description";
+        this.region = "Region";
     }
 
     /**
@@ -140,4 +146,6 @@ public class Experiment {
     public void addQuestion(Question question) {
         questions.add(question);
     }
+
+
 }
