@@ -12,9 +12,9 @@ public class ExperimentManager extends DatabaseManager {
     // ExperimentManager attributes
     private ArrayList<Experiment> experiments = new ArrayList<Experiment>(
             Arrays.asList(
-                    new Experiment(new Experimenter("User1"), "1"),
-                    new Experiment(new Experimenter("User2"), "2"),
-                    new Experiment(new Experimenter("User2"), "3"))
+                    new Experiment(new Experimenter(new UserProfile("User1", "ID1")), "1"),
+                    new Experiment(new Experimenter(new UserProfile("User2", "ID2")), "2"),
+                    new Experiment(new Experimenter(new UserProfile("User2", "ID3")), "3"))
     ); // TODO: remove this
 
     final private String collectionPath = "Experiments";
