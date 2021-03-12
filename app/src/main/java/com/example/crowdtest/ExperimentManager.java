@@ -12,9 +12,9 @@ public class ExperimentManager extends DatabaseManager {
     // ExperimentManager attributes
     private ArrayList<Experiment> experiments = new ArrayList<Experiment>(
             Arrays.asList(
-                    new Experiment(new Experimenter(new UserProfile("User1", "ID1")), "1"),
-                    new Experiment(new Experimenter(new UserProfile("User2", "ID2")), "2"),
-                    new Experiment(new Experimenter(new UserProfile("User2", "ID3")), "3"))
+                    new Binomial(new Experimenter(new UserProfile("User1", "ID1")), "1"),
+                    new Count(new Experimenter(new UserProfile("User2", "ID2")), "2"),
+                    new Measurement(new Experimenter(new UserProfile("User2", "ID3")), "3"))
     ); // TODO: remove this
 
     final private String collectionPath = "Experiments";
@@ -81,7 +81,7 @@ public class ExperimentManager extends DatabaseManager {
     public void publishExperiment(Experimenter owner) {
         // Generate unique experiment ID and create experiment
         String experimentID = generateExperimentID();
-        Experiment experiment = new Experiment(owner, experimentID);
+        Experiment experiment = new Binomial(owner, experimentID);
         experiments.add(experiment);
 
         // Retrieve experiment owner's profile

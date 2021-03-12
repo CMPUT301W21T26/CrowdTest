@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class Experiment {
+public abstract class Experiment {
 
     // Experiment attributes
     private String experimentID;
@@ -16,11 +16,13 @@ public class Experiment {
     private String region;
     private ArrayList<String> subscribers;
     private ArrayList<Question> questions;
+    private boolean geoLocation;
 
     /**
      * Experiment constructor
-     * @param owner
-     * @param experimentID
+     *
+     * @param owner        Owner of the experiment
+     * @param experimentID A unique ID for this experiment
      */
     public Experiment(Experimenter owner, String experimentID) {
         this.status = "active";
@@ -36,7 +38,15 @@ public class Experiment {
     }
 
     /**
+     * Adds a new trial to the experiment
+     *
+     * @param trial The trial that is going to be submitted in the experiment
+     */
+    public abstract void addTrial(Trial trial);
+
+    /**
      * Function for returning experimentID
+     *
      * @return
      */
     public String getExperimentID() {
@@ -45,6 +55,7 @@ public class Experiment {
 
     /**
      * Function for getting experiment owner
+     *
      * @return
      */
     public Experimenter getOwner() {
@@ -53,6 +64,7 @@ public class Experiment {
 
     /**
      * Function for getting experiment title
+     *
      * @return
      */
     public String getTitle() {
@@ -60,7 +72,6 @@ public class Experiment {
     }
 
     /**
-     *
      * @param title
      */
     public void setTitle(String title) {
@@ -69,6 +80,7 @@ public class Experiment {
 
     /**
      * Function for getting experiment title
+     *
      * @return
      */
     public String getDescription() {
@@ -77,6 +89,7 @@ public class Experiment {
 
     /**
      * Function for setting experiment description
+     *
      * @return
      */
     public void setDescription(String description) {
@@ -85,6 +98,7 @@ public class Experiment {
 
     /**
      * Function for getting experiment region
+     *
      * @return
      */
     public String getRegion() {
@@ -93,6 +107,7 @@ public class Experiment {
 
     /**
      * Function for setting experiment region
+     *
      * @return
      */
     public void setRegion(String region) {
@@ -101,6 +116,7 @@ public class Experiment {
 
     /**
      * Function for getting experiment status
+     *
      * @return
      */
     public String getStatus() {
@@ -109,6 +125,7 @@ public class Experiment {
 
     /**
      * Function for setting experiment status
+     *
      * @param status
      */
     public void setStatus(String status) {
@@ -116,7 +133,6 @@ public class Experiment {
     }
 
     /**
-     *
      * @return
      */
     public ArrayList<String> getSubscribers() {
@@ -124,7 +140,6 @@ public class Experiment {
     }
 
     /**
-     *
      * @param username
      */
     public void addSubscriber(String username) {
@@ -132,7 +147,6 @@ public class Experiment {
     }
 
     /**
-     *
      * @return
      */
     public ArrayList<Question> getQuestions() {
@@ -140,7 +154,6 @@ public class Experiment {
     }
 
     /**
-     *
      * @param question
      */
     public void addQuestion(Question question) {
