@@ -27,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
         createNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
 
-
+                startActivity(intent);
             }
         });
 
