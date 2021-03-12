@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.experiments;
 
 public class MeasurementTrial extends Trial {
     private double measurement;

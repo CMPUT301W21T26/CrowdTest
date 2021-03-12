@@ -1,4 +1,6 @@
-package com.example.crowdtest;
+package com.example.crowdtest.experiments;
+
+import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
 import java.util.Collection;

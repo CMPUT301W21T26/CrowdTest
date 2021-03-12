@@ -1,6 +1,6 @@
 package com.example.crowdtest;
 
-import com.google.firebase.firestore.auth.User;
+import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;
 

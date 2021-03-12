@@ -1,10 +1,12 @@
-package com.example.crowdtest;
+package com.example.crowdtest.experiments;
+
+import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Count extends Experiment {
-    private Collection <CountTrial> trials;
+public class Binomial extends Experiment {
+    private Collection <BinomialTrial> trials;
 
     /**
      * Experiment constructor
@@ -12,13 +14,13 @@ public class Count extends Experiment {
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
-    public Count(Experimenter owner, String experimentID) {
+    public Binomial(Experimenter owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
     }
 
     @Override
     public void addTrial(Trial trial) {
-        trials.add((CountTrial) trial);
+        trials.add((BinomialTrial) trial);
     }
 }

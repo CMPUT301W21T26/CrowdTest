@@ -1,5 +1,10 @@
 package com.example.crowdtest;
 
+import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.experiments.Measurement;
+
 import java.util.ArrayList;
 import java.util.Arrays; //TODO: remove this
 import java.util.HashMap;
