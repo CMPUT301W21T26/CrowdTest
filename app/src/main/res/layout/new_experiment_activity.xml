@@ -10,30 +10,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
-        android:text="Crowdsource"
+        android:text="Crowdsource \nExperiments"
+        android:singleLine="false"
+        android:background="@drawable/rectangle"
         android:textSize="32dp"></TextView>
 
-    <TextView
-        android:layout_width="410dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Experiments"
-        android:textSize="32dp"></TextView>
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
+        android:id="@+id/exp_fragment_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select experiment type:"
-        android:textSize="18sp"
-        android:translationX="30dp"
-        android:layout_marginTop="50dp"/>
-
-    <ListView
-        android:id="@+id/exp_type_view"
-        android:layout_width="300dp"
-        android:layout_height="259dp"
-        android:translationX="55dp" />
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:translationY="30dp" />
 
     <Button
         android:id="@+id/cancelbutton"
@@ -41,13 +29,8 @@
         android:layout_height="wrap_content"
         android:text="cancel"
         android:translationX="260dp"
+        android:translationY="40dp"
         app:backgroundTint="#B35353" />
 
-
-    <View
-        android:id="@+id/myRectangleView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/rectangle"/>
 
 </LinearLayout>

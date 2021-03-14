@@ -4,64 +4,72 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class NewExpFragment extends DialogFragment {
-    private ListView expOptionsList;
-    private ArrayList<String> options;
-    private ArrayAdapter<String> optionAdapter;
-    private OnFragmentInteractionListener listener;
+public class NewExpFragment extends Fragment {
+    View view;
+    ListView expOptionsList;
+    ArrayList<String> options;
+    ArrayAdapter<String> optionAdapter;
 
-    /*
-    public interface OnFragmentInteractionListener {
-        void onOkPressed(City newCity);
-    }
-         */
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public NewExpFragment() {
+        //
     }
 
-    // from lab 3 demo
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_new_exp, null);
-        expOptionsList = view.findViewById(R.id.exp_type_view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_new_exp, container, false);
+
+        expOptionsList = (ListView) view.findViewById(R.id.optionList);
         String[] optionArray = {"Count-Based", "Binomial Trials", "Non-Negative Count", "Measurement Trials"};
-
-        options = new ArrayList<>();
-        options.addAll(Arrays.asList(optionArray));
-
-        optionAdapter = new ArrayAdapter<>(this,R.layout.content,options);
+        optionAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_expandable_list_item_1,
+                optionArray
+        );
         expOptionsList.setAdapter(optionAdapter);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setTitle("Select experiment Type:")
-                .setNegativeButton("Cancel", null)
-                .create();
-    }
+        Button cancelButton = (Button) view.findViewById(R.id.cancelbutton);
+        /*
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NewExpFragment.this, MainActivity.class));
+            }
+        });
+        */
 
+        expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NewExpFragment listFragment = new NewExpFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.exp_fragment_view, listFragment);
+                transaction.commit();
+            }
+        });
+        return view;
+    }
 
 }

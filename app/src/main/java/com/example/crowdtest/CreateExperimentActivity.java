@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,7 @@ public class CreateExperimentActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_experiment_activity);
 
+        /*
         expOptionsList = findViewById(R.id.exp_type_view);
 
         String[] optionArray = {"Count-Based", "Binomial Trials", "Non-Negative Count", "Measurement Trials"};
@@ -30,7 +33,13 @@ public class CreateExperimentActivity extends MainActivity {
         // first connect our adapter to our list
         optionAdapter = new ArrayAdapter<>(this,R.layout.content,options);
         expOptionsList.setAdapter(optionAdapter);
+        */
 
+        NewExpFragment listFragment = new NewExpFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.exp_fragment_view, listFragment);
+        transaction.commit();
+        /*
         Button cancelButton = findViewById(R.id.cancelbutton);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -38,15 +47,15 @@ public class CreateExperimentActivity extends MainActivity {
             public void onClick(View v) {
                 startActivity(new Intent(CreateExperimentActivity.this, MainActivity.class));
             }
-        });
-
+        });*/
+        /*
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
             }
         });
-
+        */
 
     }
 }
