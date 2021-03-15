@@ -18,19 +18,10 @@
     <LinearLayout
         android:id="@+id/exp_fragment_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:translationY="30dp" />
-
-    <Button
-        android:id="@+id/cancelbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cancel"
-        android:translationX="260dp"
-        android:translationY="40dp"
-        app:backgroundTint="#B35353" />
 
 
 </LinearLayout>

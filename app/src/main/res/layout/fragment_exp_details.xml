@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/new_exp_frag"
@@ -7,18 +6,21 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/titleExp"
+        android:id="@+id/expDetailsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select experiment type:"
+        android:text="Add a description:"
         android:textSize="18sp"
         android:translationX="30dp" />
 
-    <ListView
-        android:id="@+id/optionList"
+    <EditText
+        android:id="@+id/expDetailsEditText"
         android:layout_width="300dp"
         android:layout_height="260dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:hint="New Experiment"
+        android:inputType="text"
+        android:textColorHint="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/buttonLayout"
@@ -29,13 +31,23 @@
         >
 
         <Button
-            android:id="@+id/newExpCancelButton"
+            android:id="@+id/detailsCancelButton"
             android:layout_width="78dp"
             android:layout_height="37dp"
-            android:textSize="10sp"
             android:text="cancel"
-            android:translationX="280dp"
+            android:textSize="10sp"
+            android:translationX="180dp"
+            app:backgroundTint="#8F8886" />
+
+        <Button
+            android:id="@+id/detailsNextButton"
+            android:layout_width="78dp"
+            android:layout_height="37dp"
+            android:text="next"
+            android:textSize="10sp"
+            android:translationX="190dp"
             app:backgroundTint="#3550E6" />
     </LinearLayout>
+
 
 </LinearLayout>

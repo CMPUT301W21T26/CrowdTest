@@ -32,6 +32,7 @@ public class NewExpFragment extends Fragment {
     ArrayList<String> options;
     ArrayAdapter<String> optionAdapter;
 
+
     public NewExpFragment() {
         //
     }
@@ -50,7 +51,7 @@ public class NewExpFragment extends Fragment {
         );
         expOptionsList.setAdapter(optionAdapter);
 
-        Button cancelButton = (Button) view.findViewById(R.id.cancelbutton);
+        Button cancelButton = (Button) view.findViewById(R.id.newExpCancelButton);
         /*
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,10 +64,11 @@ public class NewExpFragment extends Fragment {
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NewExpFragment listFragment = new NewExpFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.exp_fragment_view, listFragment);
+                ExpDetailsFragment detailsFragment = new ExpDetailsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.exp_fragment_view, detailsFragment);
                 transaction.commit();
+
             }
         });
         return view;
