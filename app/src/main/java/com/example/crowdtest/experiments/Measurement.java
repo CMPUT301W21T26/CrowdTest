@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Measurement extends Experiment {
-    private Collection <MeasurementTrial> trials;
 
     /**
      * Experiment constructor
@@ -17,10 +16,12 @@ public class Measurement extends Experiment {
     public Measurement(Experimenter owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
+        this.type = "measurement";
     }
 
     @Override
     public void addTrial(Trial trial) {
         trials.add((MeasurementTrial) trial);
     }
+
 }

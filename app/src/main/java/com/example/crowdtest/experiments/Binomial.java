@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Binomial extends Experiment {
-    private Collection <BinomialTrial> trials;
 
     /**
      * Experiment constructor
@@ -16,11 +15,13 @@ public class Binomial extends Experiment {
      */
     public Binomial(Experimenter owner, String experimentID) {
         super(owner, experimentID);
-        trials = new ArrayList<>();
+        this.trials = new ArrayList<>();
+        this.type = "binomial";
     }
 
     @Override
     public void addTrial(Trial trial) {
         trials.add((BinomialTrial) trial);
     }
+
 }

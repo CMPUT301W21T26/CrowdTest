@@ -1,9 +1,18 @@
 package com.example.crowdtest;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.NonNegative;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays; //TODO: remove this
@@ -23,6 +32,8 @@ public class ExperimentManager extends DatabaseManager {
     ); // TODO: remove this
 
     final private String collectionPath = "Experiments";
+    private String TAG = "GetExperiments";
+    private ExperimenterManager experimenterManager;
 
     /**
      * ExperimentManager constructor
@@ -41,6 +52,55 @@ public class ExperimentManager extends DatabaseManager {
     }
 
     /**
+     * Converts a document obtained from Firestore into an Experiment object
+     * @param document
+     *    The firestore document to be converted
+     * @return
+     *     Returns the experiment object
+     */
+    public Experiment getFirestoreExperiment(QueryDocumentSnapshot document) {
+
+        Experiment experiment;
+
+        String experimentID = document.getId();
+        String owner = (String) document.getData().get("owner");
+        String region = (String) document.getData().get("region");
+        String status = (String) document.getData().get("status");
+        String title = (String) document.getData().get("title");
+        String description = (String) document.getData().get("description");
+        String type = (String) document.getData().get("type");
+
+        //TODO: make it so that each experiment created uses actual user (ie add code for actual user here)
+        if (type == "binomial") {
+
+            //call ExperimentManager.getExperimenter(ownerID)
+            experiment = new Binomial(new Experimenter(new UserProfile("usernameBinom123", "BinomInstID123")), experimentID);
+        }
+        else if (type == "count") {
+
+            experiment = new Count(new Experimenter(new UserProfile("Countusername123", "CountInstID123")), experimentID);
+
+        }
+        else if (type =="measurement") {
+
+            experiment = new Measurement(new Experimenter(new UserProfile("Measusername123", "MeasInstID123")), experimentID);
+
+        }
+
+        else {
+
+            experiment = new NonNegative(new Experimenter(new UserProfile("NonNegusername123", "NonNegInstID123")), experimentID);
+
+        }
+
+        experiment.setStatus(status);
+        experiment.setTitle(title);
+        experiment.setDescription(description);
+
+        return experiment;
+    }
+
+    /**
      *
      * @return
      */
@@ -51,6 +111,7 @@ public class ExperimentManager extends DatabaseManager {
     /**
      *
      * @return
+     *
      */
     public ArrayList<Experiment> getAllExperimentInfo() {
         return experiments;
@@ -63,9 +124,18 @@ public class ExperimentManager extends DatabaseManager {
      * @return
      *     ArrayList of experiments owned  by given user
      */
-    public ArrayList<Experiment> getOwnedExperiments(Experimenter owner) {
+    public Boolean experimentIsOwned(Experimenter owner, Experimenter user) {
 
-        return experiments;
+        String ownerName = owner.getUserProfile().getUsername();
+
+        String userName = user.getUserProfile().getUsername();
+
+        if (ownerName == userName){
+            return true;
+        }
+
+        return false;
+
     }
 
     /**
@@ -75,7 +145,7 @@ public class ExperimentManager extends DatabaseManager {
      * @return
      *     An array list of all the experiments that user is subscribed to
      */
-    public ArrayList<Experiment> getSubscribedExperiments(Experimenter subscriber) {
+    public ArrayList<Experiment> getSubscribedExperiments(Experimenter subscriber, ArrayList<Experiment> allExperiments) {
 
         return experiments;
     }
@@ -100,6 +170,8 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("trials", experiment.getTrials());
+
 
         // Add experiment to database
         // TODO: add questions as a sub-collection
@@ -122,6 +194,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("type", experiment.getType());
 
         // Add experiment to database
         addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);

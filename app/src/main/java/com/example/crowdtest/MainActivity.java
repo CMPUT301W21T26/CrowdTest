@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String installationID;
     private ExperimenterManager experimenterManager = new ExperimenterManager();
+    private ExperimentManager experimentManager = new ExperimentManager();
     private Experimenter user;
 
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize installation id
         installationID = (new Installation()).id(getApplicationContext());
+
+        ArrayList<Experiment> experimentArrayList = new ArrayList<>();
 
         //assign a value to the current user variable representing signed in experimenter
         experimenterManager.retrieveExperimenter(installationID, new RetrieveExperimenterResults() {
@@ -65,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
+
+                startActivity(intent);
 
             }
         });

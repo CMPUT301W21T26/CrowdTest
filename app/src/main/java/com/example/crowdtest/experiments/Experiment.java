@@ -2,8 +2,10 @@ package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.Question;
+import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -11,15 +13,17 @@ import java.util.ArrayList;
 public abstract class Experiment {
 
     // Experiment attributes
-    private String experimentID;
-    private Experimenter owner;
-    private String status;
-    private String title;
-    private String description;
-    private String region;
-    private ArrayList<String> subscribers;
-    private ArrayList<Question> questions;
-    private boolean geoLocation;
+    protected String experimentID;
+    protected Experimenter owner;
+    protected String status;
+    protected String title;
+    protected String description;
+    protected String region;
+    protected ArrayList<String> subscribers;
+    protected ArrayList<Question> questions;
+    protected boolean geoLocation;
+    protected String type;
+    protected ArrayList<Trial> trials;
 
     /**
      * Experiment constructor
@@ -39,6 +43,51 @@ public abstract class Experiment {
         this.description = "Description";
         this.region = "Region";
     }
+
+    public void setTrials(ArrayList<Trial> trials) {
+        this.trials = trials;
+    };
+
+    public ArrayList<Trial> getTrials() {
+
+        return trials;
+    };
+
+    public void setType(String type) {
+
+        this.type = type;
+    }
+
+    public void setExperimentID(String experimentID) {
+        this.experimentID = experimentID;
+    }
+    
+    public void setOwner(Experimenter owner) {
+        this.owner = owner;
+    }
+
+    public void setSubscribers(ArrayList<String> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
+    public boolean isGeoLocation() {
+        return geoLocation;
+    }
+
+    public void setGeoLocation(boolean geoLocation) {
+        this.geoLocation = geoLocation;
+    }
+
+    /**
+     * Get the type of experiment for insertion into the database
+     */
+    public String getType() {
+        return this.type;
+    };
 
     /**
      * Adds a new trial to the experiment
