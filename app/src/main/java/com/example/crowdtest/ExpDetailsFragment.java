@@ -1,5 +1,6 @@
 package com.example.crowdtest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.w3c.dom.Text;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class ExpDetailsFragment extends Fragment {
     TextView header;
@@ -37,6 +40,8 @@ public class ExpDetailsFragment extends Fragment {
         Button nextButton = (Button) view.findViewById(R.id.detailsNextButton);
         mode = "description";
 
+        Button cancelButton = (Button) view.findViewById(R.id.detailsCancelButton);
+
         nextButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -49,18 +54,26 @@ public class ExpDetailsFragment extends Fragment {
 
                     description = userData.getText().toString();
                     userData.setText("");
-                    mode = "location";
+                    userData.setHint("");
+                    mode = "region";
                 }
 
-                else { // get location data and then start new fragment
+                else if (mode == "region") { // get location data and then start new fragment
                     location = userData.getText().toString();
+                    nextButton.setText("FINISH");
+                    header.setText("Minimum trials:");
+                    userData.setHint("");
+                    //userData.setLayoutParams(userData.getHeight(),ViewGroup.LayoutParams.WRAP_CONTENT);
                     /*
                     ExpDetailsFragment detailsFragment = new ExpDetailsFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.exp_fragment_view, detailsFragment);
                     transaction.commit();
-
                      */
+                }
+
+                else {
+
                 }
 
 

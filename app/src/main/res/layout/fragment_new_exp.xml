@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/new_exp_frag"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="315dp"
     android:orientation="vertical">
 
     <TextView
@@ -18,7 +18,9 @@
         android:id="@+id/optionList"
         android:layout_width="300dp"
         android:layout_height="260dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:background="@drawable/black_outline_rectangle"
+        />
 
     <LinearLayout
         android:id="@+id/buttonLayout"
