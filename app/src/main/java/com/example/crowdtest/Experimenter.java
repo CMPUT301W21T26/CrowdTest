@@ -2,12 +2,13 @@ package com.example.crowdtest;
 
 import com.example.crowdtest.experiments.Experiment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  */
-public class Experimenter {
+public class Experimenter implements Serializable {
 
     // Experimenter attributes
     private String status;

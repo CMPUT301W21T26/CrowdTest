@@ -13,15 +13,15 @@ public class Count extends Experiment {
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
-    public Count(Experimenter owner, String experimentID) {
+    public Count(String owner, String experimentID) {
         super(owner, experimentID);
         this.trials = new ArrayList<>();
         this.type = "count";
     }
 
     @Override
-    public void addTrial(Trial trial) {
-        trials.add((CountTrial) trial);
+    public void addTrial(String trialID) {
+        trials.add(trialID);
     }
 
 }

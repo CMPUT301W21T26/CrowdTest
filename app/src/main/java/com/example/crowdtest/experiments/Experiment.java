@@ -14,16 +14,16 @@ public abstract class Experiment {
 
     // Experiment attributes
     protected String experimentID;
-    protected Experimenter owner;
+    protected String owner;
     protected String status;
     protected String title;
     protected String description;
     protected String region;
-    protected ArrayList<String> subscribers;
-    protected ArrayList<Question> questions;
+    protected ArrayList<String> subscribers; //array of subscriber usernames
+    protected ArrayList<String> questions; //Array of question ids
     protected boolean geoLocation;
     protected String type;
-    protected ArrayList<Trial> trials;
+    protected ArrayList<String> trials;
 
     /**
      * Experiment constructor
@@ -31,24 +31,17 @@ public abstract class Experiment {
      * @param owner        Owner of the experiment
      * @param experimentID A unique ID for this experiment
      */
-    public Experiment(Experimenter owner, String experimentID) {
-        this.status = "active";
+    public Experiment(String owner, String experimentID) {
         this.owner = owner;
         this.experimentID = experimentID;
-        subscribers = new ArrayList<>();
-
-        //TODO: remove the following initializations:
-        this.status = "Open";
-        this.title = "Experiment " + experimentID;
-        this.description = "Description";
-        this.region = "Region";
     }
 
-    public void setTrials(ArrayList<Trial> trials) {
+    public void setTrials(ArrayList<String> trials) {
+
         this.trials = trials;
     };
 
-    public ArrayList<Trial> getTrials() {
+    public ArrayList<String> getTrials() {
 
         return trials;
     };
@@ -62,15 +55,16 @@ public abstract class Experiment {
         this.experimentID = experimentID;
     }
     
-    public void setOwner(Experimenter owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 
     public void setSubscribers(ArrayList<String> subscribers) {
+
         this.subscribers = subscribers;
     }
 
-    public void setQuestions(ArrayList<Question> questions) {
+    public void setQuestions(ArrayList<String> questions) {
         this.questions = questions;
     }
 
@@ -92,9 +86,9 @@ public abstract class Experiment {
     /**
      * Adds a new trial to the experiment
      *
-     * @param trial The trial that is going to be submitted in the experiment
+     * @param trialID The trial that is going to be submitted in the experiment
      */
-    public abstract void addTrial(Trial trial);
+    public abstract void addTrial(String trialID);
 
     /**
      * Function for returning experimentID
@@ -110,7 +104,7 @@ public abstract class Experiment {
      *
      * @return
      */
-    public Experimenter getOwner() {
+    public String getOwner() {
         return owner;
     }
 
@@ -201,15 +195,15 @@ public abstract class Experiment {
     /**
      * @return
      */
-    public ArrayList<Question> getQuestions() {
+    public ArrayList<String> getQuestions() {
         return questions;
     }
 
     /**
-     * @param question
+     * @param questionID
      */
-    public void addQuestion(Question question) {
-        questions.add(question);
+    public void addQuestion(String questionID) {
+        questions.add(questionID);
     }
 
 

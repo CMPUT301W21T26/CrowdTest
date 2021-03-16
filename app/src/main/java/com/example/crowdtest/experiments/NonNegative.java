@@ -13,15 +13,15 @@ public class NonNegative extends Experiment {
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
-    public NonNegative(Experimenter owner, String experimentID) {
+    public NonNegative(String owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
         this.type = "nonnegative";
     }
 
     @Override
-    public void addTrial(Trial trial) {
-        trials.add((NonNegativeTrial) trial);
+    public void addTrial(String trialID) {
+        trials.add(trialID);
     }
 
 }

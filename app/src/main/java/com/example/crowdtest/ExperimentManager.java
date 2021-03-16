@@ -11,6 +11,7 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.NonNegative;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -23,24 +24,14 @@ import java.util.HashMap;
  */
 public class ExperimentManager extends DatabaseManager {
 
-    // ExperimentManager attributes
-    private ArrayList<Experiment> experiments = new ArrayList<Experiment>(
-            Arrays.asList(
-                    new Binomial(new Experimenter(new UserProfile("User1", "ID1")), "1"),
-                    new Count(new Experimenter(new UserProfile("User2", "ID2")), "2"),
-                    new Measurement(new Experimenter(new UserProfile("User2", "ID3")), "3"))
-    ); // TODO: remove this
-
     final private String collectionPath = "Experiments";
     private String TAG = "GetExperiments";
-    private ExperimenterManager experimenterManager;
 
     /**
      * ExperimentManager constructor
      */
     public ExperimentManager() {
         super();
-        experiments = new ArrayList<>();
     }
 
     /**
@@ -64,41 +55,71 @@ public class ExperimentManager extends DatabaseManager {
 
         String experimentID = document.getId();
         String owner = (String) document.getData().get("owner");
-        String region = (String) document.getData().get("region");
-        String status = (String) document.getData().get("status");
-        String title = (String) document.getData().get("title");
-        String description = (String) document.getData().get("description");
         String type = (String) document.getData().get("type");
 
         //TODO: make it so that each experiment created uses actual user (ie add code for actual user here)
         if (type == "binomial") {
-
             //call ExperimentManager.getExperimenter(ownerID)
-            experiment = new Binomial(new Experimenter(new UserProfile("usernameBinom123", "BinomInstID123")), experimentID);
+            experiment = new Binomial(owner, experimentID);
         }
         else if (type == "count") {
-
-            experiment = new Count(new Experimenter(new UserProfile("Countusername123", "CountInstID123")), experimentID);
-
+            experiment = new Count(owner, experimentID);
         }
         else if (type =="measurement") {
-
-            experiment = new Measurement(new Experimenter(new UserProfile("Measusername123", "MeasInstID123")), experimentID);
-
+            experiment = new Measurement(owner, experimentID);
         }
-
         else {
-
-            experiment = new NonNegative(new Experimenter(new UserProfile("NonNegusername123", "NonNegInstID123")), experimentID);
-
+            experiment = new NonNegative(owner, experimentID);
         }
 
-        experiment.setStatus(status);
-        experiment.setTitle(title);
-        experiment.setDescription(description);
+        experiment.setStatus((String) document.getData().get("status"));
+        experiment.setTitle((String) document.getData().get("title"));
+        experiment.setDescription((String) document.getData().get("description"));
+        experiment.setRegion((String) document.getData().get("region"));
+        experiment.setQuestions((ArrayList<String>) document.getData().get("questions"));
+        experiment.setSubscribers((ArrayList<String>) document.getData().get("subscribers"));
+        experiment.setGeoLocation((Boolean) document.getData().get("geolocation"));
+        experiment.setTrials((ArrayList<String>) document.getData().get("trials"));
 
         return experiment;
     }
+
+    /**
+     *
+     * @param user
+     * @param experiment
+     * @return
+     */
+    public Boolean experimentIsOwned(Experimenter user, Experiment experiment) {
+
+        String ownerName = experiment.getOwner();
+
+        String userName = user.getUserProfile().getUsername();
+
+        if (ownerName.equals(userName)){
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public Boolean experimentIsSubscribed(Experimenter user, Experiment experiment) {
+
+        String userName = user.getUserProfile().getUsername();
+
+        ArrayList<String> subscribedUsers = experiment.getSubscribers();
+
+        if (subscribedUsers.contains(userName)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+
 
     /**
      *
@@ -114,29 +135,10 @@ public class ExperimentManager extends DatabaseManager {
      *
      */
     public ArrayList<Experiment> getAllExperimentInfo() {
-        return experiments;
+        return new ArrayList<Experiment>();
     }
 
-    /**
-     * Get owned experiments for the signed in user
-     * @param owner
-     *     The user whose owned experiments are being obtained
-     * @return
-     *     ArrayList of experiments owned  by given user
-     */
-    public Boolean experimentIsOwned(Experimenter owner, Experimenter user) {
 
-        String ownerName = owner.getUserProfile().getUsername();
-
-        String userName = user.getUserProfile().getUsername();
-
-        if (ownerName == userName){
-            return true;
-        }
-
-        return false;
-
-    }
 
     /**
      *
@@ -147,24 +149,35 @@ public class ExperimentManager extends DatabaseManager {
      */
     public ArrayList<Experiment> getSubscribedExperiments(Experimenter subscriber, ArrayList<Experiment> allExperiments) {
 
-        return experiments;
+        return new ArrayList<Experiment>();
     }
 
     /**
      * Function for adding an experiment to the database
      */
-    public void publishExperiment(Experimenter owner) {
+    public Experiment publishExperiment(String owner, String type) {
         // Generate unique experiment ID and create experiment
         String experimentID = generateExperimentID();
-        Experiment experiment = new Binomial(owner, experimentID);
-        experiments.add(experiment);
+        Experiment experiment;
+        if (type == "binomial") {
+            experiment = new Binomial(owner, experimentID);
+        }
+        else if (type =="count"){
+            experiment = new Count(owner, experimentID);
+        }
+        else if (type =="measurement") {
+            experiment = new Measurement(owner, experimentID);
+        }
+        else {
+            experiment = new NonNegative(owner, experimentID);
+        }
 
-        // Retrieve experiment owner's profile
-        UserProfile ownerProfile = owner.getUserProfile();
+        //owners are automatically subscribed to their published experiments
+        experiment.addSubscriber(owner);
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", ownerProfile.getUsername());
+        experimentData.put("owner", owner);
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
         experimentData.put("description", experiment.getDescription());
@@ -176,6 +189,8 @@ public class ExperimentManager extends DatabaseManager {
         // Add experiment to database
         // TODO: add questions as a sub-collection
         addDataToCollection(collectionPath, experimentID, experimentData);
+
+        return experiment;
     }
 
     /**
@@ -183,13 +198,10 @@ public class ExperimentManager extends DatabaseManager {
      * @param experiment
      */
     public void updateExperiment(Experiment experiment) {
-        // Retrieve experiment owner's profile
-        Experimenter owner = experiment.getOwner();
-        UserProfile ownerProfile = owner.getUserProfile();
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", ownerProfile.getUsername());
+        experimentData.put("owner", experiment.getOwner());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());

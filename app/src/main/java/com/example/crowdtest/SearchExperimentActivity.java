@@ -51,13 +51,6 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         final CollectionReference collectionReference = db.collection("Experiments");
 
-        experimentManager.getAllExperiments(new GetAllExperimentsResults() {
-            @Override
-            public void onGetAllExperiments(Experiment experiment) {
-                experimentDataList.add(experiment);
-            }
-        });
-
         experimentAdapter = new CustomList(this, experimentDataList);
 
         allExperimentList.setAdapter(experimentAdapter);

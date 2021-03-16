@@ -29,11 +29,12 @@ public class Owner extends Experimenter {
 
     /**
      * Function for publishing an experiment to the database
-     * @param experiment
+     * @param type
      */
-    public void publishExperiment(Experiment experiment) {
+    public void publishExperiment(String type) {
+        Experiment experiment = experimentManager.publishExperiment(this.getUserProfile().getUsername(), type);
         ownedExperiments.add(experiment.getExperimentID());
-        experimentManager.publishExperiment(this);
+
     }
 
     /**

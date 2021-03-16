@@ -40,10 +40,12 @@ public class CustomList extends ArrayAdapter<Experiment> {
         TextView owner = view.findViewById(R.id.owner_text);
         TextView status = view.findViewById(R.id.status_text);
         TextView expDesc = view.findViewById(R.id.exp_desc_text);
+        TextView expTitle = view.findViewById(R.id.exp_title_text);
 
-        owner.setText(experiment.getOwner().getUserProfile().getUsername());
+        owner.setText(experiment.getOwner());
         status.setText(experiment.getStatus());
-        expDesc.setText(experiment.getExperimentID());
+        expTitle.setText(experiment.getTitle());
+        expDesc.setText(experiment.getDescription());
 
         return view;
 

@@ -13,15 +13,15 @@ public class Binomial extends Experiment {
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
-    public Binomial(Experimenter owner, String experimentID) {
+    public Binomial(String owner, String experimentID) {
         super(owner, experimentID);
         this.trials = new ArrayList<>();
         this.type = "binomial";
     }
 
     @Override
-    public void addTrial(Trial trial) {
-        trials.add((BinomialTrial) trial);
+    public void addTrial(String trialID) {
+        trials.add((trialID));
     }
 
 }

@@ -13,15 +13,15 @@ public class Measurement extends Experiment {
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
-    public Measurement(Experimenter owner, String experimentID) {
+    public Measurement(String owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
         this.type = "measurement";
     }
 
     @Override
-    public void addTrial(Trial trial) {
-        trials.add((MeasurementTrial) trial);
+    public void addTrial(String trialID) {
+        trials.add(trialID);
     }
 
 }

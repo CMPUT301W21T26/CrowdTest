@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
 
+                intent.putExtra("USER", user);
+
                 startActivity(intent);
             }
         });
