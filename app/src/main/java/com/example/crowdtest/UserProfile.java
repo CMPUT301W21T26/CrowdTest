@@ -1,9 +1,11 @@
 package com.example.crowdtest;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class UserProfile {
+public class UserProfile implements Serializable {
 
     // UserProfile attributes
     private String username;

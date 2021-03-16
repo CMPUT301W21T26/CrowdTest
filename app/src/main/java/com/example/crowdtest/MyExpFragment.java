@@ -2,6 +2,7 @@ package com.example.crowdtest;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,30 +11,39 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.crowdtest.experiments.Experiment;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 /**
  * Fragment to display a user's owned experiments in the ExperimentListActivity
  */
 public class MyExpFragment extends Fragment {
 
+    ExperimentManager experimentManager = new ExperimentManager();
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ;
 
     public MyExpFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MyExpFragment.
+     * Pass signed in user value to fragment
+     * @param user
+     * @return
      */
-    // TODO: Rename and change types and number of parameters to take in necessary experiment arguments
-    public static MyExpFragment newInstance(String param1, String param2) {
+    public static MyExpFragment newInstance(Experimenter user) {
         MyExpFragment fragment = new MyExpFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
+        args.putSerializable("USER", user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,17 +61,42 @@ public class MyExpFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_my_exp, container, false);
 
-        String[] experiments = {"Exp1", "Exp2", "Exp3"}; //TODO: Remove this an have a list of experiments from database be passed in
+        Experimenter user = (Experimenter) getArguments().getSerializable("USER");
+
+        ArrayList<Experiment> ownedExperiments = new ArrayList<Experiment>();
+
 
         ListView listView = (ListView) view.findViewById(R.id.my_exp_list_view);
 
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_expandable_list_item_1,
-                experiments
-        );
+        ArrayAdapter<Experiment> listViewAdapter = new CustomList(getActivity(), ownedExperiments);
 
         listView.setAdapter(listViewAdapter);
+
+        CollectionReference collectionReference = db.collection("Experiments");
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                ownedExperiments.clear();
+
+                for (QueryDocumentSnapshot document : value) {
+
+                    String expID = (String) document.getId();
+
+                    Experiment experiment = experimentManager.getFirestoreExperiment(document);
+
+                    if (experimentManager.experimentIsOwned(user, experiment)) {
+
+                        ownedExperiments.add(experiment);
+                    }
+
+                }
+
+                listViewAdapter.notifyDataSetChanged();
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
