@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/new_exp_frag"
     android:layout_width="match_parent"
-    android:layout_height="315dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView

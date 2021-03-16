@@ -42,6 +42,7 @@ public class NewExpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_exp, container, false);
 
+
         expOptionsList = (ListView) view.findViewById(R.id.optionList);
         String[] optionArray = {"Count-Based", "Binomial Trials", "Non-Negative Count", "Measurement Trials"};
         optionAdapter = new ArrayAdapter<String>(
@@ -52,14 +53,14 @@ public class NewExpFragment extends Fragment {
         expOptionsList.setAdapter(optionAdapter);
 
         Button cancelButton = (Button) view.findViewById(R.id.newExpCancelButton);
-        /*
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewExpFragment.this, MainActivity.class));
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
-        */
+
 
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

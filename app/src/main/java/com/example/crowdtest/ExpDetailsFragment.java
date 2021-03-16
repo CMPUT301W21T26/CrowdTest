@@ -20,10 +20,11 @@ import org.w3c.dom.Text;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class ExpDetailsFragment extends Fragment {
+    int minNumTrials;
     TextView header;
     EditText userData;
     String description;
-    String location;
+    String region;
     String mode; // Will be either 'description' or 'location' mode
 
     public ExpDetailsFragment() {
@@ -42,6 +43,13 @@ public class ExpDetailsFragment extends Fragment {
 
         Button cancelButton = (Button) view.findViewById(R.id.detailsCancelButton);
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
+
         nextButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -59,24 +67,20 @@ public class ExpDetailsFragment extends Fragment {
                 }
 
                 else if (mode == "region") { // get location data and then start new fragment
-                    location = userData.getText().toString();
-                    nextButton.setText("FINISH");
+                    region = userData.getText().toString();
+                    userData.setText("");
+                    userData.setHint("Enter an integer only");
                     header.setText("Minimum trials:");
-                    userData.setHint("");
-                    //userData.setLayoutParams(userData.getHeight(),ViewGroup.LayoutParams.WRAP_CONTENT);
-                    /*
-                    ExpDetailsFragment detailsFragment = new ExpDetailsFragment();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.exp_fragment_view, detailsFragment);
-                    transaction.commit();
-                     */
+                    nextButton.setText("Finish");
+                    mode = "mintrialcount";
                 }
 
                 else {
-
+                    GeolocationToggleFragment toggleFragment = new GeolocationToggleFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.exp_fragment_view, toggleFragment);
+                    transaction.commit();
                 }
-
-
             }
         });
 
