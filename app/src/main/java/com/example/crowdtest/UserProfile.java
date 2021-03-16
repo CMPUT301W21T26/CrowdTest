@@ -9,14 +9,28 @@ public class UserProfile {
     private String username;
     private String email;
     private String phoneNumber;
+    private String installationID;
 
     /**
      * UserProfile constructor
      */
-    public UserProfile(String username) {
+    public UserProfile(String username, String installationID) {
         this.username = username;
-        email = "";
-        phoneNumber = "";
+        this.installationID = installationID;
+        this.email = "";
+        this.phoneNumber = "";
+    }
+
+    /**
+     * second user profile constructor
+     * @param username
+     * @param installationID
+     */
+    public UserProfile(String username, String installationID, String email, String phoneNumber) {
+        this.username = username;
+        this.installationID = installationID;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     /**

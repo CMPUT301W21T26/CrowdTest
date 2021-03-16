@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import java.util.ArrayList;
 
 /**
@@ -16,11 +18,15 @@ public class Experimenter {
     /**
      * Experimenter constructor
      */
-    public Experimenter(String username) {
+    public Experimenter(UserProfile userProfile) {
         // Initialize Experimenter attributes
-        userProfile = new UserProfile(username);
-        status = "experimenter";
-        subscribedExperiments = new ArrayList<>();
+        this.userProfile = userProfile;
+        this.status = "experimenter";
+        this.subscribedExperiments = new ArrayList<>();
+    }
+
+    public void setSubscribedExperiments(ArrayList<String> subscribedExperiments) {
+        this.subscribedExperiments = subscribedExperiments;
     }
 
     /**

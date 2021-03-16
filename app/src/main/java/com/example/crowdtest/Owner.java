@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import java.util.ArrayList;
 
 /**
@@ -13,11 +15,11 @@ public class Owner extends Experimenter {
 
     /**
      * Owner constructor
-     * @param username
+     * @param userProfile
      * @param experimentManager
      */
-    public Owner(String username, ExperimentManager experimentManager) {
-        super(username);
+    public Owner(UserProfile userProfile, ExperimentManager experimentManager) {
+        super(userProfile);
 
         // Initialize Owner attributes
         setStatus("owner");
