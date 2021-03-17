@@ -2,12 +2,17 @@ package com.example.crowdtest;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,7 +34,12 @@ public class MyExpFragment extends Fragment {
     ExperimentManager experimentManager = new ExperimentManager();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ;
+
+    CollectionReference collectionReference;
+
+    ArrayList<Experiment> ownedExperiments;
+
+    Experimenter user;
 
     public MyExpFragment() {
         // Required empty public constructor
@@ -61,10 +71,9 @@ public class MyExpFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_my_exp, container, false);
 
-        Experimenter user = (Experimenter) getArguments().getSerializable("USER");
+        user = (Experimenter) getArguments().getSerializable("USER");
 
-        ArrayList<Experiment> ownedExperiments = new ArrayList<Experiment>();
-
+        ownedExperiments = new ArrayList<Experiment>();
 
         ListView listView = (ListView) view.findViewById(R.id.my_exp_list_view);
 
@@ -72,7 +81,9 @@ public class MyExpFragment extends Fragment {
 
         listView.setAdapter(listViewAdapter);
 
-        CollectionReference collectionReference = db.collection("Experiments");
+        registerForContextMenu(listView);
+
+        collectionReference = db.collection("Experiments");
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -100,5 +111,57 @@ public class MyExpFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /**
+     * Inflate context menu, and set visibility of items that depend on user being owner
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+
+        MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+        MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
+        endItem.setVisible(true);
+        unpublishItem.setVisible(true);
+    }
+
+    /**
+     * Execute code based on selected context mneu item
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch(item.getItemId()) {
+            case R.id.view_option:
+
+
+                return true;
+
+            case R.id.end_option:
+
+                return true;
+
+            case R.id.unpublish_option:
+
+                experimentManager.unpublishExperiment(ownedExperiments.get(info.position));
+
+                return true;
+
+            default:
+
+                return super.onContextItemSelected(item);
+        }
+
     }
 }
