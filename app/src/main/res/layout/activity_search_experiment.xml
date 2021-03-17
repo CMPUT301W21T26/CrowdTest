@@ -14,17 +14,15 @@
 
         <EditText
             android:id="@+id/search_word_edittext"
-            android:layout_width="311dp"
+            android:layout_width="274dp"
             android:layout_height="wrap_content"
-            android:ems="8">
-        </EditText>
+            android:ems="8"></EditText>
 
         <Button
             android:id="@+id/search_button"
-            android:layout_width="wrap_content"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
-            android:text="Search">
-        </Button>
+            android:text="Search"></Button>
 
     </LinearLayout>
 
