@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,9 @@ public class SearchExperimentActivity extends AppCompatActivity {
     ListView allExperimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
+    ArrayList<Experiment> allExperimentDataList;
     ExperimentManager experimentManager;
+    String searchString;
     FirebaseFirestore db;
 
     @Override
@@ -39,10 +42,13 @@ public class SearchExperimentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_experiment);
 
+        searchString = "";
+
         searchWordEditText = findViewById(R.id.search_word_edittext);
         searchButton = findViewById(R.id.search_button);
         allExperimentList = findViewById(R.id.all_experiment_list);
 
+        allExperimentDataList = new ArrayList<>();
         experimentDataList = new ArrayList<>();
 
         experimentManager = new ExperimentManager();
@@ -66,13 +72,40 @@ public class SearchExperimentActivity extends AppCompatActivity {
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
                     experimentDataList.add(experiment);
-                }
 
-                experimentAdapter.notifyDataSetChanged();
+                    allExperimentDataList.add(experiment);
+
+                    experimentAdapter.notifyDataSetChanged();
+
+                }
             }
         });
 
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                searchString = searchWordEditText.getText().toString();
+
+                experimentDataList.clear();
+
+                for (int i=0; i < allExperimentDataList.size(); i++) {
+
+                    Experiment currentExperiment = allExperimentDataList.get(i);
+
+                    if (experimentManager.experimentContainsKeyword(searchString, currentExperiment)){
+
+                        experimentDataList.add(currentExperiment);
+
+                    }
+
+                }
+
+                experimentAdapter.notifyDataSetChanged();
+
+            }
+        });
 
     }
 }

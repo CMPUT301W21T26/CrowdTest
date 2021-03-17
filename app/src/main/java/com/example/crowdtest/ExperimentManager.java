@@ -84,6 +84,22 @@ public class ExperimentManager extends DatabaseManager {
         return experiment;
     }
 
+
+    public Boolean experimentContainsKeyword(String searchString, Experiment experiment) {
+
+        if (experiment.getTitle().contains(searchString)) {
+
+            return true;
+        }
+        else if (experiment.getDescription().contains(searchString)) {
+
+            return true;
+        }
+
+        return false;
+
+    }
+
     /**
      *
      * @param user
@@ -138,19 +154,6 @@ public class ExperimentManager extends DatabaseManager {
         return new ArrayList<Experiment>();
     }
 
-
-
-    /**
-     *
-     * @param subscriber
-     *    The currently signed in user
-     * @return
-     *     An array list of all the experiments that user is subscribed to
-     */
-    public ArrayList<Experiment> getSubscribedExperiments(Experimenter subscriber, ArrayList<Experiment> allExperiments) {
-
-        return new ArrayList<Experiment>();
-    }
 
     /**
      * Function for adding an experiment to the database
