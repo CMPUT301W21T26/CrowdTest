@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                while (user == null) {
+                    continue;
+                }
+
                 Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
 
                 intent.putExtra("USER", user);
@@ -74,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
+
+                while (user == null) {
+                    continue;
+                }
+
+                intent.putExtra("USER", user);
 
                 startActivity(intent);
 
