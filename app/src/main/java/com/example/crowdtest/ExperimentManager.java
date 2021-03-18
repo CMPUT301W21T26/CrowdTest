@@ -96,10 +96,12 @@ public class ExperimentManager extends DatabaseManager {
         //experimentData.put("owner", ownerProfile.getUsername());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
+        experimentData.put("geolocation", experiment.getGeoLocation());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
-        experimentData.put("geolocation", experiment.getGeoLocation());
+        experimentData.put("questions",experiment.getQuestions());
+        experimentData.put("type", experiment.getType());
 
         // Add experiment to database
         // TODO: add questions as a sub-collection

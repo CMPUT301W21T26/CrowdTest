@@ -22,8 +22,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.NonNegative;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +39,7 @@ public class NewExpFragment extends Fragment {
     private ArrayAdapter<String> optionAdapter;
     private ExperimentManager manager;
     private Experimenter owner;
+    private Experiment experiment;
 
     public NewExpFragment(Experimenter user) {
         owner = user;
@@ -65,17 +69,30 @@ public class NewExpFragment extends Fragment {
             }
         });
 
-
+        String experimentID = manager.generateExperimentID();
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Count countBased = new Count(owner, manager.generateExperimentID());
-                    ExpDetailsFragment detailsFragment = new ExpDetailsFragment(countBased, manager);
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.exp_fragment_view, detailsFragment);
-                    transaction.commit();
+                    experiment = new Count(owner, experimentID);
+                    experiment.setType("count");
                 }
+                else if (position == 1) {
+                    experiment = new Binomial(owner, experimentID);
+                    experiment.setType("binomial");
+                }
+                else if (position == 2) {
+                    experiment = new NonNegative(owner, experimentID);
+                    experiment.setType("nonnegative");
+                }
+                else {
+                    experiment = new Measurement(owner, experimentID);
+                    experiment.setType("measurement");
+                }
+                ExpDetailsFragment detailsFragment = new ExpDetailsFragment(experiment, manager);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.exp_fragment_view, detailsFragment);
+                transaction.commit();
             }
         });
         return view;

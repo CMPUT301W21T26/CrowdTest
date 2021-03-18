@@ -17,6 +17,7 @@ public abstract class Experiment {
     private String title;
     private String description;
     private String region;
+    private String type;
     private ArrayList<String> subscribers;
     private ArrayList<Question> questions;
     private boolean geoLocation;
@@ -174,5 +175,19 @@ public abstract class Experiment {
      */
     public boolean getGeoLocation() {
         return geoLocation;
+    }
+
+    /**
+     * @param expType
+     */
+    public void setType(String expType) {
+        type = expType;
+    }
+
+    /**
+     * @return
+     */
+    public String getType() {
+        return type;
     }
 }
