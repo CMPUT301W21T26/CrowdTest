@@ -1,9 +1,11 @@
 package com.example.crowdtest;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class UserProfile {
+public class UserProfile implements Serializable {
 
     // UserProfile attributes
     private String username;
@@ -15,8 +17,8 @@ public class UserProfile {
      */
     public UserProfile(String username) {
         this.username = username;
-        email = "";
-        phoneNumber = "";
+        this.email = "";
+        this.phoneNumber = "";
     }
 
     /**
