@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.Installation;
+import com.example.crowdtest.R;
+import com.example.crowdtest.RetrieveExperimenterResults;
 import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;

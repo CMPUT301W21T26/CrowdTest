@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Count extends Experiment {
+    private ArrayList <CountTrial> trials;
 
     /**
      * Experiment constructor
@@ -16,12 +17,21 @@ public class Count extends Experiment {
     public Count(String owner, String experimentID) {
         super(owner, experimentID);
         this.trials = new ArrayList<>();
-        this.type = "count";
     }
 
-    @Override
-    public void addTrial(String trialID) {
-        trials.add(trialID);
+    /**
+     * Adds a new trial to the experiment
+     */
+    public void addTrial() {
+        CountTrial trial = new CountTrial();
+        trials.add(trial);
     }
 
+    public void setTrials(ArrayList<CountTrial> trials) {
+        this.trials = trials;
+    }
+
+    public ArrayList<CountTrial> getTrials() {
+        return trials;
+    }
 }

@@ -4,13 +4,15 @@ import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.Question;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *
  */
-public abstract class Experiment {
+public abstract class Experiment implements Serializable {
 
     // Experiment attributes
     protected String experimentID;
@@ -23,7 +25,7 @@ public abstract class Experiment {
     protected ArrayList<String> questions; //Array of question ids
     protected boolean geoLocation;
     protected String type;
-    protected ArrayList<String> trials;
+    protected Date datePublished;
 
     /**
      * Experiment constructor
@@ -34,17 +36,8 @@ public abstract class Experiment {
     public Experiment(String owner, String experimentID) {
         this.owner = owner;
         this.experimentID = experimentID;
+        datePublished = new Date();
     }
-
-    public void setTrials(ArrayList<String> trials) {
-
-        this.trials = trials;
-    };
-
-    public ArrayList<String> getTrials() {
-
-        return trials;
-    };
 
     public void setType(String type) {
 
@@ -81,14 +74,7 @@ public abstract class Experiment {
      */
     public String getType() {
         return this.type;
-    };
-
-    /**
-     * Adds a new trial to the experiment
-     *
-     * @param trialID The trial that is going to be submitted in the experiment
-     */
-    public abstract void addTrial(String trialID);
+    }
 
     /**
      * Function for returning experimentID
@@ -206,5 +192,7 @@ public abstract class Experiment {
         questions.add(questionID);
     }
 
-
+    public Date getDatePublished() {
+        return datePublished;
+    }
 }

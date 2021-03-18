@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdTest">
-        <activity android:name=".SearchExperimentActivity"></activity>
-        <activity android:name=".ExperimentListActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.ValueInputActivity"/>
+        <activity android:name=".ui.BinomialActivity"/>
+        <activity android:name=".ui.CountActivity"/>
+        <activity android:name=".ui.SearchExperimentActivity"/>
+        <activity android:name=".ui.ExperimentListActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
