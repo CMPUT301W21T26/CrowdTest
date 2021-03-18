@@ -83,23 +83,23 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Function for adding an experiment to the database
      */
-    public void publishExperiment(Experimenter owner) {
+    public void publishExperiment(Experiment experiment) {
         // Generate unique experiment ID and create experiment
-        String experimentID = generateExperimentID();
-        Experiment experiment = new Binomial(owner, experimentID);
+        String experimentID = experiment.getExperimentID();
         experiments.add(experiment);
 
         // Retrieve experiment owner's profile
-        UserProfile ownerProfile = owner.getUserProfile();
+        //UserProfile ownerProfile = experiment.getOwner().getUserProfile();
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", ownerProfile.getUsername());
+        //experimentData.put("owner", ownerProfile.getUsername());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("geolocation", experiment.getGeoLocation());
 
         // Add experiment to database
         // TODO: add questions as a sub-collection

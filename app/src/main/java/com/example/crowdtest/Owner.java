@@ -33,7 +33,7 @@ public class Owner extends Experimenter {
      */
     public void publishExperiment(Experiment experiment) {
         ownedExperiments.add(experiment.getExperimentID());
-        experimentManager.publishExperiment(this);
+        experimentManager.publishExperiment(experiment);
     }
 
     /**

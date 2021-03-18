@@ -163,5 +163,16 @@ public abstract class Experiment {
         questions.add(question);
     }
 
+    /**
+     * @param bool
+     */
+    public void setGeoLocation(Boolean bool) {geoLocation = bool;
+    }
 
+    /**
+     * @return
+     */
+    public boolean getGeoLocation() {
+        return geoLocation;
+    }
 }

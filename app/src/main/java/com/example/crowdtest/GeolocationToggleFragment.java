@@ -13,10 +13,17 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class GeolocationToggleFragment extends Fragment {
-    boolean location;
-    GeolocationToggleFragment() {
+import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.Experiment;
 
+public class GeolocationToggleFragment extends Fragment {
+    private boolean location;
+    private Experiment experiment;
+    private ExperimentManager manager;
+
+    GeolocationToggleFragment(Experiment newExperiment, ExperimentManager expManager) {
+        experiment = newExperiment;
+        manager = expManager;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,14 +46,17 @@ public class GeolocationToggleFragment extends Fragment {
             public void onClick(View v)
             {
                 if (toggle.isChecked()) {
-                    location = true;
+                    experiment.setGeoLocation(true);
                 }
                 else {
-                    location = false;
+                    experiment.setGeoLocation(false);
                 }
-                startActivity(new Intent(getActivity(), ExperimentListActivity.class));
+                manager.publishExperiment(experiment);
+                //startActivity(new Intent(getActivity(), ExperimentListActivity.class));
             }
         });
+
+
         return view;
     }
 

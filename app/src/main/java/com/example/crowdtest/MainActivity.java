@@ -78,4 +78,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public Experimenter getExperimenter() {
+        return user;
+    }
+
 }

@@ -15,20 +15,31 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import org.w3c.dom.Text;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
+/**
+ * Fragment to collect experiment information in the CreateExperimentActivity
+ */
+
 public class ExpDetailsFragment extends Fragment {
+    Experiment experiment;
     int minNumTrials;
     TextView header;
     EditText userData;
     String description;
     String region;
+    String trials;
     String mode; // Will be either 'description' or 'location' mode
+    ExperimentManager manager;
 
-    public ExpDetailsFragment() {
-        //
+
+    public ExpDetailsFragment(Experiment newExperiment, ExperimentManager expManager) {
+        experiment = newExperiment;
+        manager = expManager;
     }
 
     @Override
@@ -38,6 +49,7 @@ public class ExpDetailsFragment extends Fragment {
 
         header = (TextView) view.findViewById(R.id.expDetailsHeader);
         userData = (EditText) view.findViewById(R.id.expDetailsEditText);
+        userData.setHint("Enter a concise description.");
         Button nextButton = (Button) view.findViewById(R.id.detailsNextButton);
         mode = "description";
 
@@ -58,25 +70,31 @@ public class ExpDetailsFragment extends Fragment {
                 // grab text from editText, clear text from editText, and change text
                 if (mode == "description") {
 
-                    header.setText("Add a region:");
-
                     description = userData.getText().toString();
+                    experiment.setDescription(description);
+
+                    header.setText("Add a region:");
                     userData.setText("");
-                    userData.setHint("");
+                    userData.setHint("Enter the general location.");
                     mode = "region";
                 }
 
-                else if (mode == "region") { // get location data and then start new fragment
+                else if (mode == "region") {
                     region = userData.getText().toString();
+                    experiment.setRegion(region);
                     userData.setText("");
-                    userData.setHint("Enter an integer only");
+                    userData.setHint("Enter an integer only.");
                     header.setText("Minimum trials:");
                     nextButton.setText("Finish");
                     mode = "mintrialcount";
                 }
 
-                else {
-                    GeolocationToggleFragment toggleFragment = new GeolocationToggleFragment();
+                else { // start geolocation toggle fragment
+                    /*
+                    trials = userData.getText().toString();
+                    minNumTrials = Integer.valueOf(trials);
+                     */
+                    GeolocationToggleFragment toggleFragment = new GeolocationToggleFragment(experiment, manager);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.exp_fragment_view, toggleFragment);
                     transaction.commit();
