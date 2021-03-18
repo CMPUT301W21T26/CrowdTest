@@ -87,7 +87,7 @@ public class ExperimentManager extends DatabaseManager {
         experiment.setQuestions((ArrayList<String>) document.getData().get("questions"));
         experiment.setSubscribers((ArrayList<String>) document.getData().get("subscribers"));
         experiment.setGeoLocation((Boolean) document.getData().get("geolocation"));
-        
+
 
         return experiment;
     }
@@ -166,46 +166,33 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Function for adding an experiment to the database
      */
-    public Experiment publishExperiment(String owner, String type) {
+    public void publishExperiment(Experiment experiment) {
         // Generate unique experiment ID and create experiment
-        String experimentID = generateExperimentID();
-        Experiment experiment;
-        HashMap<String, Object> experimentData = new HashMap<>();
-        if (type == "binomial") {
-            experiment = new Binomial(owner, experimentID);
-            experimentData.put("trials", ((Binomial)experiment).getTrials());
-        }
-        else if (type =="count"){
-            experiment = new Count(owner, experimentID);
-            experimentData.put("trials", ((Count)experiment).getTrials());
-        }
-        else if (type =="measurement") {
-            experiment = new Measurement(owner, experimentID);
-            experimentData.put("trials", ((Measurement)experiment).getTrials());
-        }
-        else {
-            experiment = new NonNegative(owner, experimentID);
-            experimentData.put("trials", ((NonNegative)experiment).getTrials());
-        }
+        String experimentID = experiment.getExperimentID();
 
-        //owners are automatically subscribed to their published experiments
-        experiment.addSubscriber(owner);
+        // Retrieve experiment owner's profile
+        //UserProfile ownerProfile = experiment.getOwner().getUserProfile();
+
+        experiment.addSubscriber(experiment.getOwner());
 
         // Add experiment data to HashMap
-        experimentData.put("owner", owner);
+        HashMap<String, Object> experimentData = new HashMap<>();
+        //experimentData.put("owner", ownerProfile.getUsername());
+
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
+        experimentData.put("geolocation", experiment.getGeoLocation());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
-
-
+        experimentData.put("questions",experiment.getQuestions());
+        experimentData.put("type", experiment.getType());
+        experimentData.put("trials", experiment.getTrials());
+        experimentData.put("owner", experiment.getOwner());
 
         // Add experiment to database
         // TODO: add questions as a sub-collection
         addDataToCollection(collectionPath, experimentID, experimentData);
-
-        return experiment;
     }
 
     /**

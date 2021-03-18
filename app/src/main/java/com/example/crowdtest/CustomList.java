@@ -32,7 +32,7 @@ public class CustomList extends ArrayAdapter<Experiment> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.search_content, parent,false);
         }
 
         Experiment experiment = experiments.get(position);

@@ -37,8 +37,13 @@ public abstract class Experiment implements Serializable {
         this.owner = owner;
         this.experimentID = experimentID;
         datePublished = new Date();
+        this.status = "open";
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
 
         this.type = type;
@@ -194,5 +199,17 @@ public abstract class Experiment implements Serializable {
 
     public Date getDatePublished() {
         return datePublished;
+    }
+    /**
+     * @param bool
+     */
+    public void setGeoLocation(Boolean bool) {geoLocation = bool;
+    }
+
+    /**
+     * @return
+     */
+    public boolean getGeoLocation() {
+        return geoLocation;
     }
 }
