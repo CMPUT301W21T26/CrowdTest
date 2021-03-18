@@ -1,19 +1,42 @@
 package com.example.crowdtest;
 
-public class UserProfile {
+import java.io.Serializable;
 
+/**
+ *
+ */
+public class UserProfile implements Serializable {
+
+    // UserProfile attributes
     private String username;
     private String email;
     private String phoneNumber;
+    private String installationID;
 
-    public UserProfile() {
-        // TODO: Generate unique username
-        email = "";
-        phoneNumber = "";
+    /**
+     * UserProfile constructor
+     */
+    public UserProfile(String username, String installationID) {
+        this.username = username;
+        this.installationID = installationID;
+        this.email = "";
+        this.phoneNumber = "";
     }
 
     /**
-     *
+     * second user profile constructor
+     * @param username
+     * @param installationID
+     */
+    public UserProfile(String username, String installationID, String email, String phoneNumber) {
+        this.username = username;
+        this.installationID = installationID;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Function for getting user's username
      * @return
      */
     public String getUsername() {
@@ -21,7 +44,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's username
      * @return
      */
     public void setUsername(String username) {
@@ -29,7 +52,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for getting user's email
      * @return
      */
     public String getEmail() {
@@ -37,7 +60,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's email
      * @return
      */
     public void setEmail(String email) {
@@ -45,7 +68,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for getting user's phone number
      * @return
      */
     public String getPhoneNumber() {
@@ -53,7 +76,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Function for setting user's phone number
      * @return
      */
     public void setPhoneNumber(String phoneNumber) {
