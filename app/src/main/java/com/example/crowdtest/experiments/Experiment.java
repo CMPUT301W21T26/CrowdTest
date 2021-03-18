@@ -37,7 +37,9 @@ public abstract class Experiment implements Serializable {
         this.owner = owner;
         this.experimentID = experimentID;
         datePublished = new Date();
-        this.status = "open";
+        status = "open";
+        this.subscribers = new ArrayList<>();
+
     }
 
     /**

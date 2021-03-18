@@ -187,7 +187,19 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("subscribers", experiment.getSubscribers());
         experimentData.put("questions",experiment.getQuestions());
         experimentData.put("type", experiment.getType());
-        experimentData.put("trials", experiment.getTrials());
+        if (experiment instanceof Measurement){
+            experimentData.put("trials", ((Measurement)experiment).getTrials());
+        }
+        else if (experiment instanceof NonNegative){
+            experimentData.put("trials", ((NonNegative)experiment).getTrials());
+        }
+        else if (experiment instanceof Count){
+            experimentData.put("trials", ((Count)experiment).getTrials());
+        }
+        else if (experiment instanceof Binomial){
+            experimentData.put("trials", ((Binomial)experiment).getTrials());
+        }
+
         experimentData.put("owner", experiment.getOwner());
 
         // Add experiment to database

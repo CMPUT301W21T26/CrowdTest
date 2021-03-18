@@ -1,18 +1,15 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import java.lang.reflect.Array;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CreateExperimentActivity extends MainActivity {
     ListView expOptionsList;
