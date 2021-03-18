@@ -24,7 +24,7 @@ import java.util.Random;
 public class DatabaseManager implements Serializable {
 
     // DatabaseManager attributes
-    private FirebaseFirestore database;
+    protected FirebaseFirestore database;
 
     /**
      * DatabaseManager constructor
