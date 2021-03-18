@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/new_exp_frag"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleExp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select experiment type:"
+        android:textSize="18sp"
+        android:translationX="30dp" />
+
+    <ListView
+        android:id="@+id/optionList"
+        android:layout_width="300dp"
+        android:layout_height="260dp"
+        android:layout_gravity="center"
+        android:background="@drawable/black_outline_rectangle"
+        />
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+
+        >
+
+        <Button
+            android:id="@+id/newExpCancelButton"
+            android:layout_width="78dp"
+            android:layout_height="37dp"
+            android:textSize="10sp"
+            android:text="cancel"
+            android:translationX="280dp"
+            app:backgroundTint="#3550E6" />
+    </LinearLayout>
+
+</LinearLayout>

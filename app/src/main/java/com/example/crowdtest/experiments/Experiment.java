@@ -34,6 +34,14 @@ public abstract class Experiment {
     public Experiment(String owner, String experimentID) {
         this.owner = owner;
         this.experimentID = experimentID;
+        this.trials = new ArrayList<String>();
+        this.status = "open";
+        this.title = "";
+        this.region = "";
+        this.subscribers = new ArrayList<String>();
+        this.questions = new ArrayList<String>();
+        this.geoLocation = false;
+        this.trials = new ArrayList<String>();
     }
 
     public void setTrials(ArrayList<String> trials) {
@@ -46,6 +54,10 @@ public abstract class Experiment {
         return trials;
     };
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
 
         this.type = type;
@@ -206,5 +218,16 @@ public abstract class Experiment {
         questions.add(questionID);
     }
 
+    /**
+     * @param bool
+     */
+    public void setGeoLocation(Boolean bool) {geoLocation = bool;
+    }
 
+    /**
+     * @return
+     */
+    public boolean getGeoLocation() {
+        return geoLocation;
+    }
 }

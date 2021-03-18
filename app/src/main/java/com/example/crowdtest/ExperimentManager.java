@@ -158,42 +158,33 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Function for adding an experiment to the database
      */
-    public Experiment publishExperiment(String owner, String type) {
+    public void publishExperiment(Experiment experiment) {
         // Generate unique experiment ID and create experiment
-        String experimentID = generateExperimentID();
-        Experiment experiment;
-        if (type == "binomial") {
-            experiment = new Binomial(owner, experimentID);
-        }
-        else if (type =="count"){
-            experiment = new Count(owner, experimentID);
-        }
-        else if (type =="measurement") {
-            experiment = new Measurement(owner, experimentID);
-        }
-        else {
-            experiment = new NonNegative(owner, experimentID);
-        }
+        String experimentID = experiment.getExperimentID();
 
-        //owners are automatically subscribed to their published experiments
-        experiment.addSubscriber(owner);
+        // Retrieve experiment owner's profile
+        //UserProfile ownerProfile = experiment.getOwner().getUserProfile();
+
+        experiment.addSubscriber(experiment.getOwner());
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", owner);
+        //experimentData.put("owner", ownerProfile.getUsername());
+
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
+        experimentData.put("geolocation", experiment.getGeoLocation());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("questions",experiment.getQuestions());
+        experimentData.put("type", experiment.getType());
         experimentData.put("trials", experiment.getTrials());
-
+        experimentData.put("owner", experiment.getOwner());
 
         // Add experiment to database
         // TODO: add questions as a sub-collection
         addDataToCollection(collectionPath, experimentID, experimentData);
-
-        return experiment;
     }
 
     /**
