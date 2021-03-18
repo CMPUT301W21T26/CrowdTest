@@ -2,8 +2,10 @@ package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.Question;
+import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -11,16 +13,17 @@ import java.util.ArrayList;
 public abstract class Experiment {
 
     // Experiment attributes
-    private String experimentID;
-    private Experimenter owner;
-    private String status;
-    private String title;
-    private String description;
-    private String region;
-    private String type;
-    private ArrayList<String> subscribers;
-    private ArrayList<Question> questions;
-    private boolean geoLocation;
+    protected String experimentID;
+    protected String owner;
+    protected String status;
+    protected String title;
+    protected String description;
+    protected String region;
+    protected ArrayList<String> subscribers; //array of subscriber usernames
+    protected ArrayList<String> questions; //Array of question ids
+    protected boolean geoLocation;
+    protected String type;
+    protected ArrayList<String> trials;
 
     /**
      * Experiment constructor
@@ -28,25 +31,76 @@ public abstract class Experiment {
      * @param owner        Owner of the experiment
      * @param experimentID A unique ID for this experiment
      */
-    public Experiment(Experimenter owner, String experimentID) {
-        this.status = "active";
+    public Experiment(String owner, String experimentID) {
         this.owner = owner;
         this.experimentID = experimentID;
-        subscribers = new ArrayList<>();
-
-        //TODO: remove the following initializations:
-        this.status = "Open";
-        this.title = "Experiment " + experimentID;
-        this.description = "Description";
-        this.region = "Region";
+        this.trials = new ArrayList<String>();
+        this.status = "open";
+        this.title = "";
+        this.region = "";
+        this.subscribers = new ArrayList<String>();
+        this.questions = new ArrayList<String>();
+        this.geoLocation = false;
+        this.trials = new ArrayList<String>();
     }
+
+    public void setTrials(ArrayList<String> trials) {
+
+        this.trials = trials;
+    };
+
+    public ArrayList<String> getTrials() {
+
+        return trials;
+    };
+
+    /**
+     *
+     * @param type
+     */
+    public void setType(String type) {
+
+        this.type = type;
+    }
+
+    public void setExperimentID(String experimentID) {
+        this.experimentID = experimentID;
+    }
+    
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setSubscribers(ArrayList<String> subscribers) {
+
+        this.subscribers = subscribers;
+    }
+
+    public void setQuestions(ArrayList<String> questions) {
+        this.questions = questions;
+    }
+
+    public boolean isGeoLocation() {
+        return geoLocation;
+    }
+
+    public void setGeoLocation(boolean geoLocation) {
+        this.geoLocation = geoLocation;
+    }
+
+    /**
+     * Get the type of experiment for insertion into the database
+     */
+    public String getType() {
+        return this.type;
+    };
 
     /**
      * Adds a new trial to the experiment
      *
-     * @param trial The trial that is going to be submitted in the experiment
+     * @param trialID The trial that is going to be submitted in the experiment
      */
-    public abstract void addTrial(Trial trial);
+    public abstract void addTrial(String trialID);
 
     /**
      * Function for returning experimentID
@@ -62,7 +116,7 @@ public abstract class Experiment {
      *
      * @return
      */
-    public Experimenter getOwner() {
+    public String getOwner() {
         return owner;
     }
 
@@ -153,15 +207,15 @@ public abstract class Experiment {
     /**
      * @return
      */
-    public ArrayList<Question> getQuestions() {
+    public ArrayList<String> getQuestions() {
         return questions;
     }
 
     /**
-     * @param question
+     * @param questionID
      */
-    public void addQuestion(Question question) {
-        questions.add(question);
+    public void addQuestion(String questionID) {
+        questions.add(questionID);
     }
 
     /**
@@ -175,19 +229,5 @@ public abstract class Experiment {
      */
     public boolean getGeoLocation() {
         return geoLocation;
-    }
-
-    /**
-     * @param expType
-     */
-    public void setType(String expType) {
-        type = expType;
-    }
-
-    /**
-     * @return
-     */
-    public String getType() {
-        return type;
     }
 }

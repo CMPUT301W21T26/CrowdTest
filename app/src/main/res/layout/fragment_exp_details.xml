@@ -9,7 +9,7 @@
         android:id="@+id/expDetailsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add a description:"
+        android:text="Add a title:"
         android:textSize="18sp"
         android:translationX="30dp" />
 

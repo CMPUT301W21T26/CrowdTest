@@ -10,6 +10,7 @@ public class MeasurementTrial extends Trial {
      * @param inputMeasurement Input measurement
      */
     public MeasurementTrial(double inputMeasurement) {
+
         measurement = inputMeasurement;
     }
 

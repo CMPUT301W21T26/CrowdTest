@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String installationID;
     private ExperimenterManager experimenterManager = new ExperimenterManager();
+    private ExperimentManager experimentManager = new ExperimentManager();
     private Experimenter user;
 
 
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         //initialize installation id
         installationID = (new Installation()).id(getApplicationContext());
 
+        ArrayList<Experiment> experimentArrayList = new ArrayList<>();
+
         //assign a value to the current user variable representing signed in experimenter
         experimenterManager.retrieveExperimenter(installationID, new RetrieveExperimenterResults() {
              @Override
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
 
+                intent.putExtra("USER", user);
+
                 startActivity(intent);
             }
         });
@@ -57,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                while (user == null) {
+                    continue;
+                }
+
                 Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
+
+                intent.putExtra("USER", user);
 
                 startActivity(intent);
             }
@@ -66,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
+
+                while (user == null) {
+                    continue;
+                }
+
+                intent.putExtra("USER", user);
+
+                startActivity(intent);
 
             }
         });
@@ -77,10 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public Experimenter getExperimenter() {
-        return user;
     }
 
 }

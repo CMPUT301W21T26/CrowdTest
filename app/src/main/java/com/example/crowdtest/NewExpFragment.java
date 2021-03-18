@@ -42,6 +42,7 @@ public class NewExpFragment extends Fragment {
     private Experiment experiment;
 
     public NewExpFragment(Experimenter user) {
+
         owner = user;
     }
 
@@ -70,23 +71,24 @@ public class NewExpFragment extends Fragment {
         });
 
         String experimentID = manager.generateExperimentID();
+
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    experiment = new Count(owner, experimentID);
+                    experiment = new Count(owner.getUserProfile().getUsername(), experimentID);
                     experiment.setType("count");
                 }
                 else if (position == 1) {
-                    experiment = new Binomial(owner, experimentID);
+                    experiment = new Binomial(owner.getUserProfile().getUsername(), experimentID);
                     experiment.setType("binomial");
                 }
                 else if (position == 2) {
-                    experiment = new NonNegative(owner, experimentID);
+                    experiment = new NonNegative(owner.getUserProfile().getUsername(), experimentID);
                     experiment.setType("nonnegative");
                 }
                 else {
-                    experiment = new Measurement(owner, experimentID);
+                    experiment = new Measurement(owner.getUserProfile().getUsername(), experimentID);
                     experiment.setType("measurement");
                 }
                 ExpDetailsFragment detailsFragment = new ExpDetailsFragment(experiment, manager);

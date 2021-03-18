@@ -31,6 +31,7 @@ public class ExpDetailsFragment extends Fragment {
     TextView header;
     EditText userData;
     String description;
+    String title;
     String region;
     String trials;
     String mode; // Will be either 'description' or 'location' mode
@@ -49,9 +50,9 @@ public class ExpDetailsFragment extends Fragment {
 
         header = (TextView) view.findViewById(R.id.expDetailsHeader);
         userData = (EditText) view.findViewById(R.id.expDetailsEditText);
-        userData.setHint("Enter a concise description.");
+        userData.setHint("Enter a title for your experiment:");
         Button nextButton = (Button) view.findViewById(R.id.detailsNextButton);
-        mode = "description";
+        mode = "title";
 
         Button cancelButton = (Button) view.findViewById(R.id.detailsCancelButton);
 
@@ -68,11 +69,22 @@ public class ExpDetailsFragment extends Fragment {
             public void onClick(View v)
             {
                 // grab text from editText, clear text from editText, and change text
-                if (mode == "description") {
+                if (mode == "title") {
+
+                    title = userData.getText().toString();
+                    experiment.setTitle(title);
+
+                    header.setText("Add a description:");
+                    userData.setText("");
+                    userData.setHint("Enter a concise description for your experiment:");
+                    mode = "description";
+                }
+                else if (mode == "description") {
 
                     description = userData.getText().toString();
                     experiment.setDescription(description);
 
+                    //switch to region text
                     header.setText("Add a region:");
                     userData.setText("");
                     userData.setHint("Enter the general location.");
