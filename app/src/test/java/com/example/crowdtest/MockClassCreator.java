@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import android.location.Location;
+
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
@@ -8,6 +10,7 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
+import com.example.crowdtest.experiments.Trial;
 
 /**
  * MockClassCreator class for creating mock model class object instances for unit tests
@@ -200,4 +203,27 @@ public class MockClassCreator {
         Reply reply = new Reply(replyID, parentID, experimenter, content);
         return reply;
     }
+
+    /**
+     * Function for creating a mock Trial object instnace
+     * @return
+     *     Trial object instance
+     */
+    protected Trial mockTrial() {
+
+        return new Trial();
+
+    }
+
+    /**
+     * Function for creating a mock Trial object instance with geolocation value
+     * @return
+     *     Trial object instance
+     */
+    protected Trial mockGeolocationTrial(Location geolocation) {
+
+        return new Trial(geolocation);
+
+    }
+
 }

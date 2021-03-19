@@ -33,4 +33,7 @@ public class BinomialTrial extends Trial {
     public boolean isSuccess() {
         return success;
     }
+
+
+
 }
