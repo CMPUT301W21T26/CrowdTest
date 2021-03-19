@@ -171,6 +171,7 @@ public class ExperimenterManager extends DatabaseManager {
         String username = userProfile.getUsername();
         String email = userProfile.getEmail();
         String phoneNumber = userProfile.getPhoneNumber();
+        String installationID = userProfile.getInstallationID();
 
         // Add experimenter data to HashMap
         HashMap<String, Object> experimenterData = new HashMap<>();
@@ -178,6 +179,7 @@ public class ExperimenterManager extends DatabaseManager {
         experimenterData.put("email", email);
         experimenterData.put("phoneNumber", phoneNumber);
         experimenterData.put("subscribed", subscribedExperiments);
+        experimenterData.put("installationID", installationID);
 
         // Add experimenter data to database
         addDataToCollection(collectionPath, username, experimenterData);

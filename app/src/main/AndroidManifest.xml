@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdTest">
+        <activity android:name=".UserProfileActivity"></activity>
         <activity android:name=".ui.ValueInputActivity"/>
         <activity android:name=".ui.BinomialActivity"/>
         <activity android:name=".ui.CountActivity"/>
@@ -18,6 +19,7 @@
         <activity android:name=".ui.ExperimentListActivity" />
         <activity android:name=".ui.CreateExperimentActivity" />
         <activity android:name=".ui.MainActivity">
+>>>>>>> main
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
