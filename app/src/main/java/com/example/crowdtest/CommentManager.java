@@ -65,29 +65,53 @@ public class CommentManager extends DatabaseManager {
      * @return
      *  Instance of question object added to database
      */
-    private Question addNewQuestion(Experimenter experimenter, String content) {
+    public Question addNewQuestion(Experimenter experimenter, String content) {
         // Generate unique commentID and create a comment
         String questionID = generateQuestionID();
         Question question = new Question(questionID, experimenter, content);
 
-        // Retrieve Experimenter data
+        // Retrieve Question data
         String timestamp = question.getTimeStamp();
         ArrayList<String> replies = question.getReplies();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
 
-        // Add experimenter data to HashMap
+        // Add question data to HashMap
         HashMap<String, Object> questionData = new HashMap<>();
         questionData.put("poster", userProfile.getUsername());
         questionData.put("content", content);
         questionData.put("timestamp", timestamp);
         questionData.put("replies", replies);
 
-        // Add experimenter data to database
+        // Add question data to database
         addDataToCollection(questionCollectionPath, questionID, questionData);
 
         return question;
+    }
+
+    /**
+     * Function for updating an existing question in the database
+     * @param question
+     *  Instance of question object to update
+     */
+    public void updateQuestion(Question question) {
+        // Retrieve Question data
+        String questionID = question.getCommentID();
+        String poster = question.getExperimenter().getUserProfile().getUsername();
+        String content = question.getContent();
+        String timestamp = question.getTimeStamp();
+        ArrayList<String> replies = question.getReplies();
+
+        // Add question data to HashMap
+        HashMap<String, Object> questionData = new HashMap<>();
+        questionData.put("poster", poster);
+        questionData.put("content", content);
+        questionData.put("timestamp", timestamp);
+        questionData.put("replies", replies);
+
+        // Update question data to database
+        addDataToCollection(questionCollectionPath, questionID, questionData);
     }
 
     /**
@@ -101,27 +125,33 @@ public class CommentManager extends DatabaseManager {
      * @return
      *  Instance of Reply object added to database
      */
-    private Reply addNewReply(Experimenter experimenter, Question question, String content) {
+    public Reply addNewReply(Experimenter experimenter, Question question, String content) {
         // Generate unique commentID and create a comment
         String replyID = generateReplyID();
         String questionID = question.getCommentID();
         Reply reply = new Reply(replyID, experimenter, content);
 
-        // Retrieve Experimenter data
+        // Retrieve Reply data
         String timestamp = reply.getTimeStamp();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
 
-        // Add experimenter data to HashMap
+        // Add reply to question
+        question.addReply(replyID);
+        HashMap<String, Object> questionData = new HashMap<>();
+        questionData.put("replies", question.getReplies());
+
+        // Add reply data to HashMap
         HashMap<String, Object> replyData = new HashMap<>();
         replyData.put("poster", userProfile.getUsername());
         replyData.put("content", content);
         replyData.put("timestamp", timestamp);
         replyData.put("parent", questionID);
 
-        // Add experimenter data to database
+        // Add reply data and update question data to database
         addDataToCollection(replyCollectionPath, replyID, replyData);
+        updateQuestion(question);
 
         return reply;
     }
