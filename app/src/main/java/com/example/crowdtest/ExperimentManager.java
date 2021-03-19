@@ -188,6 +188,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("questions",experiment.getQuestions());
         experimentData.put("type", experiment.getType());
         experimentData.put("datePublished", experiment.getDatePublished());
+        experimentData.put("min trial count", experiment.getMinTrials());
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
         }
