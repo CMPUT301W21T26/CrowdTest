@@ -4,9 +4,14 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * Trial class
+ */
 public class Trial {
+
+    // Trial attributes
     private Date timestamp;
-    private Location location;
+    private Location geolocation;
 
     /**
      * Constructor for experiments that don't require geo locations
@@ -17,32 +22,50 @@ public class Trial {
 
     /**
      * Constructor with for geo location required experiments
-     *
-     * @param location geo location of the trial
+     * @param geolocation
+     *  Geolocation of the trial
      */
-    public Trial(Location location) {
+    public Trial(Location geolocation) {
         timestamp = new Date(); // The date is set to the current date by default
-        this.location = location;
+        this.geolocation = geolocation;
     }
 
+    /**
+     * Function for getting the timestamp of the trial
+     * @return
+     *  Timestamp of trial
+     */
     public Date getTimestamp() {
         return timestamp;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     /**
-     * setLocation will be called within experiment if the experiment had location enabled
-     *
-     * @param location The new location for the trial
+     * Function for getting the timestamp of the trial
+     * @param timestamp
+     *  Timestamp of trial
      */
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    /**
+     * Function for getting the geolocation of the trial
+     * @return
+     *  Geolocation of trial
+     */
+    public Location getGeolocation() {
+        return geolocation;
+    }
+
+    /**
+     * Function for setting the geolocation of the trial if corresponding
+     * experiment has geolocation is enabled
+     * @param geolocation
+     *  Geolocation of trial
+     */
+    public void setGeolocation(Location geolocation) {
+        this.geolocation = geolocation;
+    }
+
+
 }

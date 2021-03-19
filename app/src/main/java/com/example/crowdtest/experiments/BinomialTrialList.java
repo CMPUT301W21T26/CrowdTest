@@ -4,12 +4,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BinomialTrialList class
+ */
 public class BinomialTrialList {
 
+    // BinomialTrialList attributes
     public ArrayList<BinomialTrial> trials;
 
-    public BinomialTrialList(){
-        //empty contrustor required
-    }
+    /**
+     * Empty BinomialTrialList constructor
+     */
+    public BinomialTrialList(){ }
 
 }
