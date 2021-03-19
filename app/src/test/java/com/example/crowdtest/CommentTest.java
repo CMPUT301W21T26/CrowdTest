@@ -18,15 +18,14 @@ public class CommentTest {
     void testAttributes() {
         // Create a mock user profile
         Comment comment = mockClassCreator.mockComment();
-        Experimenter experimenter = mockClassCreator.mockExperimenter();
 
         // Set user profile attributes
-        comment.setCommenter(experimenter);
+        comment.setCommenterID("sample_commenterID");
         comment.setContent("sample_content");
         comment.setTimestamp("sample_timestamp");
 
         // Check that defined attributes have been successfully set
-        assertEquals(experimenter.getUserProfile().getUsername(), comment.getCommenter().getUserProfile().getUsername());
+        assertEquals("sample_commenterID", comment.getCommenterID());
         assertEquals("sample_content", comment.getContent());
         assertEquals("sample_timestamp", comment.getTimestamp());
     }
@@ -43,8 +42,8 @@ public class CommentTest {
         question.addReply(reply.getCommentID());
 
         // Check that reply has been successfully added
-        assertEquals(1, question.getReplies().size());
-        assertEquals(reply.getCommentID(), question.getReplies().get(0));
+        assertEquals(1, question.getReplyIDs().size());
+        assertEquals(reply.getCommentID(), question.getReplyIDs().get(0));
     }
 
     /**
@@ -62,6 +61,6 @@ public class CommentTest {
         question.deleteReply(reply.getCommentID());
 
         // Check that reply has been successfully deleted
-        assertEquals(0, question.getReplies().size());
+        assertEquals(0, question.getReplyIDs().size());
     }
 }

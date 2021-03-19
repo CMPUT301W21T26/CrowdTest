@@ -30,12 +30,12 @@ public class ExperimenterTest {
         }
 
         // Set subscribedExperiments of mock experimenter
-        experimenter.setSubscribedExperiments(subscribedExperiments);
+        experimenter.setSubscribedExperimentIDs(subscribedExperiments);
 
         // Check that the experiments have been successfully added to the mock experimenter
-        assertEquals(10, experimenter.getSubscribedExperiments().size());
+        assertEquals(10, experimenter.getSubscribedExperimentIDs().size());
         for (int i = 0; i < 10; i++) {
-            assertEquals("test_experiment" + String.valueOf(i), experimenter.getSubscribedExperiments().get(i));
+            assertEquals("test_experiment" + String.valueOf(i), experimenter.getSubscribedExperimentIDs().get(i));
         }
     }
 
@@ -52,8 +52,8 @@ public class ExperimenterTest {
         experimenter.subscribe(experiment);
 
         // Check that experiment has been successfully subscribed to
-        assertEquals(1, experimenter.getSubscribedExperiments().size());
-        assertEquals(experiment.getExperimentID(), experimenter.getSubscribedExperiments().get(0));
+        assertEquals(1, experimenter.getSubscribedExperimentIDs().size());
+        assertEquals(experiment.getExperimentID(), experimenter.getSubscribedExperimentIDs().get(0));
 
         // Check that exception is thrown when trying to subscribe to the same experiment
         assertThrows(IllegalArgumentException.class, () -> {

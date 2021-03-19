@@ -89,7 +89,7 @@ public class ExperimenterManager extends DatabaseManager {
                                     ArrayList<String> subscribed = (ArrayList<String>) document.getData().get("subscribed");
 
                                     experimenter = new Experimenter(new UserProfile(userName, installationID, email, phoneNumber));
-                                    experimenter.setSubscribedExperiments(subscribed);
+                                    experimenter.setSubscribedExperimentIDs(subscribed);
                                     experimenter.setStatus(status);
 
                                     //call helper method
@@ -130,7 +130,7 @@ public class ExperimenterManager extends DatabaseManager {
 
         // Retrieve Experimenter data
         String status = experimenter.getStatus();
-        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
+        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperimentIDs();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
@@ -160,7 +160,7 @@ public class ExperimenterManager extends DatabaseManager {
 
         // Retrieve Experimenter data
         String status = experimenter.getStatus();
-        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
+        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperimentIDs();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
