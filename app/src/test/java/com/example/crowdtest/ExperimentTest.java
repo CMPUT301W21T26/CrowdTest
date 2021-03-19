@@ -28,6 +28,9 @@ public class ExperimentTest {
     void testAddBinomialTrial() {
         Binomial binomialExperiment = mockClassCreator.mockBinomialExperiment();
         BinomialTrial binomialTrial = mockClassCreator.mockBinomialTrial(true);
+
+        binomialExperiment.addTrial(binomialTrial.isSuccess());
+        assertEquals(binomialExperiment.getTrials().size(), 1);
     }
 
     /**
@@ -36,7 +39,9 @@ public class ExperimentTest {
     @Test
     void testAddCountTrial() {
         Count countExperiment = mockClassCreator.mockCountExperiment();
-        CountTrial countTrial = mockClassCreator.mockCountTrial();
+
+        countExperiment.addTrial();
+        assertEquals(countExperiment.getTrials().size(), 1);
     }
 
     /**
@@ -46,6 +51,9 @@ public class ExperimentTest {
     void testAddMeasurementTrial() {
         Measurement measurementExperiment = mockClassCreator.mockMeasurementExperiment();
         MeasurementTrial measurementTrial = mockClassCreator.mockMeasurementTrial(5.5);
+
+        measurementExperiment.addTrial(measurementTrial.getMeasurement());
+        assertEquals(measurementExperiment.getTrials().size(), 1);
     }
 
     /**
@@ -55,5 +63,8 @@ public class ExperimentTest {
     void testAddNonNegativeTrial() {
         NonNegative nonNegativeExperiment = mockClassCreator.mockNonNegativeExperiment();
         NonNegativeTrial nonNegativeTrial = mockClassCreator.mockNonNegativeTrial(5);
+
+        nonNegativeExperiment.addTrial(nonNegativeTrial.getCount());
+        assertEquals(nonNegativeExperiment.getTrials().size(), 1);
     }
 }
