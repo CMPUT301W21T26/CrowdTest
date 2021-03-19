@@ -150,6 +150,8 @@ public class MyExpFragment extends Fragment {
 
             case R.id.end_option:
 
+                experimentManager.endExperiment(ownedExperiments.get(info.position));
+
                 return true;
 
             case R.id.unpublish_option:

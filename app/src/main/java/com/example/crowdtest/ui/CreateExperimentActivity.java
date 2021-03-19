@@ -1,25 +1,30 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 
+import java.util.ArrayList;
+
+/**
+ * Activity for creating a new experiment, uses different fragments to put together a new
+ * Experiment object
+ */
 public class CreateExperimentActivity extends MainActivity {
     ListView expOptionsList;
     ArrayList<String> options;
     ArrayAdapter<String> optionAdapter;
     Experimenter owner;
 
+    /**
+     * Custom OnCreate method for the fragment
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_experiment_activity);

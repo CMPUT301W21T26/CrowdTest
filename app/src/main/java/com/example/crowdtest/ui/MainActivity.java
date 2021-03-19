@@ -1,12 +1,19 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.Installation;
+import com.example.crowdtest.R;
+import com.example.crowdtest.RetrieveExperimenterResults;
 import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;
@@ -108,10 +115,22 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                intent.putExtra("User", user);
+                startActivityForResult(intent, 0);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                user = (Experimenter) data.getSerializableExtra("User");
+            }
+        }
     }
 
 }

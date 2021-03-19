@@ -4,13 +4,15 @@ import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.Question;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *
  */
-public abstract class Experiment {
+public abstract class Experiment implements Serializable {
 
     // Experiment attributes
     protected String experimentID;
@@ -23,7 +25,8 @@ public abstract class Experiment {
     protected ArrayList<String> questions; //Array of question ids
     protected boolean geoLocation;
     protected String type;
-    protected ArrayList<String> trials;
+    protected Date datePublished;
+    protected int minTrials;
 
     /**
      * Experiment constructor
@@ -34,25 +37,11 @@ public abstract class Experiment {
     public Experiment(String owner, String experimentID) {
         this.owner = owner;
         this.experimentID = experimentID;
-        this.trials = new ArrayList<String>();
-        this.status = "open";
-        this.title = "";
-        this.region = "";
-        this.subscribers = new ArrayList<String>();
-        this.questions = new ArrayList<String>();
-        this.geoLocation = false;
-        this.trials = new ArrayList<String>();
+        datePublished = new Date();
+        status = "open";
+        this.subscribers = new ArrayList<>();
+
     }
-
-    public void setTrials(ArrayList<String> trials) {
-
-        this.trials = trials;
-    };
-
-    public ArrayList<String> getTrials() {
-
-        return trials;
-    };
 
     /**
      *
@@ -93,14 +82,7 @@ public abstract class Experiment {
      */
     public String getType() {
         return this.type;
-    };
-
-    /**
-     * Adds a new trial to the experiment
-     *
-     * @param trialID The trial that is going to be submitted in the experiment
-     */
-    public abstract void addTrial(String trialID);
+    }
 
     /**
      * Function for returning experimentID
@@ -218,6 +200,9 @@ public abstract class Experiment {
         questions.add(questionID);
     }
 
+    public Date getDatePublished() {
+        return datePublished;
+    }
     /**
      * @param bool
      */
@@ -229,5 +214,19 @@ public abstract class Experiment {
      */
     public boolean getGeoLocation() {
         return geoLocation;
+    }
+
+    /**
+     * @param trialCount
+     */
+    public void setMinTrials(int trialCount) {
+        minTrials = trialCount;
+    }
+
+    /**
+     * @return
+     */
+    public int getMinTrials() {
+        return minTrials;
     }
 }
