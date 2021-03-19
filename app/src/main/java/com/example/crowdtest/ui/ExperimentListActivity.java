@@ -1,23 +1,15 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 /**
  * Display the owned and subscribed experiments associated to the signed in user.

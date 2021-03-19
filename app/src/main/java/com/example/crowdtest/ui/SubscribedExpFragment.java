@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import android.os.Bundle;
 
@@ -16,6 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.crowdtest.CustomList;
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;

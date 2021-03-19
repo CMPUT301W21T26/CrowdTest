@@ -1,11 +1,12 @@
 package com.example.crowdtest.experiments;
 
-import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Binomial extends Experiment {
+    private ArrayList<BinomialTrial> trials;
+    private int successCount;
+    private int failCount;
 
     /**
      * Experiment constructor
@@ -15,13 +16,40 @@ public class Binomial extends Experiment {
      */
     public Binomial(String owner, String experimentID) {
         super(owner, experimentID);
-        this.trials = new ArrayList<>();
-        this.type = "binomial";
+        trials = new ArrayList<>();
+        successCount = 0;
+        failCount = 0;
     }
 
-    @Override
-    public void addTrial(String trialID) {
-        trials.add((trialID));
+    /**
+     * Adds a new trial to the experiment
+     *
+     * @param trialInput The trial that is going to be submitted in the experiment
+     */
+    public void addTrial(boolean trialInput) {
+        BinomialTrial trial = new BinomialTrial(trialInput);
+        trials.add(trial);
+        if (trialInput){
+            successCount += 1;
+        }
+        else{
+            failCount += 1;
+        }
     }
 
+    public int getSuccessCount() {
+        return successCount;
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setTrials(ArrayList<BinomialTrial> trials) {
+        this.trials = trials;
+    }
+
+    public ArrayList<BinomialTrial> getTrials() {
+        return trials;
+    }
 }

@@ -5,10 +5,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -61,15 +65,19 @@ public class ExperimentManager extends DatabaseManager {
         if (type == "binomial") {
             //call ExperimentManager.getExperimenter(ownerID)
             experiment = new Binomial(owner, experimentID);
+            ((Binomial) experiment).setTrials((ArrayList<BinomialTrial>) document.getData().get("trials"));
         }
         else if (type == "count") {
             experiment = new Count(owner, experimentID);
+            ((Count) experiment).setTrials((ArrayList<CountTrial>) document.getData().get("trials"));
         }
         else if (type =="measurement") {
             experiment = new Measurement(owner, experimentID);
+            ((Measurement) experiment).setTrials((ArrayList<MeasurementTrial>) document.getData().get("trials"));
         }
         else {
             experiment = new NonNegative(owner, experimentID);
+            ((NonNegative) experiment).setTrials((ArrayList<NonNegativeTrial>) document.getData().get("trials"));
         }
 
         experiment.setStatus((String) document.getData().get("status"));
@@ -79,7 +87,7 @@ public class ExperimentManager extends DatabaseManager {
         experiment.setQuestions((ArrayList<String>) document.getData().get("questions"));
         experiment.setSubscribers((ArrayList<String>) document.getData().get("subscribers"));
         experiment.setGeoLocation((Boolean) document.getData().get("geolocation"));
-        experiment.setTrials((ArrayList<String>) document.getData().get("trials"));
+
 
         return experiment;
     }
@@ -158,7 +166,19 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("subscribers", experiment.getSubscribers());
         experimentData.put("questions",experiment.getQuestions());
         experimentData.put("type", experiment.getType());
-        experimentData.put("trials", experiment.getTrials());
+        if (experiment instanceof Measurement){
+            experimentData.put("trials", ((Measurement)experiment).getTrials());
+        }
+        else if (experiment instanceof NonNegative){
+            experimentData.put("trials", ((NonNegative)experiment).getTrials());
+        }
+        else if (experiment instanceof Count){
+            experimentData.put("trials", ((Count)experiment).getTrials());
+        }
+        else if (experiment instanceof Binomial){
+            experimentData.put("trials", ((Binomial)experiment).getTrials());
+        }
+
         experimentData.put("owner", experiment.getOwner());
 
         // Add experiment to database

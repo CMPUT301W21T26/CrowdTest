@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.crowdtest.CustomList;
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
@@ -115,6 +118,30 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
                 experimentAdapter.notifyDataSetChanged();
 
+            }
+        });
+
+        allExperimentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle experimentDetailsBundle = new Bundle();
+                Experiment experiment = experimentAdapter.getItem(position);
+                experimentDetailsBundle.putSerializable("experiment", experiment);
+                Intent experimentActivityIntent = null;
+                if (experiment instanceof Binomial){
+                     experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+                }
+                else if (experiment instanceof Count){
+                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+                }
+                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+                }
+                experimentActivityIntent.putExtras(experimentDetailsBundle);
+                System.out.println(experiment.getClass());
+
+                startActivity(experimentActivityIntent);
             }
         });
 
