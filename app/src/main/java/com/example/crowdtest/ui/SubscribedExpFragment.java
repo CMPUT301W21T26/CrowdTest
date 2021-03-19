@@ -136,9 +136,12 @@ public class SubscribedExpFragment extends Fragment {
 
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
-            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+
+            if (experiment.getStatus().equals("open")) {
+                MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+                endItem.setVisible(isOwner);
+            }
             MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-            endItem.setVisible(isOwner);
             unpublishItem.setVisible(isOwner);
         }
     }

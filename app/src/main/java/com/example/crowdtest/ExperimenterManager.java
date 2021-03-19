@@ -37,13 +37,6 @@ public class ExperimenterManager extends DatabaseManager {
         return generateDocumentID("user", collectionPath);
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getAllExperimenterIDs() {
-        return getAllDocuments(collectionPath);
-    }
 
     /**
      * Method used to retrieve the signed in Experimenter, if already in the database, or create new one.

@@ -11,11 +11,6 @@ public class Binomial extends Experiment {
     private ArrayList<BinomialTrial> trials;
 
     /**
-     * Empty Binomial constructor
-     */
-    public Binomial() { }
-
-    /**
      * Experiment constructor
      * @param owner
      *  Owner of the experiment

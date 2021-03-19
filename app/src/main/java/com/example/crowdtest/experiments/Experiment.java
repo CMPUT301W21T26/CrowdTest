@@ -24,11 +24,6 @@ public class Experiment implements Serializable {
     protected ArrayList<String> questionIDs;
 
     /**
-     * Empty Experiment constructor
-     */
-    public Experiment() { }
-
-    /**
      * Experiment constructor
      * @param ownerID
      *  Owner of the experiment

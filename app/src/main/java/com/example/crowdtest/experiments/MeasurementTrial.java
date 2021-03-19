@@ -5,8 +5,17 @@ package com.example.crowdtest.experiments;
  */
 public class MeasurementTrial extends Trial {
 
-    // MeasurementTrial attributes
     private double measurement;
+
+    /**
+     * Empty constructor for MeasurementTrial object
+     * Necessary for converting Firestore documents to MeasurementTrial objects
+     */
+    public MeasurementTrial(){
+
+        //Empty constructor required
+
+    }
 
     /**
      * MeasurementTrial constructor

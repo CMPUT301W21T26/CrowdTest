@@ -126,9 +126,15 @@ public class MyExpFragment extends Fragment {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
 
-        MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        int position = info.position;
+        Experiment experiment = ownedExperiments.get(position);
+
+        if (experiment.getStatus().equals("open")) {
+            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+            endItem.setVisible(true);
+        }
         MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-        endItem.setVisible(true);
         unpublishItem.setVisible(true);
     }
 

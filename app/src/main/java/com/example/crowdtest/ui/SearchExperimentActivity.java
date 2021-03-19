@@ -167,9 +167,11 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
-            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+            if (experiment.getStatus().equals("open")) {
+                MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+                endItem.setVisible(isOwner);
+            }
             MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-            endItem.setVisible(isOwner);
             unpublishItem.setVisible(isOwner);
         }
 
@@ -193,6 +195,8 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.end_option:
 
+                Experiment experiment = experimentDataList.get(info.position);
+
                 experimentManager.endExperiment(experimentDataList.get(info.position));
 
                 return true;
@@ -200,6 +204,8 @@ public class SearchExperimentActivity extends AppCompatActivity {
             case R.id.unpublish_option:
 
                 experimentManager.unpublishExperiment(experimentDataList.get(info.position));
+
+                experimentAdapter.notifyDataSetChanged();
 
                 return true;
 

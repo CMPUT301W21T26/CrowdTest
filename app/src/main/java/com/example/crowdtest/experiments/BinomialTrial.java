@@ -11,7 +11,10 @@ public class BinomialTrial extends Trial {
     /**
      * Empty BinomialTrial constructor
      */
-    public BinomialTrial(){ }
+    public BinomialTrial(){
+
+        //Required for firestore access
+    }
 
     /**
      * BinomialTrial constructor
