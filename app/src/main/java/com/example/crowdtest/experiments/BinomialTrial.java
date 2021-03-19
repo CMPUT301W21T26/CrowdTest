@@ -4,6 +4,10 @@ public class BinomialTrial extends Trial {
     private boolean success;
 
 
+    /**
+     * Empty constructor for binomial trial
+     * Necessary for creating trial objects directly from firestore documents
+     */
     public BinomialTrial(){
 
         //empty constructor required in order to fetch object

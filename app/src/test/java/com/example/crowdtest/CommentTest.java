@@ -2,7 +2,7 @@ package com.example.crowdtest;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CommentTest class for unit testing Comment class and its children

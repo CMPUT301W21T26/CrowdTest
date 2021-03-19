@@ -29,10 +29,6 @@ public abstract class Experiment implements Serializable {
     protected int minTrials;
 
 
-    public Experiment() {
-
-    }
-
     /**
      * Experiment constructor
      *

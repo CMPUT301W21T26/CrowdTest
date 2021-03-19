@@ -1,7 +1,18 @@
 package com.example.crowdtest.experiments;
 
 public class NonNegativeTrial extends Trial {
+
     private int count;
+
+    /**
+     * Empty constructor for NonNegativeTrial object
+     * Necessary for converting Firestore documents to NonNegativeTrial objects
+     */
+    public NonNegativeTrial(){
+
+        //Empty constructor required
+
+    }
 
     /**
      * Constructor for non-negative trials

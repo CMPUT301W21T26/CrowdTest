@@ -6,11 +6,6 @@ import java.util.ArrayList;
 public class Binomial extends Experiment {
     private ArrayList<BinomialTrial> trials;
 
-
-    public Binomial() {
-
-        //empty constructor required
-    }
     /**
      * Experiment constructor
      *

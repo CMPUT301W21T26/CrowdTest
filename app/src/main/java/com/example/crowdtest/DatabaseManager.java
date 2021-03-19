@@ -66,11 +66,15 @@ public class DatabaseManager implements Serializable {
      */
     public boolean isValidDocument(String documentName, String collectionPath) {
         // Check if document is already in the collection
+
+        //return getAllDocuments(collectionPath).contains(documentName);
+
         if (getAllDocuments(collectionPath).contains(documentName)) {
             return false;
         } else {
             return true;
         }
+
     }
 
     /**

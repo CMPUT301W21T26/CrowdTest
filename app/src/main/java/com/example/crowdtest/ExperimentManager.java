@@ -228,6 +228,11 @@ public class ExperimentManager extends DatabaseManager {
         addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);
     }
 
+    /**
+     * Sets the experiment's status to 'closed' in both firestore and for the object itself
+     * @param experiment
+     *
+     */
     public void endExperiment(Experiment experiment) {
         HashMap<String, Object> experimentStatus = new HashMap<>();
 
@@ -239,6 +244,7 @@ public class ExperimentManager extends DatabaseManager {
                 .update(experimentStatus);
 
     }
+
 
     /**
      * Function for deleting an experiment from the database
