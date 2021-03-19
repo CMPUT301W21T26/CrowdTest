@@ -24,6 +24,9 @@ import com.example.crowdtest.experiments.NonNegative;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment for choosing which type of experiment is made
+ */
 public class NewExpFragment extends Fragment {
 
     private ListView expOptionsList;
@@ -38,6 +41,13 @@ public class NewExpFragment extends Fragment {
         owner = user;
     }
 
+    /**
+     * Custom OnCreateView method for the fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +73,7 @@ public class NewExpFragment extends Fragment {
         });
 
         String experimentID = manager.generateExperimentID();
+
 
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

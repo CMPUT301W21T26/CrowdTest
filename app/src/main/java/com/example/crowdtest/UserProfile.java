@@ -82,4 +82,14 @@ public class UserProfile implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    /**
+     * Function for getting user's installation ID
+     */
+    public String getInstallationID() { return installationID; }
+
+    /**
+     * Function for setting user's instyallation ID
+     */
+    public void setInstallationID(String installationID) { this.installationID = installationID; }
 }
