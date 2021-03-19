@@ -19,7 +19,6 @@
         <activity android:name=".ui.ExperimentListActivity" />
         <activity android:name=".ui.CreateExperimentActivity" />
         <activity android:name=".ui.MainActivity">
->>>>>>> main
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
