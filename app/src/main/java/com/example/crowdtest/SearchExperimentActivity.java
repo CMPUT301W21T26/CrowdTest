@@ -165,11 +165,14 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.end_option:
 
+                experimentManager.endExperiment(experimentDataList.get(info.position));
+
                 return true;
 
             case R.id.unpublish_option:
 
                 experimentManager.unpublishExperiment(experimentDataList.get(info.position));
+
                 return true;
 
             default:

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ * Represents an app user (an Experimenter)
  */
 public class Experimenter implements Serializable {
 
@@ -17,7 +17,9 @@ public class Experimenter implements Serializable {
     private ArrayList<Comment> comments;
 
     /**
-     * Experimenter constructor
+     * Constructor method
+     * @param userProfile
+     *    Initializes class attribute userProfile
      */
     public Experimenter(UserProfile userProfile) {
         // Initialize Experimenter attributes
@@ -26,6 +28,11 @@ public class Experimenter implements Serializable {
         this.subscribedExperiments = new ArrayList<>();
     }
 
+    /**
+     * Sets subscribedExperiments based on a given ArrayList
+     * @param subscribedExperiments
+     *     ArrayList of experiments user is subscribed to
+     */
     public void setSubscribedExperiments(ArrayList<String> subscribedExperiments) {
         this.subscribedExperiments = subscribedExperiments;
     }
