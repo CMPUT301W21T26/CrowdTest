@@ -65,13 +65,13 @@ public class CommentManager extends DatabaseManager {
      * @return
      *  Instance of question object added to database
      */
-    public Question addNewQuestion(Experimenter experimenter, String content) {
+    public Question postQuestion(Experimenter experimenter, String content) {
         // Generate unique commentID and create a comment
         String questionID = generateQuestionID();
         Question question = new Question(questionID, experimenter, content);
 
         // Retrieve Question data
-        String timestamp = question.getTimeStamp();
+        String timestamp = question.getTimestamp();
         ArrayList<String> replies = question.getReplies();
 
         // Retrieve UserProfile data
@@ -98,9 +98,9 @@ public class CommentManager extends DatabaseManager {
     public void updateQuestion(Question question) {
         // Retrieve Question data
         String questionID = question.getCommentID();
-        String poster = question.getExperimenter().getUserProfile().getUsername();
+        String poster = question.getCommenter().getUserProfile().getUsername();
         String content = question.getContent();
-        String timestamp = question.getTimeStamp();
+        String timestamp = question.getTimestamp();
         ArrayList<String> replies = question.getReplies();
 
         // Add question data to HashMap
@@ -111,7 +111,9 @@ public class CommentManager extends DatabaseManager {
         questionData.put("replies", replies);
 
         // Update question data to database
-        addDataToCollection(questionCollectionPath, questionID, questionData);
+        database.collection(questionCollectionPath)
+                .document(questionID)
+                .update(questionData);
     }
 
     /**
@@ -125,14 +127,14 @@ public class CommentManager extends DatabaseManager {
      * @return
      *  Instance of Reply object added to database
      */
-    public Reply addNewReply(Experimenter experimenter, Question question, String content) {
+    public Reply postReply(Experimenter experimenter, Question question, String content) {
         // Generate unique commentID and create a comment
         String replyID = generateReplyID();
         String questionID = question.getCommentID();
-        Reply reply = new Reply(replyID, experimenter, content);
+        Reply reply = new Reply(replyID, questionID, experimenter, content);
 
         // Retrieve Reply data
-        String timestamp = reply.getTimeStamp();
+        String timestamp = reply.getTimestamp();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
