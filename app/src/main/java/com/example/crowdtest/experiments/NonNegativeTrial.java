@@ -6,14 +6,14 @@ public class NonNegativeTrial extends Trial {
     /**
      * Constructor for non-negative trials
      *
-     * @param inputCount Input count
-     * @throws Exception For when the value is not positive
+     * @param inputCount
+     *  Input count
      */
-    public NonNegativeTrial(int inputCount) throws Exception {
+    public NonNegativeTrial(int inputCount) {
         if (inputCount > 0) {
             count = inputCount;
         } else {
-            throw new Exception("Input value must be greater than 0");
+            throw new IllegalArgumentException("Input value must be greater than 0");
         }
     }
 

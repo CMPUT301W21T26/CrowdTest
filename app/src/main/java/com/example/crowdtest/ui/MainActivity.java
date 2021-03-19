@@ -14,7 +14,6 @@ import com.example.crowdtest.ExperimenterManager;
 import com.example.crowdtest.Installation;
 import com.example.crowdtest.R;
 import com.example.crowdtest.RetrieveExperimenterResults;
-import com.example.crowdtest.UserProfileActivity;
 import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;

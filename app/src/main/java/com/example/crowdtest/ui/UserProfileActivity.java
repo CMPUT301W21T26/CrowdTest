@@ -1,15 +1,17 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.HashMap;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.R;
+import com.example.crowdtest.UserProfile;
 
 public class UserProfileActivity extends AppCompatActivity implements EditUserFragment.OnFragmentInteractionListener{
 
