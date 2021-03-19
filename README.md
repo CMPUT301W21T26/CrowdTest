@@ -48,10 +48,3 @@ Note that you will automatically be subscribed to any experiments that you creat
 3. Select "Unpublish", and the experiment will be removed. 
 
 Note that if you are not the owned of an experiment, the unpublish option will not be made available to you.
-
-
-
-
-# Sources:
-
-
