@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-19T19:22:32.752Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="LQf409BsBazBj1SrD22_" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-19T19:27:23.614Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="8wdFlxNlgXVRUibHfSeQ" version="14.4.9" type="github">
   <diagram id="rsgUYqqYD4AogLCx72Eq" name="Page-1">
-    <mxGraphModel dx="3560" dy="1973" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2932" dy="1625" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -559,8 +559,8 @@
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-349" value="0..*&lt;span style=&quot;color: rgba(0 , 0 , 0 , 0) ; font-family: monospace ; font-size: 0px&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%221%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3Bresizable%3D0%3Bpoints%3D%5B%5D%3Bautosize%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%226288%22%20y%3D%224220%22%20width%3D%2220%22%20height%3D%2220%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
           <mxGeometry x="6570" y="3080" width="30" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-351" value="&lt;font color=&quot;#99004d&quot;&gt;&lt;span style=&quot;font-size: 23px&quot;&gt;&lt;b&gt;Test&lt;br&gt;&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
-          <mxGeometry x="5499" y="1849" width="60" height="20" as="geometry" />
+        <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-351" value="&lt;font color=&quot;#99004d&quot;&gt;&lt;span style=&quot;font-size: 23px&quot;&gt;&lt;b&gt;Views&lt;br&gt;&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
+          <mxGeometry x="5489" y="1849" width="80" height="20" as="geometry" />
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-352" value="SearchExperimentActivity" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="6040" y="2159" width="260" height="168" as="geometry" />
