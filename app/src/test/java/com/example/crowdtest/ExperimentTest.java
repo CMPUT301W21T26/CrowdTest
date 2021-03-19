@@ -34,7 +34,7 @@ public class ExperimentTest extends MockClassCreator {
     @Test
     void testAddCountTrial() {
         Count countExperiment = mockCountExperiment();
-        CountTrial countTrial = mockCountTrial(10);
+        CountTrial countTrial = mockCountTrial();
     }
 
     /**

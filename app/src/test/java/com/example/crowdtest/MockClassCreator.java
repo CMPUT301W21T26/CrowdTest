@@ -76,13 +76,11 @@ public class MockClassCreator {
 
     /**
      * Function for creating a mock count trial
-     * @param inputCount
-     *  Count trial input
      * @return
      *  Count trial instance
      */
-    protected CountTrial mockCountTrial(int inputCount) {
-        CountTrial countTrial = new CountTrial(inputCount);
+    protected CountTrial mockCountTrial() {
+        CountTrial countTrial = new CountTrial();
         return countTrial;
     }
 
