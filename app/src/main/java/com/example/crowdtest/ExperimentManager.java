@@ -211,29 +211,9 @@ public class ExperimentManager extends DatabaseManager {
     }
 
     /**
-     * Function for archiving an experiment in the database
-     * @param experiment
-     *  Experiment to archive in the database
-     */
-    public void updateExperiment(Experiment experiment) {
-
-        // Add experiment data to HashMap
-        HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", experiment.getOwnerID());
-        experimentData.put("status", experiment.getStatus());
-        experimentData.put("description", experiment.getDescription());
-        experimentData.put("region", experiment.getRegion());
-        experimentData.put("subscribers", experiment.getSubscriberIDs());
-        experimentData.put("type", experiment.getType());
-
-        // Add experiment to database
-        addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);
-    }
-
-    /**
      * Sets the experiment's status to 'closed' in both firestore and for the object itself
      * @param experiment
-     *
+     *  Experiment to end in the database
      */
     public void endExperiment(Experiment experiment) {
         // Change experiment status
@@ -241,14 +221,12 @@ public class ExperimentManager extends DatabaseManager {
 
         // Add experiment data to HasMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("status", experimentData);
+        experimentData.put("status", experiment.getStatus());
 
         // Update experiment in database
         database.collection(collectionPath)
                 .document(experiment.getExperimentID())
                 .update(experimentData);
-
-        return;
     }
 
 
