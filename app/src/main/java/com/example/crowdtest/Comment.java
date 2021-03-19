@@ -10,7 +10,7 @@ public class Comment {
 
     // Comment attributes
     private String commentID;
-    private Experimenter commenter;
+    private String commenterID;
     private String content;
     private String timestamp;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -19,14 +19,14 @@ public class Comment {
      * Comment constructor
      * @param commentID
      *  Unique ID of comment
-     * @param commenter
+     * @param commenterID
      *  Experimenter who created the comment
      * @param content
      *  Comment's content
      */
-    public Comment(String commentID, Experimenter commenter, String content) {
+    public Comment(String commentID, String commenterID, String content) {
         this.commentID = commentID;
-        this.commenter = commenter;
+        this.commenterID = commenterID;
         this.content = content;
         timestamp = dateFormat.format(new Date());
     }
@@ -54,17 +54,17 @@ public class Comment {
      * @return
      *  Experimenter who created the comment
      */
-    public Experimenter getCommenter() {
-        return commenter;
+    public String getCommenterID() {
+        return commenterID;
     }
 
     /**
      * Function for setting the experimenter of the comment
-     * @param commenter
+     * @param commenterID
      *  Experimenter who created the comment
      */
-    public void setCommenter(Experimenter commenter) {
-        this.commenter = commenter;
+    public void setCommenterID(String commenterID) {
+        this.commenterID = commenterID;
     }
 
     /**

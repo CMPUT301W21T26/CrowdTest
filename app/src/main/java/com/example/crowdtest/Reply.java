@@ -12,13 +12,13 @@ public class Reply extends Comment {
      * Reply constructor
      * @param replyID
      *  Unique ID of reply
-     * @param experimenter
-     *  Experimenter who created the reply
+     * @param commenterID
+     *  Unique ID of experimenter who created the reply
      * @param content
      *  Content of reply
      */
-    public Reply(String replyID, String parentID, Experimenter experimenter, String content) {
-        super(replyID, experimenter, content);
+    public Reply(String replyID, String parentID, String commenterID, String content) {
+        super(replyID, commenterID, content);
         this.parentID = parentID;
     }
 
