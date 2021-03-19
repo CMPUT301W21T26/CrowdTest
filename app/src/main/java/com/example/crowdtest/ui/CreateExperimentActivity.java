@@ -21,6 +21,10 @@ public class CreateExperimentActivity extends MainActivity {
     ArrayAdapter<String> optionAdapter;
     Experimenter owner;
 
+    /**
+     * Custom OnCreate method for the fragment
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_experiment_activity);

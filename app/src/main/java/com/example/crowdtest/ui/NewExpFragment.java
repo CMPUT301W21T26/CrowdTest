@@ -41,6 +41,13 @@ public class NewExpFragment extends Fragment {
         owner = user;
     }
 
+    /**
+     * Custom OnCreateView method for the fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,6 +73,7 @@ public class NewExpFragment extends Fragment {
         });
 
         String experimentID = manager.generateExperimentID();
+
 
         expOptionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
