@@ -13,8 +13,8 @@ public class Experimenter implements Serializable {
     // Experimenter attributes
     private String status;
     private UserProfile userProfile;
-    private ArrayList<String> subscribedExperiments;
-    private ArrayList<String> comments;
+    private ArrayList<String> subscribedExperimentIDs;
+    private ArrayList<String> commentIDs;
 
     /**
      * Experimenter constructor
@@ -25,16 +25,16 @@ public class Experimenter implements Serializable {
         // Initialize Experimenter attributes
         this.userProfile = userProfile;
         this.status = "experimenter";
-        this.subscribedExperiments = new ArrayList<>();
+        this.subscribedExperimentIDs = new ArrayList<>();
     }
 
     /**
      * Function for setting the subscribed experiments of the experimenter
-     * @param subscribedExperiments
+     * @param subscribedExperimentIDs
      *  ArrayList of experiment IDs
      */
-    public void setSubscribedExperiments(ArrayList<String> subscribedExperiments) {
-        this.subscribedExperiments = subscribedExperiments;
+    public void setSubscribedExperimentIDs(ArrayList<String> subscribedExperimentIDs) {
+        this.subscribedExperimentIDs = subscribedExperimentIDs;
     }
 
     /**
@@ -42,8 +42,8 @@ public class Experimenter implements Serializable {
      * @return
      *  Experimenter's subscribed experiments
      */
-    public ArrayList<String> getSubscribedExperiments() {
-        return subscribedExperiments;
+    public ArrayList<String> getSubscribedExperimentIDs() {
+        return subscribedExperimentIDs;
     }
 
     /**
@@ -52,8 +52,8 @@ public class Experimenter implements Serializable {
      *     The experiment that is being subscribed to by the Experimenter
      */
     public void subscribe(Experiment experiment) {
-        if (!subscribedExperiments.contains(experiment.getExperimentID())) {
-            subscribedExperiments.add(experiment.getExperimentID());
+        if (!subscribedExperimentIDs.contains(experiment.getExperimentID())) {
+            subscribedExperimentIDs.add(experiment.getExperimentID());
         } else {
             throw new IllegalArgumentException("Experiment has already been subscribed to!");
         }
@@ -65,8 +65,8 @@ public class Experimenter implements Serializable {
      *  Experiment to unsubscribe from
      */
     public void unsubscribe(Experiment experiment) {
-        if (subscribedExperiments.contains(experiment.getExperimentID())) {
-            subscribedExperiments.remove(experiment.getExperimentID());
+        if (subscribedExperimentIDs.contains(experiment.getExperimentID())) {
+            subscribedExperimentIDs.remove(experiment.getExperimentID());
         } else {
             throw new IllegalArgumentException("Experiment has not been subscribed to!");
         }
@@ -74,11 +74,11 @@ public class Experimenter implements Serializable {
 
     /**
      * Function for setting the comments of the experimenter
-     * @param comments
+     * @param commentIDs
      *  ArrayList of comment IDs
      */
-    public void setComments(ArrayList<String> comments) {
-        this.comments = comments;
+    public void setCommentIDs(ArrayList<String> commentIDs) {
+        this.commentIDs = commentIDs;
     }
 
     /**
@@ -86,8 +86,8 @@ public class Experimenter implements Serializable {
      * @return
      *  Experimenter's comments
      */
-    public ArrayList<String> getComments() {
-        return comments;
+    public ArrayList<String> getCommentIDs() {
+        return commentIDs;
     }
 
     /**

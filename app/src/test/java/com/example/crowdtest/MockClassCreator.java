@@ -171,9 +171,9 @@ public class MockClassCreator {
      */
     protected Comment mockComment() {
         String commentID = "sample_commentID";
+        String commenterID = "sample_commenterID";
         String content = "sample_comment_content";
-        Experimenter experimenter = mockExperimenter();
-        Comment comment = new Comment(commentID, experimenter, content);
+        Comment comment = new Comment(commentID, commenterID, content);
         return comment;
     }
 
@@ -184,9 +184,9 @@ public class MockClassCreator {
      */
     protected Question mockQuestion() {
         String questionID = "sample_questionID";
+        String commenterID = "sample_commenterID";
         String content = "sample_question_content";
-        Experimenter experimenter = mockExperimenter();
-        Question question = new Question(questionID, experimenter, content);
+        Question question = new Question(questionID, commenterID, content);
         return question;
     }
 
@@ -198,9 +198,9 @@ public class MockClassCreator {
     protected Reply mockReply() {
         String replyID = "sample_replyID";
         String parentID = "sample_parentID";
+        String commenterID = "sample_commenterID";
         String content = "sample_reply_content";
-        Experimenter experimenter = mockExperimenter();
-        Reply reply = new Reply(replyID, parentID, experimenter, content);
+        Reply reply = new Reply(replyID, parentID, commenterID, content);
         return reply;
     }
 
