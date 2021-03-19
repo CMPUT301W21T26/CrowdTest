@@ -194,9 +194,10 @@ public class MockClassCreator {
      */
     protected Reply mockReply() {
         String replyID = "sample_replyID";
+        String parentID = "sample_parentID";
         String content = "sample_reply_content";
         Experimenter experimenter = mockExperimenter();
-        Reply reply = new Reply(replyID, experimenter, content);
+        Reply reply = new Reply(replyID, parentID, experimenter, content);
         return reply;
     }
 }
