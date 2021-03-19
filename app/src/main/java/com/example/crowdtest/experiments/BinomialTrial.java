@@ -1,27 +1,35 @@
 package com.example.crowdtest.experiments;
 
+/**
+ * Binomial trial class
+ */
 public class BinomialTrial extends Trial {
+
+    // BinomialTrial attributes
     private boolean success;
 
-
     /**
-     * Empty constructor for binomial trial
-     * Necessary for creating trial objects directly from firestore documents
+     * Empty BinomialTrial constructor
      */
     public BinomialTrial(){
 
-        //empty constructor required in order to fetch object
+        //Required for firestore access
     }
 
     /**
-     * Constructor for binomial trials
-     *
-     * @param inputSuccess Input Success/failure
+     * BinomialTrial constructor
+     * @param inputSuccess
+     *  Input success/failure
      */
     public BinomialTrial(boolean inputSuccess) {
         success = inputSuccess;
     }
 
+    /**
+     * Function to check whether a binomial trial is a success or failure
+     * @return
+     *  True if success, false if failure
+     */
     public boolean isSuccess() {
         return success;
     }

@@ -77,7 +77,7 @@ public class ExperimenterTest {
         experimenter.unsubscribe(experiment);
 
         // Check that experiment has been successfully unsubscribed from
-        assertEquals(0, experiment.getSubscribers().size());
+        assertEquals(0, experiment.getSubscriberIDs().size());
 
         // Check that exception is thrown when trying to unsubscribe from a non-subscribed experiment
         assertThrows(IllegalArgumentException.class, () -> {
@@ -158,10 +158,10 @@ public class ExperimenterTest {
         owner.publishExperiment(experiment);
 
         // Archive experiment
-        owner.archiveExperiment(experiment);
+        owner.closeExperiment(experiment);
 
         // Check that experiment has been successfully archived
-        assertEquals("archived", experiment.getStatus());
+        assertEquals("closed", experiment.getStatus());
     }
 
     /**

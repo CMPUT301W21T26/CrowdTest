@@ -1,5 +1,8 @@
 package com.example.crowdtest.experiments;
 
+/**
+ * NonNegative trial class
+ */
 public class NonNegativeTrial extends Trial {
 
     private int count;
@@ -15,10 +18,9 @@ public class NonNegativeTrial extends Trial {
     }
 
     /**
-     * Constructor for non-negative trials
-     *
+     * NonNegativeTrial constructor
      * @param inputCount
-     *  Input count
+     *  Non-negative input count
      */
     public NonNegativeTrial(int inputCount) {
         if (inputCount > 0) {
@@ -28,6 +30,11 @@ public class NonNegativeTrial extends Trial {
         }
     }
 
+    /**
+     * Function for getting the non-negative trial count
+     * @return
+     *  Non-negative trial count
+     */
     public int getCount() {
         return count;
     }

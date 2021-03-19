@@ -1,10 +1,5 @@
 package com.example.crowdtest;
 
-import android.util.Log;
-import android.widget.ArrayAdapter;
-
-import androidx.annotation.NonNull;
-
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.BinomialTrialList;
@@ -18,24 +13,18 @@ import com.example.crowdtest.experiments.MeasurementTrialList;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.example.crowdtest.experiments.NonNegativeTrialList;
-import com.example.crowdtest.experiments.Trial;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays; //TODO: remove this
 import java.util.HashMap;
-import java.util.List;
 
 /**
- *
+ * ExperimentManager class for interfacing with Firestore database to publish, unpublish, and
+ * archive experiments
  */
 public class ExperimentManager extends DatabaseManager {
 
+    // ExperimentManager attributes
     final private String collectionPath = "Experiments";
     private String TAG = "GetExperiments";
 
@@ -49,6 +38,7 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Function for generating a unique experiment ID
      * @return
+     *  Unique experiment ID
      */
     public String generateExperimentID() {
         return generateDocumentID("experiment", collectionPath);
@@ -57,9 +47,9 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Converts a document obtained from Firestore into an Experiment object
      * @param document
-     *    The firestore document to be converted
+     *  The firestore document to be converted
      * @return
-     *     Returns the experiment object
+     *  Returns the experiment object
      */
     public Experiment getFirestoreExperiment(QueryDocumentSnapshot document) {
 
@@ -105,58 +95,72 @@ public class ExperimentManager extends DatabaseManager {
         experiment.setTitle((String) document.getData().get("title"));
         experiment.setDescription((String) document.getData().get("description"));
         experiment.setRegion((String) document.getData().get("region"));
-        experiment.setQuestions((ArrayList<String>) document.getData().get("questions"));
-        experiment.setSubscribers((ArrayList<String>) document.getData().get("subscribers"));
-        experiment.setGeoLocation((Boolean) document.getData().get("geolocation"));
-
+        experiment.setQuestionIDs((ArrayList<String>) document.getData().get("questions"));
+        experiment.setSubscriberIDs((ArrayList<String>) document.getData().get("subscribers"));
+        experiment.setGeolocationEnabled((Boolean) document.getData().get("geolocation"));
 
         return experiment;
     }
 
-
+    /**
+     * Function to check whether an experiment matches a searched keyword
+     * @param searchString
+     *  Keyword provided during experiment search
+     * @param experiment
+     *  Experiment to check
+     * @return
+     *  True if keyword is present in the experiment's title or description, false otherwise
+     */
     public Boolean experimentContainsKeyword(String searchString, Experiment experiment) {
-
+        // Check if keyword is within experiment title or description
         if (experiment.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
-
             return true;
         }
         else if (experiment.getDescription().toLowerCase().contains(searchString.toLowerCase())) {
-
             return true;
         }
 
         return false;
-
     }
 
     /**
-     *
-     * @param user
+     * Function to check whether an experiment is owned by a given experimenter
+     * @param experimenter
+     *  Experimenter to check against owner of given experiment
      * @param experiment
+     *  Experiment to check
      * @return
+     *  True if experimenter owns the given experimenter, false otherwise
      */
-    public Boolean experimentIsOwned(Experimenter user, Experiment experiment) {
+    public Boolean experimentIsOwned(Experimenter experimenter, Experiment experiment) {
+        // Get owner and user IDs
+        String ownerName = experiment.getOwnerID();
+        String userName = experimenter.getUserProfile().getUsername();
 
-        String ownerName = experiment.getOwner();
-
-        String userName = user.getUserProfile().getUsername();
-
+        // Compare owner and user IDs
         if (ownerName.equals(userName)){
             return true;
         }
 
         return false;
-
     }
 
-    public Boolean experimentIsSubscribed(Experimenter user, Experiment experiment) {
+    /**
+     * Function to check whether an experiment is subscribed to by a given experimenter
+     * @param experimenter
+     *  Experimenter to check against subscribers list of given experiment
+     * @param experiment
+     *  Experiment to check
+     * @return
+     *  True if experimenter is subscribed to the given experiment, false otherwise
+     */
+    public Boolean experimentIsSubscribed(Experimenter experimenter, Experiment experiment) {
+        // Get user ID and list of experiment's subscribers
+        String userName = experimenter.getUserProfile().getUsername();
+        ArrayList<String> subscribedUsers = experiment.getSubscriberIDs();
 
-        String userName = user.getUserProfile().getUsername();
-
-        ArrayList<String> subscribedUsers = experiment.getSubscribers();
-
+        // Check whether user ID is within subscribed users collection
         if (subscribedUsers.contains(userName)) {
-
             return true;
         }
 
@@ -165,30 +169,30 @@ public class ExperimentManager extends DatabaseManager {
 
     /**
      * Function for adding an experiment to the database
+     * @param experiment
+     *  Experiment to add to the database
      */
     public void publishExperiment(Experiment experiment) {
         // Generate unique experiment ID and create experiment
         String experimentID = experiment.getExperimentID();
 
-        // Retrieve experiment owner's profile
-        //UserProfile ownerProfile = experiment.getOwner().getUserProfile();
-
-        experiment.addSubscriber(experiment.getOwner());
+        // Add the experiment's owner as a subscriber
+        experiment.addSubscriber(experiment.getOwnerID());
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        //experimentData.put("owner", ownerProfile.getUsername());
-
+        experimentData.put("owner", experiment.getOwnerID());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
-        experimentData.put("geolocation", experiment.getGeoLocation());
+        experimentData.put("geolocation", experiment.getGeolocationEnabled());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
-        experimentData.put("subscribers", experiment.getSubscribers());
-        experimentData.put("questions",experiment.getQuestions());
+        experimentData.put("subscribers", experiment.getSubscriberIDs());
+        experimentData.put("questions",experiment.getQuestionIDs());
         experimentData.put("type", experiment.getType());
         experimentData.put("datePublished", experiment.getDatePublished());
         experimentData.put("min trial count", experiment.getMinTrials());
+
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
         }
@@ -202,26 +206,24 @@ public class ExperimentManager extends DatabaseManager {
             experimentData.put("trials", ((Binomial)experiment).getTrials());
         }
 
-        experimentData.put("owner", experiment.getOwner());
-
         // Add experiment to database
-        // TODO: add questions as a sub-collection
         addDataToCollection(collectionPath, experimentID, experimentData);
     }
 
     /**
-     * Function for updating a given experiment in the database
+     * Function for archiving an experiment in the database
      * @param experiment
+     *  Experiment to archive in the database
      */
     public void updateExperiment(Experiment experiment) {
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", experiment.getOwner());
+        experimentData.put("owner", experiment.getOwnerID());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
-        experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("subscribers", experiment.getSubscriberIDs());
         experimentData.put("type", experiment.getType());
 
         // Add experiment to database
@@ -234,21 +236,26 @@ public class ExperimentManager extends DatabaseManager {
      *
      */
     public void endExperiment(Experiment experiment) {
-        HashMap<String, Object> experimentStatus = new HashMap<>();
-
+        // Change experiment status
         experiment.setStatus("closed");
-        experimentStatus.put("status", experiment.getStatus());
 
+        // Add experiment data to HasMap
+        HashMap<String, Object> experimentData = new HashMap<>();
+        experimentData.put("status", experimentData);
+
+        // Update experiment in database
         database.collection(collectionPath)
                 .document(experiment.getExperimentID())
-                .update(experimentStatus);
+                .update(experimentData);
 
+        return;
     }
 
 
     /**
      * Function for deleting an experiment from the database
      * @param experiment
+     *  Experiment to unpublish from database
      */
     public void unpublishExperiment(Experiment experiment) {
         // Retrieve experimentID

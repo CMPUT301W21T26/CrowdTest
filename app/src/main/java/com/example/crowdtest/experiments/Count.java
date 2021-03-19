@@ -1,16 +1,17 @@
 package com.example.crowdtest.experiments;
 
-import com.example.crowdtest.Experimenter;
-
 import java.util.ArrayList;
-import java.util.Collection;
 
+/**
+ * Count experiment class
+ */
 public class Count extends Experiment {
+
+    // Count attributes
     private ArrayList <CountTrial> trials;
 
     /**
-     * Experiment constructor
-     *
+     * Count constructor
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
@@ -27,10 +28,20 @@ public class Count extends Experiment {
         trials.add(trial);
     }
 
+    /**
+     * Function for setting the trials of the count experiment
+     * @param trials
+     *  ArrayList of count trials
+     */
     public void setTrials(ArrayList<CountTrial> trials) {
         this.trials = trials;
     }
 
+    /**
+     * Function for getting the trials of the count experiment
+     * @return
+     *  ArrayList of count trials
+     */
     public ArrayList<CountTrial> getTrials() {
         return trials;
     }

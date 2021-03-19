@@ -1,6 +1,7 @@
 package com.example.crowdtest;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 /**
  * UserProfile class that stores a user's contact information such as
@@ -105,7 +106,45 @@ public class UserProfile implements Serializable {
     public String getInstallationID() { return installationID; }
 
     /**
-     * Function for setting user's instyallation ID
+     * Function for setting user's installation ID
      */
     public void setInstallationID(String installationID) { this.installationID = installationID; }
+
+    /**
+     * Function for validating user email
+     * @param email
+     *  Email of user
+     * @return
+     *  True if valid, false otherwise
+     */
+    public boolean isValidEmail(String email) {
+        // Define regex pattern to compare email to
+        Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+
+        // Validate email
+        if (email.isEmpty() || pattern.matcher(email).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Function for validating user phone number
+     * @param phoneNumber
+     *  Phone number of user
+     * @return
+     *  True if valid, false otherwise
+     */
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        // Define regex pattern to compare phone number to
+        Pattern pattern = Pattern.compile("[0-9]+");
+
+        // Validate email
+        if (phoneNumber.isEmpty() || pattern.matcher(phoneNumber).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

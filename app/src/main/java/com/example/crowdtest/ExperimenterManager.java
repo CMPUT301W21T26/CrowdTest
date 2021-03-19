@@ -1,7 +1,5 @@
 package com.example.crowdtest;
 
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,11 +12,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
-
 
 /**
- *
+ * ExperimenterManager class
  */
 public class ExperimenterManager extends DatabaseManager {
 
@@ -120,7 +116,7 @@ public class ExperimenterManager extends DatabaseManager {
      * @return
      *     Returns the new experimenter created with the installationID
      */
-    private Experimenter addNewExperimenter(String installationID) {
+    public Experimenter addNewExperimenter(String installationID) {
         // Generate initial unique username and create an experimenter
         String username = generateUsername();
         Experimenter experimenter = new Experimenter(new UserProfile(username, installationID));
@@ -182,7 +178,7 @@ public class ExperimenterManager extends DatabaseManager {
      * Function for deleting a experimenter from the database
      * @param experimenter
      */
-    public void delExperimenter(Experimenter experimenter) {
+    public void deleteExperimenter(Experimenter experimenter) {
         // Retrieve username
         UserProfile userProfile = experimenter.getUserProfile();
         String username = userProfile.getUsername();

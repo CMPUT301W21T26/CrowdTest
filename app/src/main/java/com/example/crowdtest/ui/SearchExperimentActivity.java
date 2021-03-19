@@ -195,9 +195,9 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.end_option:
 
-                experimentManager.endExperiment(experimentDataList.get(info.position));
-
                 Experiment experiment = experimentDataList.get(info.position);
+
+                experimentManager.endExperiment(experimentDataList.get(info.position));
 
                 return true;
 

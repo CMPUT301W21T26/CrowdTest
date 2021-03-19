@@ -21,14 +21,14 @@ public class CommentTest {
         Experimenter experimenter = mockClassCreator.mockExperimenter();
 
         // Set user profile attributes
-        comment.setExperimenter(experimenter);
+        comment.setCommenter(experimenter);
         comment.setContent("sample_content");
-        comment.setTimeStamp("sample_timestamp");
+        comment.setTimestamp("sample_timestamp");
 
         // Check that defined attributes have been successfully set
-        assertEquals(experimenter.getUserProfile().getUsername(), comment.getExperimenter().getUserProfile().getUsername());
+        assertEquals(experimenter.getUserProfile().getUsername(), comment.getCommenter().getUserProfile().getUsername());
         assertEquals("sample_content", comment.getContent());
-        assertEquals("sample_timestamp", comment.getTimeStamp());
+        assertEquals("sample_timestamp", comment.getTimestamp());
     }
 
     /**
