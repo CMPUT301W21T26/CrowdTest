@@ -12,6 +12,9 @@ import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
 
 
+/**
+ * The general activity class for all the experiment activities
+ */
 public class ExperimentActivity extends AppCompatActivity {
     Toolbar toolbar;
     ImageButton participants;
@@ -22,6 +25,9 @@ public class ExperimentActivity extends AppCompatActivity {
     RecyclerView questionList;
     Experiment experiment;
 
+    /**
+     * This method sets the values of the views that are common between all the experiment activities (Toolbar, participants, experiment description, date published, experiment details and the end experiment button)
+     */
     public void setValues(){
         toolbar = findViewById(R.id.experiment_toolbar);
         toolbar.setTitle(experiment.getTitle());

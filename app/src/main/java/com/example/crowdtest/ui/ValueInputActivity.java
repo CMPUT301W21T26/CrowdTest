@@ -13,9 +13,15 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.NonNegative;
 import com.google.android.material.snackbar.Snackbar;
 
+/**
+ * Value input experiment activity class. Value input experiments are experiments that require a number for their trials. Double for measurement trials and positive int for Non negative trials
+ */
 public class ValueInputActivity extends ExperimentActivity {
     Button addButton;
     EditText valueEditText;
+    /**
+     * To determine whether the experiment is a measurement experiment or a non negative integer experiment
+     */
     boolean isMeasurement;
 
     @Override

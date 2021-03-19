@@ -9,6 +9,9 @@ import androidx.annotation.Nullable;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 
+/**
+ * Binomial experiment activity class that has two buttons for submitting success and failure
+ */
 public class BinomialActivity extends ExperimentActivity {
     private Button successButton;
     private Button failButton;
@@ -23,10 +26,10 @@ public class BinomialActivity extends ExperimentActivity {
 
         successButton = findViewById(R.id.binomial_success_button);
         successButton.setOnClickListener(v -> ((Binomial)experiment).addTrial(true));
-        successButton.setText(((Binomial)experiment).getSuccessCount());
+        successButton.setText(String.valueOf(((Binomial)experiment).getSuccessCount())); // The text of the button is the number of successes
 
         failButton = findViewById(R.id.binomial_fail_button);
         failButton.setOnClickListener(v -> ((Binomial)experiment).addTrial(false));
-        failButton.setText(((Binomial)experiment).getFailCount());
+        failButton.setText(String.valueOf(((Binomial)experiment).getFailCount())); // The text of the button is the number of failures
     }
 }
