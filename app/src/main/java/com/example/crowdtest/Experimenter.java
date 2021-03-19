@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Represents an app user (an Experimenter)
+ * Experimenter class that represents a user of the app
  */
 public class Experimenter implements Serializable {
 
@@ -14,12 +14,12 @@ public class Experimenter implements Serializable {
     private String status;
     private UserProfile userProfile;
     private ArrayList<String> subscribedExperiments;
-    private ArrayList<Comment> comments;
+    private ArrayList<String> comments;
 
     /**
-     * Constructor method
+     * Experimenter constructor
      * @param userProfile
-     *    Initializes class attribute userProfile
+     *  User profile of experimenter
      */
     public Experimenter(UserProfile userProfile) {
         // Initialize Experimenter attributes
@@ -29,66 +29,91 @@ public class Experimenter implements Serializable {
     }
 
     /**
-     * Sets subscribedExperiments based on a given ArrayList
+     * Function for setting the subscribed experiments of the experimenter
      * @param subscribedExperiments
-     *     ArrayList of experiments user is subscribed to
+     *  ArrayList of experiment IDs
      */
     public void setSubscribedExperiments(ArrayList<String> subscribedExperiments) {
         this.subscribedExperiments = subscribedExperiments;
     }
 
     /**
-     * Function for subscribing to an experiment
-     * @param experiment
-     */
-    public void subscribe(Experiment experiment) {
-        subscribedExperiments.add(experiment.getExperimentID());
-    }
-
-    /**
-     *
-     */
-    public void addComment() {
-
-    }
-
-    /**
-     *
+     * Function for getting the subscribed experiments of the experimenter
      * @return
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     *
-     * @param status
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    /**
-     *
-     * @return
+     *  Experimenter's subscribed experiments
      */
     public ArrayList<String> getSubscribedExperiments() {
         return subscribedExperiments;
     }
 
     /**
-     *
-     * @return
+     * Function for subscribing to an experiment if not already subscribed to
+     * @param experiment
+     *     The experiment that is being subscribed to by the Experimenter
      */
-    public ArrayList<Comment> getComments() {
+    public void subscribe(Experiment experiment) {
+        if (!subscribedExperiments.contains(experiment.getExperimentID())) {
+            subscribedExperiments.add(experiment.getExperimentID());
+        } else {
+            throw new IllegalArgumentException("Experiment has already been subscribed to!");
+        }
+    }
+
+    /**
+     * Function for unsubscribing to an experiment if previously subscribed to
+     * @param experiment
+     *  Experiment to unsubscribe from
+     */
+    public void unsubscribe(Experiment experiment) {
+        if (subscribedExperiments.contains(experiment.getExperimentID())) {
+            subscribedExperiments.remove(experiment.getExperimentID());
+        } else {
+            throw new IllegalArgumentException("Experiment has not been subscribed to!");
+        }
+    }
+
+    /**
+     * Function for setting the comments of the experimenter
+     * @param comments
+     *  ArrayList of comment IDs
+     */
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * Function for getting the comments of the experimenter
+     * @return
+     *  Experimenter's comments
+     */
+    public ArrayList<String> getComments() {
         return comments;
+    }
+
+    /**
+     * Function for getting the status of the experimenter
+     * @return
+     *  Experimenter's status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Function for setting the status of the experimenter
+     * @param status
+     *  Experimenter's status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * Function for getting the user profile of the experimenter
+     * @return
+     *  Experimenter's user profile
+     */
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 }

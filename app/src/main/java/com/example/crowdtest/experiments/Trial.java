@@ -25,6 +25,7 @@ public class Trial {
         this.location = location;
     }
 
+
     public Date getTimestamp() {
         return timestamp;
     }

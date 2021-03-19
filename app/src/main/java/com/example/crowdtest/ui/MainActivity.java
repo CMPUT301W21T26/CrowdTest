@@ -1,12 +1,11 @@
 package com.example.crowdtest.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
@@ -48,77 +47,59 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Experiment> experimentArrayList = new ArrayList<>();
 
         //assign a value to the current user variable representing signed in experimenter
-        experimenterManager.retrieveExperimenter(installationID, new RetrieveExperimenterResults() {
-             @Override
-             public void onRetrieveExperimenter(Experimenter experimenter) {
-                 user = experimenter;
+        experimenterManager.retrieveExperimenter(installationID, experimenter -> user = experimenter);
 
-             }
-         });
+        createNewButton.setOnClickListener(view -> {
 
-        createNewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            if (user != null) {
 
-                if (user != null) {
+                Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
 
-                    Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
+                intent.putExtra("USER", user);
 
-                    intent.putExtra("USER", user);
-
-                    startActivity(intent);
-
-                }
+                startActivity(intent);
 
             }
+
         });
 
-        myExperimentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        myExperimentButton.setOnClickListener(view -> {
 
-                if (user != null) {
+            if (user != null) {
 
-                    Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
+                Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
 
-                    intent.putExtra("USER", user);
+                intent.putExtra("USER", user);
 
-                    startActivity(intent);
-
-                }
+                startActivity(intent);
 
             }
+
         });
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        searchButton.setOnClickListener(view -> {
 
-                if (user != null) {
+            if (user != null) {
 
-                    Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
+                Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
 
-                    while (user == null) {
-                        continue;
-                    }
-
-                    intent.putExtra("USER", user);
-
-                    startActivity(intent);
-
+                while (user == null) {
+                    continue;
                 }
 
+                intent.putExtra("USER", user);
+
+                startActivity(intent);
 
             }
+
+
         });
 
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                intent.putExtra("User", user);
-                startActivityForResult(intent, 0);
-            }
+        profileButton.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+            intent.putExtra("User", user);
+            startActivityForResult(intent, 0);
         });
     }
 

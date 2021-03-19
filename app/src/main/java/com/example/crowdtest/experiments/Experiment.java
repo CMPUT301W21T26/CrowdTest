@@ -1,5 +1,6 @@
 package com.example.crowdtest.experiments;
 
+import com.example.crowdtest.DatabaseManager;
 import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.Question;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,7 +40,42 @@ public abstract class Experiment implements Serializable {
         datePublished = new Date();
         status = "open";
         this.subscribers = new ArrayList<>();
+        this.questions = new ArrayList<>();
 
+    }
+
+    /**
+     * Constructor for uploading from the database
+     * @param owner
+     * @param experimentID
+     * @param status
+     * @param title
+     * @param description
+     * @param region
+     * @param subscribers
+     * @param questions
+     * @param geoLocation
+     * @param datePublished
+     * @param minTrials
+     */
+    public Experiment(String owner, String experimentID,  String status,
+                      String title, String description, String region,
+                      ArrayList<String> subscribers, ArrayList<String> questions,
+                      boolean geoLocation, Date datePublished, int minTrials) {
+        this.experimentID = experimentID;
+        this.owner = owner;
+        this.status = status;
+        this.title = title;
+        this.description = description;
+        this.region = region;
+        this.subscribers = subscribers;
+        this.questions = questions;
+        this.geoLocation = geoLocation;
+        this.datePublished = datePublished;
+        this.minTrials = minTrials;
+    }
+
+    public Experiment() {
     }
 
     public void setExperimentID(String experimentID) {
@@ -66,6 +102,7 @@ public abstract class Experiment implements Serializable {
     public void setGeoLocation(boolean geoLocation) {
         this.geoLocation = geoLocation;
     }
+
 
     /**
      * Function for returning experimentID
@@ -185,18 +222,6 @@ public abstract class Experiment implements Serializable {
 
     public Date getDatePublished() {
         return datePublished;
-    }
-    /**
-     * @param bool
-     */
-    public void setGeoLocation(Boolean bool) {geoLocation = bool;
-    }
-
-    /**
-     * @return
-     */
-    public boolean getGeoLocation() {
-        return geoLocation;
     }
 
     /**

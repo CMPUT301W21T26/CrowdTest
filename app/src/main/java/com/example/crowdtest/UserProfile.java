@@ -1,9 +1,11 @@
 package com.example.crowdtest;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 /**
- *
+ * UserProfile class that stores a user's contact information such as
+ * their username, email, and phone number
  */
 public class UserProfile implements Serializable {
 
@@ -15,6 +17,10 @@ public class UserProfile implements Serializable {
 
     /**
      * UserProfile constructor
+     * @param username
+     *  Unique username of user
+     * @param installationID
+     *  Unique installation ID of user's app
      */
     public UserProfile(String username, String installationID) {
         this.username = username;
@@ -24,9 +30,15 @@ public class UserProfile implements Serializable {
     }
 
     /**
-     * second user profile constructor
+     * Secondary UserProfile constructor
      * @param username
+     *  Unique username of user
      * @param installationID
+     *  Unique installation ID of user's app
+     * @param email
+     *  Email of user
+     * @param phoneNumber
+     *  Phone number of user
      */
     public UserProfile(String username, String installationID, String email, String phoneNumber) {
         this.username = username;
@@ -36,47 +48,52 @@ public class UserProfile implements Serializable {
     }
 
     /**
-     * Function for getting user's username
+     * Function for getting a user's username
      * @return
+     *  Unique username of user
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Function for setting user's username
-     * @return
+     * Function for setting a user's username
+     * @param username
+     *  Unique username of user
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * Function for getting user's email
+     * Function for getting a user's email
      * @return
+     *  Email of user
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * Function for setting user's email
-     * @return
+     * Function for setting a user's email
+     * @param email
+     *  Email of user
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * Function for getting user's phone number
+     * Function for getting a user's phone number
      * @return
+     *  Phone number of user
      */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     /**
-     * Function for setting user's phone number
+     * Function for setting a user's phone number
      * @return
      */
     public void setPhoneNumber(String phoneNumber) {
@@ -89,7 +106,29 @@ public class UserProfile implements Serializable {
     public String getInstallationID() { return installationID; }
 
     /**
-     * Function for setting user's instyallation ID
+     * Function for setting user's installation ID
      */
     public void setInstallationID(String installationID) { this.installationID = installationID; }
+
+    public boolean isValidEmail(String email) {
+
+        Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+
+        if (email.isEmpty() || pattern.matcher(email).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isValidPhoneNumber(String phoneNumber) {
+
+        Pattern pattern = Pattern.compile("[0-9]+");
+
+        if (phoneNumber.isEmpty() || pattern.matcher(phoneNumber).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

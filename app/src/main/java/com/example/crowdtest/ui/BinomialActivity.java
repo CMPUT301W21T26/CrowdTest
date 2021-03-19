@@ -23,10 +23,10 @@ public class BinomialActivity extends ExperimentActivity {
 
         successButton = findViewById(R.id.binomial_success_button);
         successButton.setOnClickListener(v -> ((Binomial)experiment).addTrial(true));
-        successButton.setText(((Binomial)experiment).getSuccessCount());
+        successButton.setText(String.valueOf(((Binomial)experiment).getSuccessCount()));
 
         failButton = findViewById(R.id.binomial_fail_button);
         failButton.setOnClickListener(v -> ((Binomial)experiment).addTrial(false));
-        failButton.setText(((Binomial)experiment).getFailCount());
+        failButton.setText(String.valueOf(((Binomial)experiment).getFailCount()));
     }
 }

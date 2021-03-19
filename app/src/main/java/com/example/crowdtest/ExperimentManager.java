@@ -1,6 +1,7 @@
 package com.example.crowdtest;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -13,14 +14,12 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.example.crowdtest.experiments.Trial;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays; //TODO: remove this
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -60,34 +59,48 @@ public class ExperimentManager extends DatabaseManager {
         String experimentID = document.getId();
         String owner = (String) document.getData().get("owner");
         String type = (String) document.getData().get("type");
+        Date datePublished = ((Timestamp) document.getData().get("datePublished")).toDate();
+        String description = (String) document.getData().get("description");
+        boolean geoLocation = (boolean) document.getData().get("geolocation");
+//        int minTrialCount = Integer.parseInt((String) document.getData().get("min trial count"));
+        String status = (String) document.getData().get("status");
+        String title = (String) document.getData().get("title");
+        String region = (String) document.getData().get("region");
+        ArrayList<String> questions = (ArrayList<String>) document.getData().get("questions");
+        ArrayList<String> subscribers = (ArrayList<String>) document.getData().get("subscribers");
+        database.collection(collectionPath).document(document.getId()).collection("trials").get();
 
         //TODO: make it so that each experiment created uses actual user (ie add code for actual user here)
-        if (type == "binomial") {
-            //call ExperimentManager.getExperimenter(ownerID)
-            experiment = new Binomial(owner, experimentID);
-            ((Binomial) experiment).setTrials((ArrayList<BinomialTrial>) document.getData().get("trials"));
+        if (type.equals("binomial")) {
+            ArrayList<BinomialTrial> trials = (ArrayList<BinomialTrial>) database.collection(document.getDocumentReference());
+            experiment = new Binomial(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials);
+
+//            ArrayList<BinomialTrial> trials = document.toObject(((Binomial)experiment).getClass()).getTrials();
+//            ((Binomial) experiment).setTrials(trials);
         }
-        else if (type == "count") {
-            experiment = new Count(owner, experimentID);
-            ((Count) experiment).setTrials((ArrayList<CountTrial>) document.getData().get("trials"));
+
+        else if (type.equals("count")) {
+
+            ArrayList<CountTrial> trials = (ArrayList<CountTrial>) document.get("trials");
+            experiment = new Count(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials);
+
+//            ArrayList<CountTrial> trials = document.toObject(((Count)experiment).getClass()).getTrials();
+//            ((Count) experiment).setTrials(trials);
         }
-        else if (type =="measurement") {
-            experiment = new Measurement(owner, experimentID);
-            ((Measurement) experiment).setTrials((ArrayList<MeasurementTrial>) document.getData().get("trials"));
+
+        else if (type.equals("measurement")) {
+            ArrayList<MeasurementTrial> trials = (ArrayList<MeasurementTrial>) document.get("trials");
+            experiment = new Measurement(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials);
+
+//            ArrayList<MeasurementTrial> trials = document.toObject(((Measurement)experiment).getClass()).getTrials();
+//            ((Measurement) experiment).setTrials(trials);
         }
         else {
-            experiment = new NonNegative(owner, experimentID);
-            ((NonNegative) experiment).setTrials((ArrayList<NonNegativeTrial>) document.getData().get("trials"));
+            ArrayList<NonNegativeTrial> trials = (ArrayList<NonNegativeTrial>) document.get("trials");
+            experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials);
+//            ArrayList<NonNegativeTrial> trials = document.toObject(((NonNegative)experiment).getClass()).getTrials();
+//            ((NonNegative) experiment).setTrials(trials);
         }
-
-        experiment.setStatus((String) document.getData().get("status"));
-        experiment.setTitle((String) document.getData().get("title"));
-        experiment.setDescription((String) document.getData().get("description"));
-        experiment.setRegion((String) document.getData().get("region"));
-        experiment.setQuestions((ArrayList<String>) document.getData().get("questions"));
-        experiment.setSubscribers((ArrayList<String>) document.getData().get("subscribers"));
-        experiment.setGeoLocation((Boolean) document.getData().get("geolocation"));
-
 
         return experiment;
     }
@@ -160,12 +173,14 @@ public class ExperimentManager extends DatabaseManager {
 
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
-        experimentData.put("geolocation", experiment.getGeoLocation());
+        experimentData.put("geolocation", experiment.isGeoLocation());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
         experimentData.put("questions",experiment.getQuestions());
         experimentData.put("type", experiment.getClass().toString());
+        experimentData.put("datePublished", experiment.getDatePublished());
+        experimentData.put("min trial count", experiment.getMinTrials());
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
         }
