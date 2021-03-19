@@ -161,6 +161,8 @@ public class SubscribedExpFragment extends Fragment {
 
             case R.id.end_option:
 
+                experimentManager.endExperiment(subscribedExperiments.get(info.position));
+
                 return true;
 
             case R.id.unpublish_option:

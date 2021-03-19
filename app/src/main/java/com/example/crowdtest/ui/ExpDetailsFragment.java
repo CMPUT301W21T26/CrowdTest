@@ -20,8 +20,8 @@ import com.example.crowdtest.ui.GeolocationToggleFragment;
 /**
  * Fragment to collect experiment information in the CreateExperimentActivity
  */
-
 public class ExpDetailsFragment extends Fragment {
+
     Experiment experiment;
     int minNumTrials;
     TextView header;
@@ -29,28 +29,47 @@ public class ExpDetailsFragment extends Fragment {
     String description;
     String title;
     String region;
-    String trials;
-    String mode; // Will be either 'description' or 'location' mode
+    String mode; // Will be either 'title', 'description' or 'location'
     ExperimentManager manager;
 
 
+    /**
+     * Contrustor for fragment. Initializes experiment and manager attributes
+     * @param newExperiment
+     *     The new Experiment being created
+     * @param expManager
+     *     Experiment manager object to be used by the fragment
+     */
     public ExpDetailsFragment(Experiment newExperiment, ExperimentManager expManager) {
         experiment = newExperiment;
         manager = expManager;
     }
 
+    /**
+     * Custom OnCreateView method for the frag e t
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_exp_details, container, false);
+        //inflate view
+        View view = inflater.inflate(R.layout.fragment_exp_details, container, false);
 
+        //initialize text view objects and button object
         header = (TextView) view.findViewById(R.id.expDetailsHeader);
         userData = (EditText) view.findViewById(R.id.expDetailsEditText);
+        Button cancelButton = (Button) view.findViewById(R.id.detailsCancelButton);
+
+        //Set the main text on the view
         userData.setHint("Enter a title for your experiment:");
+
         Button nextButton = (Button) view.findViewById(R.id.detailsNextButton);
+
         mode = "title";
 
-        Button cancelButton = (Button) view.findViewById(R.id.detailsCancelButton);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +78,7 @@ public class ExpDetailsFragment extends Fragment {
             }
         });
 
+        //If next is clicked, reset the Trial values
         nextButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -75,6 +95,7 @@ public class ExpDetailsFragment extends Fragment {
                     userData.setHint("Enter a concise description for your experiment:");
                     mode = "description";
                 }
+
                 else if (mode == "description") {
 
                     description = userData.getText().toString();

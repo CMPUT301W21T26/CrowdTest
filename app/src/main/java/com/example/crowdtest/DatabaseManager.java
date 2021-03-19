@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- *
+ * Database manager class for adding, removing, accessing and updating values in database collections
  */
 public class DatabaseManager implements Serializable {
 
@@ -58,8 +58,11 @@ public class DatabaseManager implements Serializable {
     /**
      * Function for checking whether a document already exists within a collection
      * @param documentName
+     *     The name of the document being checked for
      * @param collectionPath
+     *     The collectionPath for the collection that is being checked
      * @return
+     *    Boolean representing whether the document is valid or not
      */
     public boolean isValidDocument(String documentName, String collectionPath) {
         // Check if document is already in the collection
@@ -73,8 +76,11 @@ public class DatabaseManager implements Serializable {
     /**
      * Function for adding a document and its corresponding set of data to a collection
      * @param collectionPath
+     *     The collectionPath for the collection that is having data added to it
      * @param document
+     *     The name of the document being being added
      * @param data
+     *     The HashMap of data to be added to the collection
      */
     public void addDataToCollection(String collectionPath, String document, HashMap data) {
         // Add key-value pair to DB
@@ -87,7 +93,9 @@ public class DatabaseManager implements Serializable {
     /**
      * Function for deleting a document from a collection
      * @param collectionPath
+     *     The collectionPath for the collection containing the document to be removed
      * @param document
+     *     The document to be removed
      */
     public void removeDataFromCollection(String collectionPath, String document) {
         // Delete key-value pair from DB
@@ -100,7 +108,9 @@ public class DatabaseManager implements Serializable {
     /**
      * Function for generating a unique document ID
      * @param prefix
+     *     The prefix for the unique id (ex. User, Experiment, etc)
      * @param collectionPath
+     *     The collectionPath for the collection that the document will be added to after creation
      * @return
      */
     public String generateDocumentID(String prefix, String collectionPath) {

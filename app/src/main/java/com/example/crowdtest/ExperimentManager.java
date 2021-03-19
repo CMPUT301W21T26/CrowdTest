@@ -95,11 +95,11 @@ public class ExperimentManager extends DatabaseManager {
 
     public Boolean experimentContainsKeyword(String searchString, Experiment experiment) {
 
-        if (experiment.getTitle().contains(searchString)) {
+        if (experiment.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
 
             return true;
         }
-        else if (experiment.getDescription().contains(searchString)) {
+        else if (experiment.getDescription().toLowerCase().contains(searchString.toLowerCase())) {
 
             return true;
         }
@@ -141,27 +141,6 @@ public class ExperimentManager extends DatabaseManager {
 
         return false;
     }
-
-
-
-
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getAllExperimentIDs() {
-        return getAllDocuments(collectionPath);
-    }
-
-    /**
-     *
-     * @return
-     *
-     */
-    public ArrayList<Experiment> getAllExperimentInfo() {
-        return new ArrayList<Experiment>();
-    }
-
 
     /**
      * Function for adding an experiment to the database
@@ -224,6 +203,18 @@ public class ExperimentManager extends DatabaseManager {
 
         // Add experiment to database
         addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);
+    }
+
+    public void endExperiment(Experiment experiment) {
+        HashMap<String, Object> experimentStatus = new HashMap<>();
+
+        experiment.setStatus("closed");
+        experimentStatus.put("status", experiment.getStatus());
+
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentStatus);
+
     }
 
     /**
