@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-19T21:02:26.715Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="2QT-BaI_khiryc4wVh1W" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-19T21:09:55.675Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="tg2-2iY2zzJcc844s6ll" version="14.4.9" type="github">
   <diagram id="rsgUYqqYD4AogLCx72Eq" name="Page-1">
-    <mxGraphModel dx="1336" dy="1973" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3527" dy="1973" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -126,7 +126,7 @@
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-251" value="post, update, delete questions" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Z6YJoc_P9l3Sfv1ZH5nd-250" vertex="1" connectable="0">
           <mxGeometry x="0.6173" y="-2" relative="1" as="geometry">
-            <mxPoint x="101.94" y="58" as="offset" />
+            <mxPoint x="91.97" y="57.79" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-252" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=6;endArrow=classicThin;endFill=1;endSize=6;targetPerimeterSpacing=0;" parent="1" source="Z6YJoc_P9l3Sfv1ZH5nd-254" target="Z6YJoc_P9l3Sfv1ZH5nd-289" edge="1">
@@ -362,7 +362,7 @@
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-305" value="post, update, delete replies" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Z6YJoc_P9l3Sfv1ZH5nd-304" vertex="1" connectable="0">
           <mxGeometry x="0.329" y="1" relative="1" as="geometry">
-            <mxPoint x="114.93000000000004" y="1" as="offset" />
+            <mxPoint x="104.86000000000004" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-306" value="Experiment" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
@@ -586,8 +586,8 @@
         <mxCell id="jrxGmkg0Qj0Z1Ps-yzSH-223" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamond;startFill=1;startSize=16;endArrow=none;endFill=0;endSize=16;" parent="1" source="Z6YJoc_P9l3Sfv1ZH5nd-372" target="Z6YJoc_P9l3Sfv1ZH5nd-270" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="5640" y="2290" />
-              <mxPoint x="4560" y="2290" />
+              <mxPoint x="5640" y="2260" />
+              <mxPoint x="4560" y="2260" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -677,7 +677,7 @@
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-378" value="QuestionActivity" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="6869.5" y="2417" width="230" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-379" value="manager: QuestionManager&#xa;// Purpose: Show the questions that have &#xa;been asked about the experiment" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="Z6YJoc_P9l3Sfv1ZH5nd-378" vertex="1">
+        <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-379" value="commentManager: CommentManager&#xa;// Purpose: Show the questions that have &#xa;been asked about the experiment" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="Z6YJoc_P9l3Sfv1ZH5nd-378" vertex="1">
           <mxGeometry y="26" width="230" height="54" as="geometry" />
         </mxCell>
         <mxCell id="Z6YJoc_P9l3Sfv1ZH5nd-380" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="Z6YJoc_P9l3Sfv1ZH5nd-378" vertex="1">
