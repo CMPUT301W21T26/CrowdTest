@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 
