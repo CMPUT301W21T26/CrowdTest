@@ -49,7 +49,7 @@ public class Experimenter implements Serializable {
     /**
      * Function for subscribing to an experiment if not already subscribed to
      * @param experiment
-     *  Experiment to subscribe to
+     *     The experiment that is being subscribed to by the Experimenter
      */
     public void subscribe(Experiment experiment) {
         if (!subscribedExperiments.contains(experiment.getExperimentID())) {
