@@ -10,7 +10,7 @@ The following four types of experiments can be created and contributed to:
 
 Wiki can be found [here](https://github.com/CMPUT301W21T26/CrowdTest/wiki).
 
-Access to documentation can be found through the wiki, or at CrowdTest/doc
+Javadocs can be accessed through the wiki.
 
 # Using CrowdTest:
 
