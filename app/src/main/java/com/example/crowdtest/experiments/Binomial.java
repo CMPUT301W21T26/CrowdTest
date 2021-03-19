@@ -5,9 +5,12 @@ import java.util.ArrayList;
 
 public class Binomial extends Experiment {
     private ArrayList<BinomialTrial> trials;
-    private int successCount;
-    private int failCount;
 
+
+    public Binomial() {
+
+        //empty constructor required
+    }
     /**
      * Experiment constructor
      *
@@ -17,8 +20,6 @@ public class Binomial extends Experiment {
     public Binomial(String owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
-        successCount = 0;
-        failCount = 0;
     }
 
     /**
@@ -29,19 +30,29 @@ public class Binomial extends Experiment {
     public void addTrial(boolean trialInput) {
         BinomialTrial trial = new BinomialTrial(trialInput);
         trials.add(trial);
-        if (trialInput){
-            successCount += 1;
-        }
-        else{
-            failCount += 1;
-        }
     }
 
     public int getSuccessCount() {
+        int successCount = 0;
+        for (int i =0; i < trials.size(); i++) {
+
+            if (trials.get(i).isSuccess()) {
+                successCount+=1;
+            }
+        }
+
         return successCount;
     }
 
     public int getFailCount() {
+        int failCount = 0;
+        for (int i =0; i < trials.size(); i++) {
+
+            if (!trials.get(i).isSuccess()) {
+                failCount+=1;
+            }
+        }
+
         return failCount;
     }
 

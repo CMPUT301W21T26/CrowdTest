@@ -23,9 +23,14 @@ public abstract class Experiment implements Serializable {
     protected String region;
     protected ArrayList<String> subscribers; //array of subscriber usernames
     protected ArrayList<String> questions; //Array of question ids
-    protected boolean geoLocation;
+    protected boolean geolocation;
     protected String type;
     protected Date datePublished;
+
+
+    public Experiment() {
+
+    }
 
     /**
      * Experiment constructor
@@ -39,6 +44,7 @@ public abstract class Experiment implements Serializable {
         datePublished = new Date();
         status = "open";
         this.subscribers = new ArrayList<>();
+        this.questions = new ArrayList<>();
 
     }
 
@@ -69,12 +75,14 @@ public abstract class Experiment implements Serializable {
     }
 
     public boolean isGeoLocation() {
-        return geoLocation;
+        return geolocation;
     }
 
     public void setGeoLocation(boolean geoLocation) {
-        this.geoLocation = geoLocation;
+        this.geolocation = geoLocation;
     }
+
+    public boolean getGeoLocation() { return this.geolocation;}
 
     /**
      * Get the type of experiment for insertion into the database
@@ -201,17 +209,5 @@ public abstract class Experiment implements Serializable {
 
     public Date getDatePublished() {
         return datePublished;
-    }
-    /**
-     * @param bool
-     */
-    public void setGeoLocation(Boolean bool) {geoLocation = bool;
-    }
-
-    /**
-     * @return
-     */
-    public boolean getGeoLocation() {
-        return geoLocation;
     }
 }

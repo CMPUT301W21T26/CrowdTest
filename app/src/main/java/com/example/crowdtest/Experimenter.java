@@ -40,44 +40,48 @@ public class Experimenter implements Serializable {
     /**
      * Function for subscribing to an experiment
      * @param experiment
+     *     The experiment that is being subscribed to by the Experimenter
      */
     public void subscribe(Experiment experiment) {
         subscribedExperiments.add(experiment.getExperimentID());
     }
 
     /**
-     *
+     * Add a comment to an experiment
      */
     public void addComment() {
 
     }
 
     /**
-     *
+     * Get whether the user is an Experimenter or Owner
      * @return
+     *     A string that says "experimenter" or "owner"
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     *
+     * Sets whether the uesr is an Experimenter or Owner
      * @param status
+     *     String that says "experimenter" or "owner"
      */
     public void setStatus(String status) {
         this.status = status;
     }
 
     /**
-     *
+     * Gets the user profile associated to the Experimetner
      * @return
+     *     A UserProfile object associated to the experimetner
      */
     public UserProfile getUserProfile() {
         return userProfile;
     }
 
     /**
-     *
+     * Gest
      * @return
      */
     public ArrayList<String> getSubscribedExperiments() {
