@@ -1,7 +1,7 @@
 package com.example.crowdtest.experiments;
 
 /**
- * Binomial trial class
+ * Class to represent a BinomialTrial result
  */
 public class BinomialTrial extends Trial {
 

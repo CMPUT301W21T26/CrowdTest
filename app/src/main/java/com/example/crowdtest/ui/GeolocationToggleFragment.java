@@ -21,13 +21,19 @@ public class GeolocationToggleFragment extends Fragment {
     private Experiment experiment;
     private ExperimentManager manager;
 
+    /**
+     * Customizes constructor for toggle fragment, taking in a newExperiment and an expManager object
+     * @param newExperiment
+     * @param expManager
+     */
     GeolocationToggleFragment(Experiment newExperiment, ExperimentManager expManager) {
         experiment = newExperiment;
         manager = expManager;
     }
 
     /**
-     * Custom OnCreateView method for the fragment
+     * Custom OnCreateView method for the geoolocation fragment
+     * Sets the geolocation for the new experiment based on user input
      * @param inflater
      * @param container
      * @param savedInstanceState

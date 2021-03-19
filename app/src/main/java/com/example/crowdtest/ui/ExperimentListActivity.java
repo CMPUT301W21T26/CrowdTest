@@ -24,6 +24,11 @@ public class ExperimentListActivity extends AppCompatActivity {
     Experimenter user;
     ExperimentManager experimentManager = new ExperimentManager();
 
+    /**
+     * Customized OnCreate method.
+     * Sets the tabbed layout to display a tab with Owned Experiment and one with Subscribed Experiments
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

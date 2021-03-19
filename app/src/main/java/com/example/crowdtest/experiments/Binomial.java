@@ -3,7 +3,7 @@ package com.example.crowdtest.experiments;
 import java.util.ArrayList;
 
 /**
- * Binomial experiment class
+ * Class to represent a Binomial experiment
  */
 public class Binomial extends Experiment {
     

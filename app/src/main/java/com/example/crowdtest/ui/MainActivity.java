@@ -18,6 +18,9 @@ import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;
 
+/**
+ * Main Activity class
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button createNewButton;
@@ -31,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private Experimenter user;
 
 
+    /**
+     * Customized onCreate method
+     * Displays buttons with options to create experiment, view experiments, search for experiments, and view/edit user profile
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method for getting data returned by an Activity after startActivityForResult is called
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

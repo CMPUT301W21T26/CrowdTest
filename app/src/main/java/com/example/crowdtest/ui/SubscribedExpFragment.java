@@ -50,9 +50,11 @@ public class SubscribedExpFragment extends Fragment {
     }
 
     /**
-     *
+     * newInstance method to pass signed in user to the fragment
      * @param user
+     *    The Experimenter that is currently signed in
      * @return
+     *     A SubscribedExpFragment with USER added as an argument
      */
     public static SubscribedExpFragment newInstance(Experimenter user) {
         SubscribedExpFragment fragment = new SubscribedExpFragment();
@@ -63,7 +65,9 @@ public class SubscribedExpFragment extends Fragment {
     }
 
     /**
-     *
+     * Custom onCreateView method
+     * Displays experiments that a user is subscribed to
+     * If experiment is long clicked, context menu with View, End and Unpublish options is displayed
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -119,6 +123,7 @@ public class SubscribedExpFragment extends Fragment {
 
     /**
      * Inflate context menu, and set visibility of items that depend on user being owner
+     * View option is always visible. Unpublish is available to owners, and End is available to Owners if Experiment's status is  open
      * @param menu
      * @param v
      * @param menuInfo
@@ -149,7 +154,9 @@ public class SubscribedExpFragment extends Fragment {
     /**
      * Execute code based on selected context mneu item
      * @param item
+     *     The selected meny item
      * @return
+     *    Boolean indicating success of operation
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {

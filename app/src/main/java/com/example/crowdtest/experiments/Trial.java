@@ -5,7 +5,7 @@ import android.location.Location;
 import java.util.Date;
 
 /**
- * Trial class
+ * Class to represent a generic Trial result
  */
 public class Trial {
 
@@ -14,14 +14,14 @@ public class Trial {
     private Location geolocation;
 
     /**
-     * Constructor for experiments that don't require geo locations
+     * Trial constructor to be used for experiments that don't require geo locations
      */
     public Trial() {
         timestamp = new Date(); // The date is set to the current date by default
     }
 
     /**
-     * Constructor with for geo location required experiments
+     * Constructor to be used  for geo location required experiments
      * @param geolocation
      *  Geolocation of the trial
      */

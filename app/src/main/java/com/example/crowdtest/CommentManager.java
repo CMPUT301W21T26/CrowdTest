@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Class to contain methods which manager the accessing and updating of Comment objects through firestore
  */
 public class CommentManager extends DatabaseManager {
 

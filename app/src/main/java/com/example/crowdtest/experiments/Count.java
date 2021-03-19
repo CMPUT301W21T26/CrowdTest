@@ -3,7 +3,7 @@ package com.example.crowdtest.experiments;
 import java.util.ArrayList;
 
 /**
- * Count experiment class
+ * Class to represent a Count Experiment
  */
 public class Count extends Experiment {
 

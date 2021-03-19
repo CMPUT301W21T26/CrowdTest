@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BinomialTrialList class
+ * BinomialTrialList class. Used to convert list of trial objects in Firestore into an ArrayList of BinomialTrial objects
  */
 public class BinomialTrialList {
 

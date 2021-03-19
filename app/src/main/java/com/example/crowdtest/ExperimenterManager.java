@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * ExperimenterManager class
+ * Class to manage the accessing, removing, and updating data related to Experimenter objects in the firestore database
  */
 public class ExperimenterManager extends DatabaseManager {
 

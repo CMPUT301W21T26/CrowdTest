@@ -7,7 +7,7 @@ import com.example.crowdtest.Experimenter;
 import java.util.ArrayList;
 
 /**
- * Measurement experiment class
+ * Class to represent a Measurement Experiment
  */
 public class Measurement extends Experiment {
 

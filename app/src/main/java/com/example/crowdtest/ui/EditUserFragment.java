@@ -16,7 +16,8 @@ import androidx.fragment.app.DialogFragment;
 import com.example.crowdtest.R;
 import com.example.crowdtest.UserProfile;
 
-/** Fragment to collect contact information in the UserProfileActivity
+/**
+ * Fragment to collect contact information in the UserProfileActivity
  */
 public class EditUserFragment extends DialogFragment {
 
@@ -24,15 +25,19 @@ public class EditUserFragment extends DialogFragment {
     private EditText userPhoneNumber;
     private OnFragmentInteractionListener listener;
 
-    /** Fragment listener interface for when OK is pressed
+    /**
+     * Fragment listener interface for when OK is pressed
      */
     public interface OnFragmentInteractionListener {
         void onOkPressed(int errorInd);
     }
 
-    /** Create a new fragment with a userProfile
+    /**
+     * Create a new fragment with a userProfile
      * @param userProfile
+     *     The userProfile of the signed in user
      * @return
+     *     The fragment with userProfile set as an argument in bundle
      */
     static EditUserFragment newInstance(UserProfile userProfile) {
         Bundle args = new Bundle();
@@ -43,8 +48,10 @@ public class EditUserFragment extends DialogFragment {
         return fragment;
     }
 
-    /** Establish a listener given context called
+    /**
+     * Establish a listener given context called
      * @param context
+     *     The current context
      */
     @Override
     public void onAttach(Context context) {
@@ -57,9 +64,11 @@ public class EditUserFragment extends DialogFragment {
         }
     }
 
-    /** Custom onCreateDialog method for the fragment
+    /**
+     * Custom onCreateDialog method for the fragment
      * @param savedInstanceState
      * @return
+     *     Dialog fragment
      */
     @NonNull
     @Override
