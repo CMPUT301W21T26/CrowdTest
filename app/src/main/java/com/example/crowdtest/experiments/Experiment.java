@@ -26,6 +26,7 @@ public abstract class Experiment implements Serializable {
     protected boolean geoLocation;
     protected String type;
     protected Date datePublished;
+    protected int minTrials;
 
     /**
      * Experiment constructor
@@ -213,5 +214,19 @@ public abstract class Experiment implements Serializable {
      */
     public boolean getGeoLocation() {
         return geoLocation;
+    }
+
+    /**
+     * @param trialCount
+     */
+    public void setMinTrials(int trialCount) {
+        minTrials = trialCount;
+    }
+
+    /**
+     * @return
+     */
+    public int getMinTrials() {
+        return minTrials;
     }
 }

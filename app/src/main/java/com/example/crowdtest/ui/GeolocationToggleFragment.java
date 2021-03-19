@@ -17,9 +17,11 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
-
+/**
+ * Fragment for the final stage (geolocation toggle) of experiment creation and publishing the
+ * experiment to the database
+ */
 public class GeolocationToggleFragment extends Fragment {
-    private boolean location;
     private Experiment experiment;
     private ExperimentManager manager;
 
@@ -27,6 +29,14 @@ public class GeolocationToggleFragment extends Fragment {
         experiment = newExperiment;
         manager = expManager;
     }
+
+    /**
+     * Custom OnCreateView method for the fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

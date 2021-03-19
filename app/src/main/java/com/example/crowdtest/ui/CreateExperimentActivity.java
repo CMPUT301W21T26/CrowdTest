@@ -11,12 +11,20 @@ import com.example.crowdtest.R;
 
 import java.util.ArrayList;
 
+/**
+ * Activity for creating a new experiment, uses different fragments to put together a new
+ * Experiment object
+ */
 public class CreateExperimentActivity extends MainActivity {
     ListView expOptionsList;
     ArrayList<String> options;
     ArrayAdapter<String> optionAdapter;
     Experimenter owner;
 
+    /**
+     * Custom OnCreate method for the fragment
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_experiment_activity);
