@@ -6,16 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
-import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 /**
  * Fragment for the final stage (geolocation toggle) of experiment creation and publishing the
@@ -58,10 +54,10 @@ public class GeolocationToggleFragment extends Fragment {
             public void onClick(View v)
             {
                 if (toggle.isChecked()) {
-                    experiment.setGeoLocation(true);
+                    experiment.setGeolocationEnabled(true);
                 }
                 else {
-                    experiment.setGeoLocation(false);
+                    experiment.setGeolocationEnabled(false);
                 }
                 manager.publishExperiment(experiment);
                 getActivity().finish();

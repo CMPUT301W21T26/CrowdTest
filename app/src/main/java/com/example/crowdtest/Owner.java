@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Owner extends Experimenter {
 
     // Owner attributes
-    ArrayList<String> ownedExperiments;
+    private ArrayList<String> ownedExperiments;
 
     /**
      * Owner constructor
@@ -44,12 +44,12 @@ public class Owner extends Experimenter {
     }
 
     /**
-     * Function for archiving an experiment
+     * Function for ending an experiment
      * @param experiment
-     *  Experiment to archive
+     *  Experiment to end
      */
-    public void archiveExperiment(Experiment experiment) {
-        experiment.setStatus("archived");
+    public void closeExperiment(Experiment experiment) {
+        experiment.setStatus("closed");
     }
 
     /**

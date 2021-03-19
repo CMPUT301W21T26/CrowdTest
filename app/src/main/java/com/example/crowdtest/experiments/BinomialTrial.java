@@ -1,23 +1,32 @@
 package com.example.crowdtest.experiments;
 
+/**
+ * Binomial trial class
+ */
 public class BinomialTrial extends Trial {
+
+    // BinomialTrial attributes
     private boolean success;
 
-
-    public BinomialTrial(){
-
-        //empty constructor required in order to fetch object
-    }
+    /**
+     * Empty BinomialTrial constructor
+     */
+    public BinomialTrial(){ }
 
     /**
-     * Constructor for binomial trials
-     *
-     * @param inputSuccess Input Success/failure
+     * BinomialTrial constructor
+     * @param inputSuccess
+     *  Input success/failure
      */
     public BinomialTrial(boolean inputSuccess) {
         success = inputSuccess;
     }
 
+    /**
+     * Function to check whether a binomial trial is a success or failure
+     * @return
+     *  True if success, false if failure
+     */
     public boolean isSuccess() {
         return success;
     }

@@ -2,11 +2,16 @@ package com.example.crowdtest.experiments;
 
 import java.util.ArrayList;
 
+/**
+ * MeasurementTrialList class
+ */
 public class MeasurementTrialList {
 
+    // MeasurementTrialList attributes
     public ArrayList<MeasurementTrial> trials;
 
-    public MeasurementTrialList(){
-        //empty contrustor required
-    }
+    /**
+     * Empty MeasurementTrialList constructor
+     */
+    public MeasurementTrialList() { }
 }
