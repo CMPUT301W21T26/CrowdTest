@@ -1,27 +1,35 @@
 package com.example.crowdtest;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
+import com.example.crowdtest.experiments.BinomialTrialList;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
+import com.example.crowdtest.experiments.CountTrialList;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
+import com.example.crowdtest.experiments.MeasurementTrialList;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
+import com.example.crowdtest.experiments.NonNegativeTrialList;
+import com.example.crowdtest.experiments.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays; //TODO: remove this
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -62,22 +70,35 @@ public class ExperimentManager extends DatabaseManager {
         String type = (String) document.getData().get("type");
 
         //TODO: make it so that each experiment created uses actual user (ie add code for actual user here)
-        if (type == "binomial") {
-            //call ExperimentManager.getExperimenter(ownerID)
+        if (type.equals("binomial")) {
+
             experiment = new Binomial(owner, experimentID);
-            ((Binomial) experiment).setTrials((ArrayList<BinomialTrial>) document.getData().get("trials"));
+
+            ArrayList<BinomialTrial> trials = document.toObject(BinomialTrialList.class).trials;
+
+            ((Binomial) experiment).setTrials(trials);
         }
-        else if (type == "count") {
+
+        else if (type.equals("count")) {
+
             experiment = new Count(owner, experimentID);
-            ((Count) experiment).setTrials((ArrayList<CountTrial>) document.getData().get("trials"));
+
+            ArrayList<CountTrial> trials = document.toObject(CountTrialList.class).trials;
+
+            ((Count) experiment).setTrials(trials);
         }
-        else if (type =="measurement") {
+
+        else if (type.equals("measurement")) {
             experiment = new Measurement(owner, experimentID);
-            ((Measurement) experiment).setTrials((ArrayList<MeasurementTrial>) document.getData().get("trials"));
+
+            ArrayList<MeasurementTrial> trials = document.toObject(MeasurementTrialList.class).trials;
+            ((Measurement) experiment).setTrials(trials);
         }
         else {
             experiment = new NonNegative(owner, experimentID);
-            ((NonNegative) experiment).setTrials((ArrayList<NonNegativeTrial>) document.getData().get("trials"));
+
+            ArrayList<NonNegativeTrial> trials = document.toObject(NonNegativeTrialList.class).trials;
+            ((NonNegative) experiment).setTrials(trials);
         }
 
         experiment.setStatus((String) document.getData().get("status"));
@@ -166,6 +187,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("subscribers", experiment.getSubscribers());
         experimentData.put("questions",experiment.getQuestions());
         experimentData.put("type", experiment.getType());
+        experimentData.put("datePublished", experiment.getDatePublished());
         experimentData.put("min trial count", experiment.getMinTrials());
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());

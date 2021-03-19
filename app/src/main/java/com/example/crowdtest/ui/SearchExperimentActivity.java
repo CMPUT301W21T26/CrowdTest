@@ -21,6 +21,7 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
