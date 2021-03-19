@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * UserProfileTest class for unit testing UserProfile class
  */
-public class UserProfileTest extends MockClassCreator {
+public class UserProfileTest {
+
+    private MockClassCreator mockClassCreator = new MockClassCreator();
 
     /**
      * Function to test getter and setter methods for common user profile attributes
@@ -15,7 +17,7 @@ public class UserProfileTest extends MockClassCreator {
     @Test
     void testAttributes() {
         // Create a mock user profile
-        UserProfile userProfile = mockUserProfile();
+        UserProfile userProfile = mockClassCreator.mockUserProfile();
 
         // Set user profile attributes
         userProfile.setUsername("sample_user");

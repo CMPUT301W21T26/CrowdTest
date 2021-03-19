@@ -15,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * ExperimentTest class for unit testing Experiment and its children
  */
-public class ExperimentTest extends MockClassCreator {
+public class ExperimentTest {
+
+    private MockClassCreator mockClassCreator = new MockClassCreator();
 
     // TODO: add tests here
 
@@ -24,8 +26,8 @@ public class ExperimentTest extends MockClassCreator {
      */
     @Test
     void testAddBinomialTrial() {
-        Binomial binomialExperiment = mockBinomialExperiment();
-        BinomialTrial binomialTrial = mockBinomialTrial(true);
+        Binomial binomialExperiment = mockClassCreator.mockBinomialExperiment();
+        BinomialTrial binomialTrial = mockClassCreator.mockBinomialTrial(true);
     }
 
     /**
@@ -33,8 +35,8 @@ public class ExperimentTest extends MockClassCreator {
      */
     @Test
     void testAddCountTrial() {
-        Count countExperiment = mockCountExperiment();
-        CountTrial countTrial = mockCountTrial();
+        Count countExperiment = mockClassCreator.mockCountExperiment();
+        CountTrial countTrial = mockClassCreator.mockCountTrial();
     }
 
     /**
@@ -42,8 +44,8 @@ public class ExperimentTest extends MockClassCreator {
      */
     @Test
     void testAddMeasurementTrial() {
-        Measurement measurementExperiment = mockMeasurementExperiment();
-        MeasurementTrial measurementTrial = mockMeasurementTrial(5.5);
+        Measurement measurementExperiment = mockClassCreator.mockMeasurementExperiment();
+        MeasurementTrial measurementTrial = mockClassCreator.mockMeasurementTrial(5.5);
     }
 
     /**
@@ -51,7 +53,7 @@ public class ExperimentTest extends MockClassCreator {
      */
     @Test
     void testAddNonNegativeTrial() {
-        NonNegative nonNegativeExperiment = mockNonNegativeExperiment();
-        NonNegativeTrial nonNegativeTrial = mockNonNegativeTrial(5);
+        NonNegative nonNegativeExperiment = mockClassCreator.mockNonNegativeExperiment();
+        NonNegativeTrial nonNegativeTrial = mockClassCreator.mockNonNegativeTrial(5);
     }
 }

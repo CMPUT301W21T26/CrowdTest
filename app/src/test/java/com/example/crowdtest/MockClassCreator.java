@@ -15,6 +15,11 @@ import com.example.crowdtest.experiments.NonNegativeTrial;
 public class MockClassCreator {
 
     /**
+     * MockClassCreator constructor
+     */
+    public MockClassCreator() { }
+
+    /**
      * Function for creating a mock binomial experiment
      * @return
      *  Binomial experiment instance

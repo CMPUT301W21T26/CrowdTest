@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * CommentTest class for unit testing Comment class and its children
  */
-public class CommentTest extends MockClassCreator{
+public class CommentTest {
+
+    private MockClassCreator mockClassCreator = new MockClassCreator();
 
     /**
      * Function to test getter and setter methods for common comment attributes
@@ -15,8 +17,8 @@ public class CommentTest extends MockClassCreator{
     @Test
     void testAttributes() {
         // Create a mock user profile
-        Comment comment = mockComment();
-        Experimenter experimenter = mockExperimenter();
+        Comment comment = mockClassCreator.mockComment();
+        Experimenter experimenter = mockClassCreator.mockExperimenter();
 
         // Set user profile attributes
         comment.setExperimenter(experimenter);
@@ -34,8 +36,8 @@ public class CommentTest extends MockClassCreator{
      */
     @Test
     void testAddReplyToQuestion() {
-        Question question = mockQuestion();
-        Reply reply = mockReply();
+        Question question = mockClassCreator.mockQuestion();
+        Reply reply = mockClassCreator.mockReply();
 
         // Add reply to question
         question.addReply(reply.getCommentID());
@@ -50,8 +52,8 @@ public class CommentTest extends MockClassCreator{
      */
     @Test
     void testDeleteReplyFromQuestion() {
-        Question question = mockQuestion();
-        Reply reply = mockReply();
+        Question question = mockClassCreator.mockQuestion();
+        Reply reply = mockClassCreator.mockReply();
 
         // Add reply to question
         question.addReply(reply.getCommentID());

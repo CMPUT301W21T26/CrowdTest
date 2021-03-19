@@ -11,7 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * ExperimenterTest class for unit testing Experimenter class and its children
  */
-public class ExperimenterTest extends MockClassCreator {
+public class ExperimenterTest {
+
+    private MockClassCreator mockClassCreator = new MockClassCreator();
 
     /**
      * Function to test that the subscribed experiments collection of an experimenter can be set
@@ -19,7 +21,7 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testSetSubscribedExperiments() {
         // Create a mock experimenter
-        Experimenter experimenter = mockExperimenter();
+        Experimenter experimenter = mockClassCreator.mockExperimenter();
 
         // Create ArrayList of 10 subscribed experiment ID's
         ArrayList<String> subscribedExperiments = new ArrayList<>();
@@ -43,8 +45,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testSubscribe() {
         // Create a mock experimenter and experiment
-        Experimenter experimenter = mockExperimenter();
-        Experiment experiment = mockBinomialExperiment();
+        Experimenter experimenter = mockClassCreator.mockExperimenter();
+        Experiment experiment = mockClassCreator.mockBinomialExperiment();
 
         // Subscribe to experiment
         experimenter.subscribe(experiment);
@@ -65,8 +67,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testUnsubscribe() {
         // Create a mock experimenter and experiment
-        Experimenter experimenter = mockExperimenter();
-        Experiment experiment = mockBinomialExperiment();
+        Experimenter experimenter = mockClassCreator.mockExperimenter();
+        Experiment experiment = mockClassCreator.mockBinomialExperiment();
 
         // Subscribe to experiment
         experimenter.subscribe(experiment);
@@ -89,7 +91,7 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testSetOwnedExperiments() {
         // Create a mock owner
-        Owner owner = mockOwner();
+        Owner owner = mockClassCreator.mockOwner();
 
         // Create ArrayList of 10 subscribed experiment ID's
         ArrayList<String> ownedExperiments = new ArrayList<>();
@@ -113,8 +115,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testPublishExperiment() {
         // Create a mock owner and experiment
-        Owner owner = mockOwner();
-        Experiment experiment = mockBinomialExperiment();
+        Owner owner = mockClassCreator.mockOwner();
+        Experiment experiment = mockClassCreator.mockBinomialExperiment();
 
         // Publish experiment
         owner.publishExperiment(experiment);
@@ -130,8 +132,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testUnpublishExperiment() {
         // Create a mock owner and experiment
-        Owner owner = mockOwner();
-        Experiment experiment = mockBinomialExperiment();
+        Owner owner = mockClassCreator.mockOwner();
+        Experiment experiment = mockClassCreator.mockBinomialExperiment();
 
         // Publish experiment
         owner.publishExperiment(experiment);
@@ -149,8 +151,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testArchiveExperiment() {
         // Create a mock owner and experiment
-        Owner owner = mockOwner();
-        Experiment experiment = mockBinomialExperiment();
+        Owner owner = mockClassCreator.mockOwner();
+        Experiment experiment = mockClassCreator.mockBinomialExperiment();
 
         // Publish experiment
         owner.publishExperiment(experiment);
@@ -168,8 +170,8 @@ public class ExperimenterTest extends MockClassCreator {
     @Test
     void testAttributes() {
         // Create a mock experimenter and user profile
-        UserProfile userProfile = mockUserProfile();
-        Experimenter experimenter = mockExperimenter(userProfile);
+        UserProfile userProfile = mockClassCreator.mockUserProfile();
+        Experimenter experimenter = mockClassCreator.mockExperimenter(userProfile);
 
         // Set attributes of experimenter
         experimenter.setStatus("experimenter");
