@@ -28,7 +28,7 @@ Access to documentation can be found through the wiki, or at CrowdTest/doc
 5. Select finish to create your Experiment.
 6. You can select CANCEL at any point to exit this process.
 
-* Note that you will automatically be subscribed to any experiments that you create.
+Note that you will automatically be subscribed to any experiments that you create.
 
 
 # Sources:
