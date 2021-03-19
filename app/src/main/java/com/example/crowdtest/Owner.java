@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import com.example.crowdtest.experiments.Experiment;
+
 import java.util.ArrayList;
 
 /**
@@ -31,16 +33,14 @@ public class Owner extends Experimenter {
      */
     public void publishExperiment(Experiment experiment) {
         ownedExperiments.add(experiment.getExperimentID());
-        experimentManager.publishExperiment(this);
     }
 
     /**
-     * Function for un-publishing an experiment from the database
+     * Function for removing experiment from owner's list
      * @param experiment
      */
     public void unpublishExperiment(Experiment experiment) {
         ownedExperiments.remove(experiment.getExperimentID());
-        experimentManager.unpublishExperiment(experiment);
     }
 
     /**

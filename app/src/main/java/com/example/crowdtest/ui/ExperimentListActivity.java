@@ -1,10 +1,13 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,6 +21,8 @@ public class ExperimentListActivity extends AppCompatActivity {
     TabItem tabSubExp;
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
+    Experimenter user;
+    ExperimentManager experimentManager = new ExperimentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +35,13 @@ public class ExperimentListActivity extends AppCompatActivity {
         tabSubExp = findViewById(R.id.sub_exp_tab);
         viewPager = findViewById(R.id.view_pager);
 
+
+        user = (Experimenter) getIntent().getSerializableExtra("USER");
+
+
         //create and set adapter for viewPager
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),
-                                tabLayout.getTabCount());
+                                tabLayout.getTabCount(), user);
 
         viewPager.setAdapter(pagerAdapter);
 

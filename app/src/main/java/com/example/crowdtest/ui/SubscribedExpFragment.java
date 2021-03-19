@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import android.os.Bundle;
 
@@ -16,6 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.crowdtest.CustomList;
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -27,31 +31,31 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * Fragment to display a user's owned experiments in the ExperimentListActivity
+ * Fragment to display the experiments signed in user is subscribed to in the ExperimentListActivity
  */
-public class MyExpFragment extends Fragment {
+public class SubscribedExpFragment extends Fragment {
 
     ExperimentManager experimentManager = new ExperimentManager();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    CollectionReference collectionReference;
+    ArrayList<Experiment> subscribedExperiments;
 
-    ArrayList<Experiment> ownedExperiments;
+    CollectionReference collectionReference;
 
     Experimenter user;
 
-    public MyExpFragment() {
+    public SubscribedExpFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Pass signed in user value to fragment
+     *
      * @param user
      * @return
      */
-    public static MyExpFragment newInstance(Experimenter user) {
-        MyExpFragment fragment = new MyExpFragment();
+    public static SubscribedExpFragment newInstance(Experimenter user) {
+        SubscribedExpFragment fragment = new SubscribedExpFragment();
         Bundle args = new Bundle();
         args.putSerializable("USER", user);
         fragment.setArguments(args);
@@ -69,15 +73,15 @@ public class MyExpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_my_exp, container, false);
+        View view = inflater.inflate(R.layout.fragment_subscribed_exp, container, false);
 
         user = (Experimenter) getArguments().getSerializable("USER");
 
-        ownedExperiments = new ArrayList<Experiment>();
+        subscribedExperiments = new ArrayList<Experiment>();
 
-        ListView listView = (ListView) view.findViewById(R.id.my_exp_list_view);
+        ListView listView = (ListView) view.findViewById(R.id.sub_exp_view);
 
-        ArrayAdapter<Experiment> listViewAdapter = new CustomList(getActivity(), ownedExperiments);
+        ArrayAdapter<Experiment> listViewAdapter = new CustomList(getActivity(), subscribedExperiments);
 
         listView.setAdapter(listViewAdapter);
 
@@ -89,7 +93,7 @@ public class MyExpFragment extends Fragment {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                ownedExperiments.clear();
+                subscribedExperiments.clear();
 
                 for (QueryDocumentSnapshot document : value) {
 
@@ -97,9 +101,9 @@ public class MyExpFragment extends Fragment {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    if (experimentManager.experimentIsOwned(user, experiment)) {
+                    if (experimentManager.experimentIsSubscribed(user, experiment)) {
 
-                        ownedExperiments.add(experiment);
+                        subscribedExperiments.add(experiment);
                     }
 
                 }
@@ -126,10 +130,17 @@ public class MyExpFragment extends Fragment {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
 
-        MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
-        MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-        endItem.setVisible(true);
-        unpublishItem.setVisible(true);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        int position = info.position;
+        Experiment experiment = subscribedExperiments.get(position);
+
+        Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
+        if (isOwner) {
+            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+            MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
+            endItem.setVisible(isOwner);
+            unpublishItem.setVisible(isOwner);
+        }
     }
 
     /**
@@ -150,13 +161,13 @@ public class MyExpFragment extends Fragment {
 
             case R.id.end_option:
 
-                experimentManager.endExperiment(ownedExperiments.get(info.position));
+                experimentManager.endExperiment(subscribedExperiments.get(info.position));
 
                 return true;
 
             case R.id.unpublish_option:
 
-                experimentManager.unpublishExperiment(ownedExperiments.get(info.position));
+                experimentManager.unpublishExperiment(subscribedExperiments.get(info.position));
 
                 return true;
 

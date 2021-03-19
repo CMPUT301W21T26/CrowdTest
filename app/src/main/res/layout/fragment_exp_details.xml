@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/new_exp_frag"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/expDetailsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a title:"
+        android:textSize="18sp"
+        android:translationX="30dp" />
+
+    <EditText
+        android:id="@+id/expDetailsEditText"
+        android:layout_width="300dp"
+        android:layout_height="260dp"
+        android:layout_gravity="center"
+        android:gravity="top"
+        android:hint=""
+        android:inputType="text"
+        android:textColorHint="@android:color/darker_gray"
+        android:background="@drawable/black_outline_rectangle"/>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/detailsCancelButton"
+            android:layout_width="78dp"
+            android:layout_height="37dp"
+            android:text="cancel"
+            android:textSize="10sp"
+            android:translationX="180dp"
+            app:backgroundTint="#8F8886" />
+
+        <Button
+            android:id="@+id/detailsNextButton"
+            android:layout_width="78dp"
+            android:layout_height="37dp"
+            android:text="next"
+            android:textSize="10sp"
+            android:translationX="190dp"
+            app:backgroundTint="#3550E6" />
+    </LinearLayout>
+
+
+</LinearLayout>

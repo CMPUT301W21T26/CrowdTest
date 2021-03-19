@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.Installation;
+import com.example.crowdtest.R;
+import com.example.crowdtest.RetrieveExperimenterResults;
+import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;
 
@@ -19,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String installationID;
     private ExperimenterManager experimenterManager = new ExperimenterManager();
+    private ExperimentManager experimentManager = new ExperimentManager();
     private Experimenter user;
 
 
@@ -36,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         //initialize installation id
         installationID = (new Installation()).id(getApplicationContext());
 
+        ArrayList<Experiment> experimentArrayList = new ArrayList<>();
+
         //assign a value to the current user variable representing signed in experimenter
         experimenterManager.retrieveExperimenter(installationID, new RetrieveExperimenterResults() {
              @Override
@@ -49,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (user != null) {
+
+                    Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
+
+                    intent.putExtra("USER", user);
+
+                    startActivity(intent);
+
+                }
 
             }
         });
@@ -57,15 +77,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
+                if (user != null) {
 
-                startActivity(intent);
+                    Intent intent = new Intent(view.getContext(), ExperimentListActivity.class);
+
+                    intent.putExtra("USER", user);
+
+                    startActivity(intent);
+
+                }
+
             }
         });
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (user != null) {
+
+                    Intent intent = new Intent(view.getContext(), SearchExperimentActivity.class);
+
+                    while (user == null) {
+                        continue;
+                    }
+
+                    intent.putExtra("USER", user);
+
+                    startActivity(intent);
+
+                }
+
 
             }
         });
@@ -90,4 +132,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }

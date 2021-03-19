@@ -1,9 +1,16 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.MyExpFragment;
+import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.ui.SubscribedExpFragment;
+
+import java.util.ArrayList;
 
 /**
  * Page adapter for tabbed view of ExperimentListActivity
@@ -12,6 +19,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 
     private int numOfTabs;
+    private Experimenter user;
+    private ArrayList<Experiment> ownedExperiments;
 
     /**
      * constructor for PageAdapter
@@ -19,10 +28,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
      * @param numOfTabs
      *     Set the total number of tabs for the tabbed view
      */
-    public PagerAdapter (FragmentManager fm, int numOfTabs) {
+    public PagerAdapter (FragmentManager fm, int numOfTabs, Experimenter user) {
 
         super(fm);
         this.numOfTabs = numOfTabs;
+        this.user = user;
 
     }
 
@@ -40,9 +50,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                return new MyExpFragment();
+
+                return (new MyExpFragment()).newInstance(user);
             case 1:
-                return new SubscribedExpFragment();
+                return (new SubscribedExpFragment()).newInstance(user);
             default:
                 return null;
         }
