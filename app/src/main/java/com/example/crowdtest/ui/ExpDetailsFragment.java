@@ -29,7 +29,7 @@ public class ExpDetailsFragment extends Fragment {
     String description;
     String title;
     String region;
-    String mode; // Will be either 'title', 'description' or 'location'
+    String mode; // Will be either 'title', 'description' or 'region'
     ExperimentManager manager;
 
 
@@ -46,7 +46,7 @@ public class ExpDetailsFragment extends Fragment {
     }
 
     /**
-     * Custom OnCreateView method for the frag e t
+     * Custom OnCreateView method for the fragment
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -119,10 +119,10 @@ public class ExpDetailsFragment extends Fragment {
                 }
 
                 else { // start geolocation toggle fragment
-                    /*
-                    trials = userData.getText().toString();
+
+                    String trials = userData.getText().toString();
                     minNumTrials = Integer.valueOf(trials);
-                     */
+                    experiment.setMinTrials(minNumTrials);
                     GeolocationToggleFragment toggleFragment = new GeolocationToggleFragment(experiment, manager);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.exp_fragment_view, toggleFragment);

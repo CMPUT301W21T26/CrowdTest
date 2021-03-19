@@ -17,7 +17,9 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
-
+/**
+ * Page adapter for tabbed view of ExperimentListActivity
+ */
 public class GeolocationToggleFragment extends Fragment {
     private boolean location;
     private Experiment experiment;
