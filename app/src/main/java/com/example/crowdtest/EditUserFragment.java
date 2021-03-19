@@ -15,13 +15,12 @@ import androidx.fragment.app.DialogFragment;
 
 public class EditUserFragment extends DialogFragment {
 
-    private EditText userName;
     private EditText userEmail;
     private EditText userPhoneNumber;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(UserProfile newUserProfile);
+        void onOkPressed();
     }
 
     static EditUserFragment newInstance(UserProfile userProfile) {
@@ -48,13 +47,11 @@ public class EditUserFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_user, null);
-        userName = view.findViewById(R.id.edit_user_name);
         userEmail = view.findViewById(R.id.edit_user_email);
         userPhoneNumber = view.findViewById(R.id.edit_user_phone_number);
 
         Bundle bundle = this.getArguments();
         final UserProfile userProfile = (UserProfile) bundle.getSerializable("userProfile");
-        userName.setText(userProfile.getUsername());
         userEmail.setText(userProfile.getEmail());
         userPhoneNumber.setText(userProfile.getPhoneNumber());
 
@@ -62,18 +59,16 @@ public class EditUserFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Edit UserProfile")
+                .setTitle("Edit Your Contact Info")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-                        String user_name = userName.getText().toString();
                         String user_email = userEmail.getText().toString();
                         String user_phone_number = userPhoneNumber.getText().toString();
-                        userProfile.setUsername(user_name);
                         userProfile.setEmail(user_email);
                         userProfile.setPhoneNumber(user_phone_number);
-                        listener.onOkPressed(userProfile);
+                        listener.onOkPressed();
                     }}).create();
     }
 }

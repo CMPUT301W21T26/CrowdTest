@@ -2,12 +2,13 @@ package com.example.crowdtest;
 
 import com.google.firebase.firestore.auth.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  */
-public class Experimenter {
+public class Experimenter implements Serializable {
 
     // Experimenter attributes
     private String status;
