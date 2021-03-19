@@ -54,7 +54,8 @@ public class GeolocationToggleFragment extends Fragment {
                     experiment.setGeoLocation(false);
                 }
                 manager.publishExperiment(experiment);
-                startActivity(new Intent(getActivity(), ExperimentListActivity.class));
+                getActivity().finish();
+
             }
         });
 
