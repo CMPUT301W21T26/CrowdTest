@@ -3,7 +3,7 @@ package com.example.crowdtest.experiments;
 import java.util.ArrayList;
 
 /**
- * NonNegative experiment class
+ * Class to represent a NonNegative experiment
  */
 public class NonNegative extends Experiment {
 

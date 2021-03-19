@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Experiment class
+ * Class to represent a generic Experiment
  */
 public class Experiment implements Serializable {
 

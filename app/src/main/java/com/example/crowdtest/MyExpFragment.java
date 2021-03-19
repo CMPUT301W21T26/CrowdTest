@@ -115,6 +115,8 @@ public class MyExpFragment extends Fragment {
 
     /**
      * Inflate context menu, and set visibility of items that depend on user being owner
+     * Owners can view options to View, Unpublish, and End Experiments (if Exp is open)
+     * Non-owners can see View option
      * @param menu
      * @param v
      * @param menuInfo
@@ -141,7 +143,9 @@ public class MyExpFragment extends Fragment {
     /**
      * Execute code based on selected context mneu item
      * @param item
+     *     The context menu item that was selected
      * @return
+     *     A boolean representing success of the operation
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {

@@ -1,7 +1,7 @@
 package com.example.crowdtest.experiments;
 
 /**
- * CountTrial class
+ * Class to represent a CountTrial result
  */
 public class CountTrial extends Trial {
 

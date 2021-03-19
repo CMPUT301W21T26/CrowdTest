@@ -35,6 +35,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Activity to view all experiments and search for those containing a user-specified keyword
+ * Long clicking experiments open context menu
+ */
 public class SearchExperimentActivity extends AppCompatActivity {
 
     EditText searchWordEditText;
@@ -48,6 +52,11 @@ public class SearchExperimentActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Experimenter user;
 
+    /**
+     * Custom onCreate method
+     * Long click displays context menu with View, Unpublish and End options for experiments
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,9 +187,11 @@ public class SearchExperimentActivity extends AppCompatActivity {
     }
 
     /**
-     * Execute code based on selected context mneu item
+     * Execute code based on selected context menu item
      * @param item
+     *    The selected item from the context meny
      * @return
+     *    A boolean value that suggests if selection code was successful
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {

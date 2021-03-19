@@ -34,7 +34,7 @@ public class ExpDetailsFragment extends Fragment {
 
 
     /**
-     * Contrustor for fragment. Initializes experiment and manager attributes
+     * Contructor for fragment. Initializes experiment and manager attributes
      * @param newExperiment
      *     The new Experiment being created
      * @param expManager
@@ -46,7 +46,8 @@ public class ExpDetailsFragment extends Fragment {
     }
 
     /**
-     * Custom OnCreateView method for the fragment
+     * Custom OnCreateView method for the fragment.
+     * Gets the title, description, minimum trials, region and whether the geolocation is enabled.
      * @param inflater
      * @param container
      * @param savedInstanceState

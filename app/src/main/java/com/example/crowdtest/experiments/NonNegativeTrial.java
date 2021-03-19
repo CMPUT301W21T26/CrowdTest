@@ -1,7 +1,7 @@
 package com.example.crowdtest.experiments;
 
 /**
- * NonNegative trial class
+ * Class to represent a NonNegativeTrial result
  */
 public class NonNegativeTrial extends Trial {
 

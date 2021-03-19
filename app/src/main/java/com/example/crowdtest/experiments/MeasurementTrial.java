@@ -1,7 +1,7 @@
 package com.example.crowdtest.experiments;
 
 /**
- * Measurement trial class
+ * Class to represent a MeasurementTrial result
  */
 public class MeasurementTrial extends Trial {
 
@@ -20,7 +20,7 @@ public class MeasurementTrial extends Trial {
     /**
      * MeasurementTrial constructor
      * @param inputMeasurement
-     *  Input measurment
+     *  Double representing the user inputted measurement value
      */
     public MeasurementTrial(double inputMeasurement) {
         measurement = inputMeasurement;
@@ -29,7 +29,7 @@ public class MeasurementTrial extends Trial {
     /**
      * Function for getting the measurement value of the measurement trial
      * @return
-     *  Measurement value
+     *  Returns the measurement value for the Trial
      */
     public double getMeasurement() {
         return measurement;
