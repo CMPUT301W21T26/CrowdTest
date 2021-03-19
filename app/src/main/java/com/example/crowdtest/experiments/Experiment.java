@@ -24,7 +24,6 @@ public abstract class Experiment implements Serializable {
     protected ArrayList<String> subscribers; //array of subscriber usernames
     protected ArrayList<String> questions; //Array of question ids
     protected boolean geoLocation;
-    protected String type;
     protected Date datePublished;
 
     /**
@@ -40,15 +39,6 @@ public abstract class Experiment implements Serializable {
         status = "open";
         this.subscribers = new ArrayList<>();
 
-    }
-
-    /**
-     *
-     * @param type
-     */
-    public void setType(String type) {
-
-        this.type = type;
     }
 
     public void setExperimentID(String experimentID) {
@@ -74,13 +64,6 @@ public abstract class Experiment implements Serializable {
 
     public void setGeoLocation(boolean geoLocation) {
         this.geoLocation = geoLocation;
-    }
-
-    /**
-     * Get the type of experiment for insertion into the database
-     */
-    public String getType() {
-        return this.type;
     }
 
     /**

@@ -69,19 +69,15 @@ public class NewExpFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     experiment = new Count(owner.getUserProfile().getUsername(), experimentID);
-                    experiment.setType("count");
                 }
                 else if (position == 1) {
                     experiment = new Binomial(owner.getUserProfile().getUsername(), experimentID);
-                    experiment.setType("binomial");
                 }
                 else if (position == 2) {
                     experiment = new NonNegative(owner.getUserProfile().getUsername(), experimentID);
-                    experiment.setType("nonnegative");
                 }
                 else {
                     experiment = new Measurement(owner.getUserProfile().getUsername(), experimentID);
-                    experiment.setType("measurement");
                 }
                 ExpDetailsFragment detailsFragment = new ExpDetailsFragment(experiment, manager);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

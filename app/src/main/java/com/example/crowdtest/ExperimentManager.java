@@ -165,7 +165,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
         experimentData.put("questions",experiment.getQuestions());
-        experimentData.put("type", experiment.getType());
+        experimentData.put("type", experiment.getClass().toString());
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
         }
@@ -199,7 +199,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
-        experimentData.put("type", experiment.getType());
+        experimentData.put("type", experiment.getClass().toString());
 
         // Add experiment to database
         addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);
