@@ -1,4 +1,4 @@
-package com.example.crowdtest;
+package com.example.crowdtest.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.crowdtest.R;
+import com.example.crowdtest.UserProfile;
 
 public class EditUserFragment extends DialogFragment {
 
