@@ -9,6 +9,9 @@ import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
 
+/**
+ * MockClassCreator class for creating mock model class object instances for unit tests
+ */
 public class MockClassCreator {
 
     /**
@@ -17,8 +20,8 @@ public class MockClassCreator {
      *  Binomial experiment instance
      */
     protected Binomial mockBinomialExperiment() {
-        String owner = "test_owner";
-        String experimentID = "test_experimentID";
+        String owner = "sample_owner";
+        String experimentID = "sample_experimentID";
         Binomial binomialExperiment = new Binomial(owner, experimentID);
         return binomialExperiment;
     }
@@ -29,8 +32,8 @@ public class MockClassCreator {
      *  Count experiment instance
      */
     protected Count mockCountExperiment() {
-        String owner = "test_owner";
-        String experimentID = "test_experimentID";
+        String owner = "sample_owner";
+        String experimentID = "sample_experimentID";
         Count countExperiment = new Count(owner, experimentID);
         return countExperiment;
     }
@@ -41,8 +44,8 @@ public class MockClassCreator {
      *  Measurement experiment instance
      */
     protected Measurement mockMeasurementExperiment() {
-        String owner = "test_owner";
-        String experimentID = "test_experimentID";
+        String owner = "sample_owner";
+        String experimentID = "sample_experimentID";
         Measurement measurementExperiment = new Measurement(owner, experimentID);
         return measurementExperiment;
     }
@@ -53,8 +56,8 @@ public class MockClassCreator {
      *  Non-negative experiment instance
      */
     protected NonNegative mockNonNegativeExperiment() {
-        String owner = "test_owner";
-        String experimentID = "test_experimentID";
+        String owner = "sample_owner";
+        String experimentID = "sample_experimentID";
         NonNegative nonNegativeExperiment = new NonNegative(owner, experimentID);
         return nonNegativeExperiment;
     }
@@ -115,8 +118,8 @@ public class MockClassCreator {
      *  UserProfile object instance
      */
     protected UserProfile mockUserProfile() {
-        String username = "test_username";
-        String installationID = "test_installationID";
+        String username = "sample_username";
+        String installationID = "sample_installationID";
         UserProfile userProfile = new UserProfile(username, installationID);
         return userProfile;
     }
@@ -133,6 +136,17 @@ public class MockClassCreator {
     }
 
     /**
+     * Function for creating a mock Owner object instance
+     * @return
+     *  Owner object instance
+     */
+    protected Owner mockOwner() {
+        UserProfile userProfile = mockUserProfile();
+        Owner owner = new Owner(userProfile);
+        return owner;
+    }
+
+    /**
      * Second function for creating a mock Experimenter object instance
      * @param userProfile
      *  UserProfile object instance
@@ -142,5 +156,44 @@ public class MockClassCreator {
     protected Experimenter mockExperimenter(UserProfile userProfile) {
         Experimenter experimenter = new Experimenter(userProfile);
         return experimenter;
+    }
+
+    /**
+     * Function for creating a mock Comment object instance
+     * @return
+     *  Comment object instance
+     */
+    protected Comment mockComment() {
+        String commentID = "sample_commentID";
+        String content = "sample_comment_content";
+        Experimenter experimenter = mockExperimenter();
+        Comment comment = new Comment(commentID, experimenter, content);
+        return comment;
+    }
+
+    /**
+     * Function for creating a mock Question object instance
+     * @return
+     *  Question object instance
+     */
+    protected Question mockQuestion() {
+        String questionID = "sample_questionID";
+        String content = "sample_question_content";
+        Experimenter experimenter = mockExperimenter();
+        Question question = new Question(questionID, experimenter, content);
+        return question;
+    }
+
+    /**
+     * Function for creating a mock Reply object instance
+     * @return
+     *  Reply object instance
+     */
+    protected Reply mockReply() {
+        String replyID = "sample_replyID";
+        String content = "sample_reply_content";
+        Experimenter experimenter = mockExperimenter();
+        Reply reply = new Reply(replyID, experimenter, content);
+        return reply;
     }
 }

@@ -12,7 +12,12 @@ import com.example.crowdtest.experiments.NonNegativeTrial;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * ExperimentTest class for unit testing Experiment and its children
+ */
 public class ExperimentTest extends MockClassCreator {
+
+    // TODO: add tests here
 
     /**
      * Function to test adding a binomial trial to an experiment
