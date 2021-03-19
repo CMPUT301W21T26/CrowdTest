@@ -24,6 +24,9 @@ import com.example.crowdtest.experiments.NonNegative;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment for choosing which type of experiment is made
+ */
 public class NewExpFragment extends Fragment {
 
     private ListView expOptionsList;

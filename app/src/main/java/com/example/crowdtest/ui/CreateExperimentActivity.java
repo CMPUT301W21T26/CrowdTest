@@ -11,6 +11,10 @@ import com.example.crowdtest.R;
 
 import java.util.ArrayList;
 
+/**
+ * Activity for creating a new experiment, uses different fragments to put together a new
+ * Experiment object
+ */
 public class CreateExperimentActivity extends MainActivity {
     ListView expOptionsList;
     ArrayList<String> options;

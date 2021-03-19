@@ -18,7 +18,8 @@ import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 /**
- * Page adapter for tabbed view of ExperimentListActivity
+ * Fragment for the final stage (geolocation toggle) of experiment creation and publishing the
+ * experiment to the database
  */
 public class GeolocationToggleFragment extends Fragment {
     private boolean location;
