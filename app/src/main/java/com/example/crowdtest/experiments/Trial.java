@@ -2,11 +2,22 @@ package com.example.crowdtest.experiments;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Trial {
+public class Trial implements Serializable {
     private Date timestamp;
     private Location location;
+
+    /**
+     * Constructor for getting trials from the database
+     * @param timestamp
+     * @param location
+     */
+    public Trial(Date timestamp, Location location) {
+        this.timestamp = timestamp;
+        this.location = location;
+    }
 
     /**
      * Constructor for experiments that don't require geo locations

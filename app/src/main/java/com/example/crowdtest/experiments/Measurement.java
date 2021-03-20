@@ -63,7 +63,7 @@ public class Measurement extends Experiment {
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
         trialData.put("context", trial);
-        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + (trials.size() - 1), trialData);
+        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
     public void setTrials(ArrayList<MeasurementTrial> trials) {
