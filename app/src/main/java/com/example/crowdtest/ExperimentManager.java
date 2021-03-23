@@ -97,7 +97,8 @@ public class ExperimentManager extends DatabaseManager {
         experiment.setRegion((String) document.getData().get("region"));
         experiment.setQuestionIDs((ArrayList<String>) document.getData().get("questions"));
         experiment.setSubscriberIDs((ArrayList<String>) document.getData().get("subscribers"));
-        experiment.setGeolocationEnabled((Boolean) document.getData().get("geolocation"));
+        experiment.setGeolocationEnabled((boolean) document.getData().get("geolocation"));
+        experiment.setPublished((Boolean) document.getData().get("published"));
 
         return experiment;
     }
@@ -192,6 +193,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("type", experiment.getType());
         experimentData.put("datePublished", experiment.getDatePublished());
         experimentData.put("min trial count", experiment.getMinTrials());
+        experimentData.put("published", experiment.isPublished());
 
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
@@ -229,13 +231,56 @@ public class ExperimentManager extends DatabaseManager {
                 .update(experimentData);
     }
 
+    /**
+     * Method to update the subscribers of an experiment by adding another subscriber
+     * @param experiment
+     *     The experiment with the added subscriber
+     * @param subscriber
+     *     The id of the subscriber being added to the experiment
+     */
+    public void addSubscriber(Experiment experiment, String subscriber) {
+
+        experiment.addSubscriber(subscriber);
+
+        HashMap<String, Object> experimentData = new HashMap<>();
+
+        experimentData.put("subscribers", experiment.getSubscriberIDs());
+
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
+
+    }
+
+    /**
+     * Function for changing whether an expeirment is published or not
+     * @param experiment
+     *     The experiment that is having their 'published' status changed'
+     * @param published
+     *     A boolean representing whether the experiment is published or not
+     */
+    public void updatePublishExperiment(Experiment experiment, boolean published) {
+
+        experiment.setPublished(published);
+
+        // Add experiment data to HasMap
+        HashMap<String, Object> experimentData = new HashMap<>();
+        experimentData.put("published", experiment.isPublished());
+
+        // Update experiment in database
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
+    }
+
+
 
     /**
      * Function for deleting an experiment from the database
      * @param experiment
      *  Experiment to unpublish from database
      */
-    public void unpublishExperiment(Experiment experiment) {
+    public void deleteExperiment(Experiment experiment) {
         // Retrieve experimentID
         String experimentID = experiment.getExperimentID();
 

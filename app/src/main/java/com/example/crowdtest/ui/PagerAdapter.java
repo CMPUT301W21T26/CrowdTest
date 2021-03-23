@@ -54,6 +54,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return (new MyExpFragment()).newInstance(user);
             case 1:
                 return (new SubscribedExpFragment()).newInstance(user);
+            case 2:
+                return (new UnpublishedExpFragment()).newInstance(user);
             default:
                 return null;
         }

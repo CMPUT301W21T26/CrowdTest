@@ -22,6 +22,7 @@ public class Experiment implements Serializable {
     protected boolean geolocationEnabled;
     protected ArrayList<String> subscriberIDs;
     protected ArrayList<String> questionIDs;
+    protected boolean published;
 
     /**
      * Experiment constructor
@@ -37,6 +38,18 @@ public class Experiment implements Serializable {
         status = "open";
         this.subscriberIDs = new ArrayList<>();
         this.questionIDs = new ArrayList<>();
+        this.published = true;
+    }
+
+    public boolean isPublished(){
+
+        return this.published;
+
+    }
+
+    public void setPublished(boolean published) {
+
+        this.published = published;
     }
 
     /**
