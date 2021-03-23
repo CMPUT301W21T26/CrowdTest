@@ -9,6 +9,9 @@ import androidx.annotation.Nullable;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 
+/**
+ * Count experiment activity class
+ */
 public class CountActivity extends ExperimentActivity {
     Button addButton;
 
