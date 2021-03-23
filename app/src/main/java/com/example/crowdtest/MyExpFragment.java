@@ -97,7 +97,7 @@ public class MyExpFragment extends Fragment {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    if (experimentManager.experimentIsOwned(user, experiment)) {
+                    if (experimentManager.experimentIsOwned(user, experiment) & experiment.isPublished()) {
 
                         ownedExperiments.add(experiment);
                     }
@@ -141,7 +141,7 @@ public class MyExpFragment extends Fragment {
     }
 
     /**
-     * Execute code based on selected context mneu item
+     * Execute code based on selected context menu item
      * @param item
      *     The context menu item that was selected
      * @return
@@ -166,7 +166,7 @@ public class MyExpFragment extends Fragment {
 
             case R.id.unpublish_option:
 
-                experimentManager.unpublishExperiment(ownedExperiments.get(info.position));
+                experimentManager.updatePublishExperiment(ownedExperiments.get(info.position), false);
 
                 return true;
 

@@ -95,11 +95,15 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    experimentDataList.add(experiment);
+                    if (experiment.isPublished()) {
 
-                    allExperimentDataList.add(experiment);
+                        experimentDataList.add(experiment);
 
-                    experimentAdapter.notifyDataSetChanged();
+                        allExperimentDataList.add(experiment);
+
+                        experimentAdapter.notifyDataSetChanged();
+
+                    }
 
                 }
             }
@@ -184,6 +188,14 @@ public class SearchExperimentActivity extends AppCompatActivity {
             unpublishItem.setVisible(isOwner);
         }
 
+        Boolean isSubscriber = experimentManager.experimentIsSubscribed(user, experiment);
+
+        if (!isSubscriber & experiment.getStatus().equals("open")) {
+
+            MenuItem subscribeItem = (MenuItem) menu.findItem(R.id.susbcribe_option);
+            subscribeItem.setVisible(true);
+        }
+
     }
 
     /**
@@ -206,22 +218,28 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.end_option:
 
-                Experiment experiment = experimentDataList.get(info.position);
-
                 experimentManager.endExperiment(experimentDataList.get(info.position));
 
                 return true;
 
             case R.id.unpublish_option:
 
-                experimentManager.unpublishExperiment(experimentDataList.get(info.position));
+                experimentManager.updatePublishExperiment(experimentDataList.get(info.position), false);
 
                 experimentAdapter.notifyDataSetChanged();
 
                 return true;
 
+            case R.id.susbcribe_option:
+
+                Experiment experiment = experimentDataList.get(info.position);
+
+                experimentManager.addSubscriber(experiment, user.getUserProfile().getUsername());
+
             default:
+
                 return super.onContextItemSelected(item);
+
         }
 
     }

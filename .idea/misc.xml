@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavadocGenerationManager">
+<<<<<<< HEAD
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/app" />
+=======
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/app/JavaDoc" />
+>>>>>>> 7ef19be71d52c3628f03fdb3f987ec46b24abe51
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

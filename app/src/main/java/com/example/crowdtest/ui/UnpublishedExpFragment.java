@@ -31,21 +31,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * Fragment to display the experiments signed in user is subscribed to in the ExperimentListActivity
+ * Fragment to display the unpublished experiments owned by the signed in user
  */
-public class SubscribedExpFragment extends Fragment {
+public class UnpublishedExpFragment extends Fragment {
 
     ExperimentManager experimentManager = new ExperimentManager();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    ArrayList<Experiment> subscribedExperiments;
+    ArrayList<Experiment> unpublishedExperiments;
 
     CollectionReference collectionReference;
 
     Experimenter user;
 
-    public SubscribedExpFragment() {
+    public UnpublishedExpFragment() {
         // Required empty public constructor
     }
 
@@ -54,10 +54,10 @@ public class SubscribedExpFragment extends Fragment {
      * @param user
      *    The Experimenter that is currently signed in
      * @return
-     *     A SubscribedExpFragment with USER added as an argument
+     *     A UnpublishedExpFragment with USER added as an argument
      */
-    public static SubscribedExpFragment newInstance(Experimenter user) {
-        SubscribedExpFragment fragment = new SubscribedExpFragment();
+    public static UnpublishedExpFragment newInstance(Experimenter user) {
+        UnpublishedExpFragment fragment = new UnpublishedExpFragment();
         Bundle args = new Bundle();
         args.putSerializable("USER", user);
         fragment.setArguments(args);
@@ -66,8 +66,8 @@ public class SubscribedExpFragment extends Fragment {
 
     /**
      * Custom onCreateView method
-     * Displays experiments that a user is subscribed to
-     * If experiment is long clicked, context menu with View, End and Unpublish options is displayed
+     * Displays experiments that a user owns which are unpublished
+     * If experiment is long clicked, context menu with Republish and Delete options is displayed
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -81,11 +81,11 @@ public class SubscribedExpFragment extends Fragment {
 
         user = (Experimenter) getArguments().getSerializable("USER");
 
-        subscribedExperiments = new ArrayList<Experiment>();
+        unpublishedExperiments = new ArrayList<Experiment>();
 
         ListView listView = (ListView) view.findViewById(R.id.sub_exp_view);
 
-        ArrayAdapter<Experiment> listViewAdapter = new CustomList(getActivity(), subscribedExperiments);
+        ArrayAdapter<Experiment> listViewAdapter = new CustomList(getActivity(), unpublishedExperiments);
 
         listView.setAdapter(listViewAdapter);
 
@@ -97,7 +97,7 @@ public class SubscribedExpFragment extends Fragment {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                subscribedExperiments.clear();
+                unpublishedExperiments.clear();
 
                 for (QueryDocumentSnapshot document : value) {
 
@@ -105,9 +105,9 @@ public class SubscribedExpFragment extends Fragment {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    if (experimentManager.experimentIsSubscribed(user, experiment) & experiment.isPublished()) {
+                    if (experimentManager.experimentIsOwned(user, experiment) & !experiment.isPublished()) {
 
-                        subscribedExperiments.add(experiment);
+                        unpublishedExperiments.add(experiment);
                     }
 
                 }
@@ -123,7 +123,7 @@ public class SubscribedExpFragment extends Fragment {
 
     /**
      * Inflate context menu, and set visibility of items that depend on user being owner
-     * View option is always visible. Unpublish is available to owners, and End is available to Owners if Experiment's status is  open
+     * Republish and Unpublish options are associated to this menu
      * @param menu
      * @param v
      * @param menuInfo
@@ -133,26 +133,13 @@ public class SubscribedExpFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        int position = info.position;
-        Experiment experiment = subscribedExperiments.get(position);
-
-        Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
-        if (isOwner) {
-
-            if (experiment.getStatus().equals("open")) {
-                MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
-                endItem.setVisible(isOwner);
-            }
-            MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-            unpublishItem.setVisible(isOwner);
-        }
+        inflater.inflate(R.menu.unpublished_context_menu, menu);
     }
 
     /**
      * Execute code based on selected context menu item
+     * Republish changes the experiment to be published again
+     * Delete removes the experiment entirely in firestore
      * @param item
      *     The selected menu item
      * @return
@@ -164,20 +151,15 @@ public class SubscribedExpFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         switch(item.getItemId()) {
-            case R.id.view_option:
+            case R.id.republish_option:
 
-
-                return true;
-
-            case R.id.end_option:
-
-                experimentManager.endExperiment(subscribedExperiments.get(info.position));
+                experimentManager.updatePublishExperiment(unpublishedExperiments.get(info.position), true);
 
                 return true;
 
-            case R.id.unpublish_option:
+            case R.id.delete_option:
 
-                experimentManager.updatePublishExperiment(subscribedExperiments.get(info.position), false);
+                experimentManager.deleteExperiment(unpublishedExperiments.get(info.position));
 
                 return true;
 
