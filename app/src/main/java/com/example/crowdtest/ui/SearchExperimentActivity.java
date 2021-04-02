@@ -35,6 +35,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Activity to view all experiments and search for those containing a user-specified keyword
+ * Long clicking experiments open context menu
+ */
 public class SearchExperimentActivity extends AppCompatActivity {
 
     EditText searchWordEditText;
@@ -48,6 +52,11 @@ public class SearchExperimentActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Experimenter user;
 
+    /**
+     * Custom onCreate method
+     * Long click displays context menu with View, Unpublish and End options for experiments
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +95,15 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    experimentDataList.add(experiment);
+                    if (experiment.isPublished()) {
 
-                    allExperimentDataList.add(experiment);
+                        experimentDataList.add(experiment);
 
-                    experimentAdapter.notifyDataSetChanged();
+                        allExperimentDataList.add(experiment);
+
+                        experimentAdapter.notifyDataSetChanged();
+
+                    }
 
                 }
             }
@@ -167,18 +180,30 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
-            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+            if (experiment.getStatus().equals("open")) {
+                MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+                endItem.setVisible(isOwner);
+            }
             MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-            endItem.setVisible(isOwner);
             unpublishItem.setVisible(isOwner);
+        }
+
+        Boolean isSubscriber = experimentManager.experimentIsSubscribed(user, experiment);
+
+        if (!isSubscriber & experiment.getStatus().equals("open")) {
+
+            MenuItem subscribeItem = (MenuItem) menu.findItem(R.id.susbcribe_option);
+            subscribeItem.setVisible(true);
         }
 
     }
 
     /**
-     * Execute code based on selected context mneu item
+     * Execute code based on selected context menu item
      * @param item
+     *    The selected item from the context meny
      * @return
+     *    A boolean value that suggests if selection code was successful
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -199,12 +224,22 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.unpublish_option:
 
-                experimentManager.unpublishExperiment(experimentDataList.get(info.position));
+                experimentManager.updatePublishExperiment(experimentDataList.get(info.position), false);
+
+                experimentAdapter.notifyDataSetChanged();
 
                 return true;
 
+            case R.id.susbcribe_option:
+
+                Experiment experiment = experimentDataList.get(info.position);
+
+                experimentManager.addSubscriber(experiment, user.getUserProfile().getUsername());
+
             default:
+
                 return super.onContextItemSelected(item);
+
         }
 
     }

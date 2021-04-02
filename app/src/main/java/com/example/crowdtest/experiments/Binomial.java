@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Class to represent a Binomial experiment
+ */
 public class Binomial extends Experiment {
     private ArrayList<BinomialTrial> trials;
     private int successCount;
@@ -55,9 +58,10 @@ public class Binomial extends Experiment {
 
     /**
      * Experiment constructor
-     *
-     * @param owner        Owner of the experiment
-     * @param experimentID A unique ID for this experiment
+     * @param owner
+     *  Owner of the experiment
+     * @param experimentID
+     *  A unique ID for this experiment
      */
     public Binomial(String owner, String experimentID) {
         super(owner, experimentID);
@@ -93,18 +97,38 @@ public class Binomial extends Experiment {
         db.addDataToCollection("Experiments/" + experimentID + "/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
+    /**
+     * Function for getting the number of recorded success trials for the binomial experiment
+     * @return
+     *  Number of success trials
+     */
     public int getSuccessCount() {
         return successCount;
     }
 
+    /**
+     * Function for getting the number of recorded fail trials for the binomial experiment
+     * @return
+     *  Number of fail trials
+     */
     public int getFailCount() {
         return failCount;
     }
 
+    /**
+     * Function for setting the trials for the binomial experiment
+     * @param trials
+     *  ArrayList of binomial trials
+     */
     public void setTrials(ArrayList<BinomialTrial> trials) {
         this.trials = trials;
     }
 
+    /**
+     * Function for getting the trials for the binomial experiment
+     * @return
+     *  ArrayList of binomial trials
+     */
     public ArrayList<BinomialTrial> getTrials() {
         return trials;
     }

@@ -35,11 +35,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
     }
 
     /**
-     *
+     *Displays the correct fragment depending on which tab the user selects (MY EXP/ OWNED EXP tab)
      * @param position
      *     The position of the tab that is currently selected
      * @return
-     *     The fragment corresponding to the selected tab.
+     *     Returns a new MyExpFragment is the MY EXP tab is selected. Otherwise, returns SubscribedExpFragment
      */
     @NonNull
     @Override
@@ -52,6 +52,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return (new MyExpFragment()).newInstance(user);
             case 1:
                 return (new SubscribedExpFragment()).newInstance(user);
+            case 2:
+                return (new UnpublishedExpFragment()).newInstance(user);
             default:
                 return null;
         }

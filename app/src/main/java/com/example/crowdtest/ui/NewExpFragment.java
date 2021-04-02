@@ -43,6 +43,8 @@ public class NewExpFragment extends Fragment {
 
     /**
      * Custom OnCreateView method for the fragment
+     * Gets the type of new experiment being created and constructs it
+     * Passes the experiment to the ExperimentDetailsFragment
      * @param inflater
      * @param container
      * @param savedInstanceState

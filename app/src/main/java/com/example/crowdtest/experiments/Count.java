@@ -8,12 +8,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Class to represent a Count Experiment
+ */
 public class Count extends Experiment {
     private ArrayList <CountTrial> trials;
 
     /**
-     * Experiment constructor
-     *
+     * Count constructor
      * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
      */
@@ -64,10 +66,20 @@ public class Count extends Experiment {
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
+    /**
+     * Function for setting the trials of the count experiment
+     * @param trials
+     *  ArrayList of count trials
+     */
     public void setTrials(ArrayList<CountTrial> trials) {
         this.trials = trials;
     }
 
+    /**
+     * Function for getting the trials of the count experiment
+     * @return
+     *  ArrayList of count trials
+     */
     public ArrayList<CountTrial> getTrials() {
         return trials;
     }

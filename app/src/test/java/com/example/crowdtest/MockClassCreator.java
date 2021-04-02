@@ -1,5 +1,7 @@
 package com.example.crowdtest;
 
+import android.location.Location;
+
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
@@ -8,6 +10,7 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
+import com.example.crowdtest.experiments.Trial;
 
 /**
  * MockClassCreator class for creating mock model class object instances for unit tests
@@ -168,9 +171,9 @@ public class MockClassCreator {
      */
     protected Comment mockComment() {
         String commentID = "sample_commentID";
+        String commenterID = "sample_commenterID";
         String content = "sample_comment_content";
-        Experimenter experimenter = mockExperimenter();
-        Comment comment = new Comment(commentID, experimenter, content);
+        Comment comment = new Comment(commentID, commenterID, content);
         return comment;
     }
 
@@ -181,9 +184,9 @@ public class MockClassCreator {
      */
     protected Question mockQuestion() {
         String questionID = "sample_questionID";
+        String commenterID = "sample_commenterID";
         String content = "sample_question_content";
-        Experimenter experimenter = mockExperimenter();
-        Question question = new Question(questionID, experimenter, content);
+        Question question = new Question(questionID, commenterID, content);
         return question;
     }
 
@@ -194,9 +197,33 @@ public class MockClassCreator {
      */
     protected Reply mockReply() {
         String replyID = "sample_replyID";
+        String parentID = "sample_parentID";
+        String commenterID = "sample_commenterID";
         String content = "sample_reply_content";
-        Experimenter experimenter = mockExperimenter();
-        Reply reply = new Reply(replyID, experimenter, content);
+        Reply reply = new Reply(replyID, parentID, commenterID, content);
         return reply;
     }
+
+    /**
+     * Function for creating a mock Trial object instnace
+     * @return
+     *     Trial object instance
+     */
+    protected Trial mockTrial() {
+
+        return new Trial();
+
+    }
+
+    /**
+     * Function for creating a mock Trial object instance with geolocation value
+     * @return
+     *     Trial object instance
+     */
+    protected Trial mockGeolocationTrial(Location geolocation) {
+
+        return new Trial(geolocation);
+
+    }
+
 }

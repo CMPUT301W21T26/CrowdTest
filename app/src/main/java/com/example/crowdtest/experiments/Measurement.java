@@ -8,14 +8,18 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Class to represent a Measurement Experiment
+ */
 public class Measurement extends Experiment {
     private ArrayList <MeasurementTrial> trials;
 
     /**
      * Experiment constructor
-     *
-     * @param owner         Owner of the experiment
-     * @param experimentID  A unique ID for this experiment
+     * @param owner
+     *  Owner of the experiment
+     * @param experimentID
+     *  A unique ID for this experiment
      */
     public Measurement(String owner, String experimentID) {
         super(owner, experimentID);
@@ -50,8 +54,8 @@ public class Measurement extends Experiment {
 
     /**
      * Adds a new trial to the experiment
-     *
-     * @param trialInput The trial that is going to be submitted in the experiment
+     * @param trialInput
+     *  The trial that is going to be submitted in the experiment
      */
     public void addTrial(double trialInput) {
         MeasurementTrial trial = new MeasurementTrial(trialInput);
@@ -66,10 +70,20 @@ public class Measurement extends Experiment {
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
+    /**
+     * Function for setting the trials for the measurement experiment
+     * @param trials
+     *  ArrayList of measurement trials
+     */
     public void setTrials(ArrayList<MeasurementTrial> trials) {
         this.trials = trials;
     }
 
+    /**
+     * Function for getting the trials for the measurement experiment
+     * @return
+     *  ArrayList of measurement trials
+     */
     public ArrayList<MeasurementTrial> getTrials() {
         return trials;
     }

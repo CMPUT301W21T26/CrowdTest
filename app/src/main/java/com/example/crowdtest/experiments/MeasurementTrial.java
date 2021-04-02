@@ -4,9 +4,22 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * Class to represent a MeasurementTrial result
+ */
 public class MeasurementTrial extends Trial {
+
     private double measurement;
 
+    /**
+     * Empty constructor for MeasurementTrial object
+     * Necessary for converting Firestore documents to MeasurementTrial objects
+     */
+    public MeasurementTrial(){
+
+        //Empty constructor required
+
+    }
 
     /**
      * Constructor for measurement trials
@@ -29,6 +42,11 @@ public class MeasurementTrial extends Trial {
         this.measurement = measurement;
     }
 
+    /**
+     * Function for getting the measurement value of the measurement trial
+     * @return
+     *  Returns the measurement value for the Trial
+     */
     public double getMeasurement() {
         return measurement;
     }

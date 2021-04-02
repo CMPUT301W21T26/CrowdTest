@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "809230678841",
+    "project_id": "crowdtest-2eed2",
+    "storage_bucket": "crowdtest-2eed2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809230678841:android:1e4b94f8048a380dbfc6e8",
+        "android_client_info": {
+          "package_name": "com.example.crowdtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809230678841-tkocs7s4m1les4kiu8fa4t907sn1mcjo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmmxWlqIitkC6qBTbqah1vALTKiFS9m98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809230678841-tkocs7s4m1les4kiu8fa4t907sn1mcjo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

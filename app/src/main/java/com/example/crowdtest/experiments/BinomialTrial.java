@@ -1,12 +1,14 @@
 package com.example.crowdtest.experiments;
 
-import android.location.Location;
-
-import java.util.Date;
-
+/**
+ * Class to represent a BinomialTrial result
+ */
 public class BinomialTrial extends Trial {
     private boolean success;
 
+    /**
+     * Empty BinomialTrial constructor
+     */
     /**
      * Constructor for getting trials from the database
      *
@@ -20,18 +22,23 @@ public class BinomialTrial extends Trial {
 
     public BinomialTrial(){
 
-        //empty constructor required in order to fetch object
+        //Required for firestore access
     }
 
     /**
-     * Constructor for binomial trials
-     *
-     * @param inputSuccess Input Success/failure
+     * BinomialTrial constructor
+     * @param inputSuccess
+     *  Input success/failure
      */
     public BinomialTrial(boolean inputSuccess) {
         success = inputSuccess;
     }
 
+    /**
+     * Function to check whether a binomial trial is a success or failure
+     * @return
+     *  True if success, false if failure
+     */
     public boolean isSuccess() {
         return success;
     }

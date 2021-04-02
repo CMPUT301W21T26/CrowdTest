@@ -36,7 +36,11 @@ public class Trial implements Serializable {
         this.location = location;
     }
 
-
+    /**
+     * Function for getting the timestamp of the trial
+     * @return
+     *  Timestamp of trial
+     */
     public Date getTimestamp() {
         return timestamp;
     }
@@ -46,9 +50,9 @@ public class Trial implements Serializable {
     }
 
     /**
-     * setLocation will be called within experiment if the experiment had location enabled
-     *
-     * @param location The new location for the trial
+     * Function for getting the timestamp of the trial
+     * @param timestamp
+     *  Timestamp of trial
      */
     public void setLocation(Location location) {
         this.location = location;
@@ -57,4 +61,25 @@ public class Trial implements Serializable {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    /**
+     * Function for getting the geolocation of the trial
+     * @return
+     *  Geolocation of trial
+     */
+    public Location getGeolocation() {
+        return geolocation;
+    }
+
+    /**
+     * Function for setting the geolocation of the trial if corresponding
+     * experiment has geolocation is enabled
+     * @param geolocation
+     *  Geolocation of trial
+     */
+    public void setGeolocation(Location geolocation) {
+        this.geolocation = geolocation;
+    }
+
+
 }

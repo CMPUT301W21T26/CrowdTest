@@ -13,6 +13,7 @@ import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
+import com.example.crowdtest.experiments.MeasurementTrialList;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.example.crowdtest.experiments.Trial;
@@ -22,6 +23,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +31,8 @@ import java.util.HashMap;
 import javax.annotation.Nonnegative;
 
 /**
- *
+ * ExperimentManager class for interfacing with Firestore database to publish, unpublish, and
+ * archive experiments
  */
 public class ExperimentManager extends DatabaseManager {
 
@@ -46,6 +49,7 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Function for generating a unique experiment ID
      * @return
+     *  Unique experiment ID
      */
     public String generateExperimentID() {
         return generateDocumentID("experiment", collectionPath);
@@ -54,9 +58,9 @@ public class ExperimentManager extends DatabaseManager {
     /**
      * Converts a document obtained from Firestore into an Experiment object
      * @param document
-     *    The firestore document to be converted
+     *  The firestore document to be converted
      * @return
-     *     Returns the experiment object
+     *  Returns the experiment object
      */
     public Experiment getFirestoreExperiment(QueryDocumentSnapshot document) {
 
@@ -160,50 +164,65 @@ public class ExperimentManager extends DatabaseManager {
         return experiment;
     }
 
-
+    /**
+     * Function to check whether an experiment matches a searched keyword
+     * @param searchString
+     *  Keyword provided during experiment search
+     * @param experiment
+     *  Experiment to check
+     * @return
+     *  True if keyword is present in the experiment's title or description, false otherwise
+     */
     public Boolean experimentContainsKeyword(String searchString, Experiment experiment) {
-
+        // Check if keyword is within experiment title or description
         if (experiment.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
-
             return true;
         }
         else if (experiment.getDescription().toLowerCase().contains(searchString.toLowerCase())) {
-
             return true;
         }
 
         return false;
-
     }
 
     /**
-     *
-     * @param user
+     * Function to check whether an experiment is owned by a given experimenter
+     * @param experimenter
+     *  Experimenter to check against owner of given experiment
      * @param experiment
+     *  Experiment to check
      * @return
+     *  True if experimenter owns the given experimenter, false otherwise
      */
-    public Boolean experimentIsOwned(Experimenter user, Experiment experiment) {
+    public Boolean experimentIsOwned(Experimenter experimenter, Experiment experiment) {
+        // Get owner and user IDs
+        String ownerName = experiment.getOwnerID();
+        String userName = experimenter.getUserProfile().getUsername();
 
-        String ownerName = experiment.getOwner();
-
-        String userName = user.getUserProfile().getUsername();
-
+        // Compare owner and user IDs
         if (ownerName.equals(userName)){
             return true;
         }
 
         return false;
-
     }
 
-    public Boolean experimentIsSubscribed(Experimenter user, Experiment experiment) {
+    /**
+     * Function to check whether an experiment is subscribed to by a given experimenter
+     * @param experimenter
+     *  Experimenter to check against subscribers list of given experiment
+     * @param experiment
+     *  Experiment to check
+     * @return
+     *  True if experimenter is subscribed to the given experiment, false otherwise
+     */
+    public Boolean experimentIsSubscribed(Experimenter experimenter, Experiment experiment) {
+        // Get user ID and list of experiment's subscribers
+        String userName = experimenter.getUserProfile().getUsername();
+        ArrayList<String> subscribedUsers = experiment.getSubscriberIDs();
 
-        String userName = user.getUserProfile().getUsername();
-
-        ArrayList<String> subscribedUsers = experiment.getSubscribers();
-
+        // Check whether user ID is within subscribed users collection
         if (subscribedUsers.contains(userName)) {
-
             return true;
         }
 
@@ -212,23 +231,22 @@ public class ExperimentManager extends DatabaseManager {
 
     /**
      * Function for adding an experiment to the database
+     * @param experiment
+     *  Experiment to add to the database
      */
     public void publishExperiment(Experiment experiment) {
         // Generate unique experiment ID and create experiment
         String experimentID = experiment.getExperimentID();
 
-        // Retrieve experiment owner's profile
-        //UserProfile ownerProfile = experiment.getOwner().getUserProfile();
-
-        experiment.addSubscriber(experiment.getOwner());
+        // Add the experiment's owner as a subscriber
+        experiment.addSubscriber(experiment.getOwnerID());
 
         // Add experiment data to HashMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        //experimentData.put("owner", ownerProfile.getUsername());
-
+        experimentData.put("owner", ownerProfile.getUsername());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
-        experimentData.put("geolocation", experiment.isGeoLocation());
+        experimentData.put("geolocation", experiment.isGeoLocationEnabled());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
@@ -236,6 +254,8 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("type", experiment.getClass().toString());
         experimentData.put("datePublished", experiment.getDatePublished());
         experimentData.put("min trial count", experiment.getMinTrials());
+        experimentData.put("published", experiment.isPublished());
+
         if (experiment instanceof Measurement){
             experimentData.put("trials", ((Measurement)experiment).getTrials());
         }
@@ -249,49 +269,79 @@ public class ExperimentManager extends DatabaseManager {
             experimentData.put("trials", ((Binomial)experiment).getTrials());
         }
 
-        experimentData.put("owner", experiment.getOwner());
-
         // Add experiment to database
-        // TODO: add questions as a sub-collection
         addDataToCollection(collectionPath, experimentID, experimentData);
     }
 
     /**
-     * Function for updating a given experiment in the database
+     * Sets the experiment's status to 'closed' in both firestore and for the object itself
      * @param experiment
+     *  Experiment to end in the database
      */
-    public void updateExperiment(Experiment experiment) {
+    public void endExperiment(Experiment experiment) {
+        // Change experiment status
+        experiment.setStatus("closed");
 
-        // Add experiment data to HashMap
+        // Add experiment data to HasMap
         HashMap<String, Object> experimentData = new HashMap<>();
-        experimentData.put("owner", experiment.getOwner());
         experimentData.put("status", experiment.getStatus());
-        experimentData.put("description", experiment.getDescription());
-        experimentData.put("region", experiment.getRegion());
-        experimentData.put("subscribers", experiment.getSubscribers());
-        experimentData.put("type", experiment.getClass().toString());
 
-        // Add experiment to database
-        addDataToCollection(collectionPath, experiment.getExperimentID(), experimentData);
+        // Update experiment in database
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
     }
 
-    public void endExperiment(Experiment experiment) {
-        HashMap<String, Object> experimentStatus = new HashMap<>();
+    /**
+     * Method to update the subscribers of an experiment by adding another subscriber
+     * @param experiment
+     *     The experiment with the added subscriber
+     * @param subscriber
+     *     The id of the subscriber being added to the experiment
+     */
+    public void addSubscriber(Experiment experiment, String subscriber) {
 
-        experiment.setStatus("closed");
-        experimentStatus.put("status", experiment.getStatus());
+        experiment.addSubscriber(subscriber);
+
+        HashMap<String, Object> experimentData = new HashMap<>();
+
+        experimentData.put("subscribers", experiment.getSubscriberIDs());
 
         database.collection(collectionPath)
                 .document(experiment.getExperimentID())
-                .update(experimentStatus);
+                .update(experimentData);
 
     }
 
     /**
+     * Function for changing whether an expeirment is published or not
+     * @param experiment
+     *     The experiment that is having their 'published' status changed'
+     * @param published
+     *     A boolean representing whether the experiment is published or not
+     */
+    public void updatePublishExperiment(Experiment experiment, boolean published) {
+
+        experiment.setPublished(published);
+
+        // Add experiment data to HasMap
+        HashMap<String, Object> experimentData = new HashMap<>();
+        experimentData.put("published", experiment.isPublished());
+
+        // Update experiment in database
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
+    }
+
+
+
+    /**
      * Function for deleting an experiment from the database
      * @param experiment
+     *  Experiment to unpublish from database
      */
-    public void unpublishExperiment(Experiment experiment) {
+    public void deleteExperiment(Experiment experiment) {
         // Retrieve experimentID
         String experimentID = experiment.getExperimentID();
 

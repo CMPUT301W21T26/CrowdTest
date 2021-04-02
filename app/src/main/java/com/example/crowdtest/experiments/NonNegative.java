@@ -1,13 +1,13 @@
 package com.example.crowdtest.experiments;
 
-import com.example.crowdtest.DatabaseManager;
 import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
 
+/**
+ * Class to represent a NonNegative experiment
+ */
 public class NonNegative extends Experiment {
     private ArrayList <NonNegativeTrial> trials;
 
@@ -50,8 +50,8 @@ public class NonNegative extends Experiment {
 
     /**
      * Adds a new trial to the experiment
-     *
-     * @param trialInput The trial that is going to be submitted in the experiment
+     * @param trialInput
+     *  The trial that is going to be submitted in the experiment
      */
     public void addTrial(int trialInput) throws Exception {
         NonNegativeTrial trial = new NonNegativeTrial(trialInput);
@@ -66,10 +66,20 @@ public class NonNegative extends Experiment {
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
+    /**
+     * Function for setting the trials for the non-negative experiment
+     * @param trials
+     *  ArrayList of non-negative trials
+     */
     public void setTrials(ArrayList<NonNegativeTrial> trials) {
         this.trials = trials;
     }
 
+    /**
+     * Function for getting the trials for the non-negative experiment
+     * @return
+     *  ArrayList of non-negative trials
+     */
     public ArrayList<NonNegativeTrial> getTrials() {
         return trials;
     }

@@ -8,20 +8,20 @@ import java.util.ArrayList;
 public class Question extends Comment {
 
     // Question attributes
-    private ArrayList<String> replies;
+    private ArrayList<String> replyIDs;
 
     /**
      * Question constructor
      * @param questionID
      *  Unique ID of reply
-     * @param experimenter
-     *  Experimenter who created the question
+     * @param commenterID
+     *  Unique ID of experimenter who created the question
      * @param content
      *  Content of question
      */
-    public Question(String questionID, Experimenter experimenter, String content) {
-        super(questionID, experimenter, content);
-        replies = new ArrayList<>();
+    public Question(String questionID, String commenterID, String content) {
+        super(questionID, commenterID, content);
+        replyIDs = new ArrayList<>();
     }
 
     /**
@@ -29,17 +29,17 @@ public class Question extends Comment {
      * @return
      *  Replies of question
      */
-    public ArrayList<String> getReplies() {
-        return replies;
+    public ArrayList<String> getReplyIDs() {
+        return replyIDs;
     }
 
     /**
      * Function for setting the replies to a question
-     * @param replies
+     * @param replyIDs
      *  Replies of question
      */
-    public void setReplies(ArrayList<String> replies) {
-        this.replies = replies;
+    public void setReplyIDs(ArrayList<String> replyIDs) {
+        this.replyIDs = replyIDs;
     }
 
     /**
@@ -48,7 +48,7 @@ public class Question extends Comment {
      *  Reply of question
      */
     public void addReply(String replyID) {
-        replies.add(replyID);
+        replyIDs.add(replyID);
     }
 
     /**
@@ -57,6 +57,6 @@ public class Question extends Comment {
      *  Reply of question
      */
     public void deleteReply(String replyID) {
-        replies.remove(replyID);
+        replyIDs.remove(replyID);
     }
 }

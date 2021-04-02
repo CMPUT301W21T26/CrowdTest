@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Class to contain methods which manager the accessing and updating of Comment objects through firestore
  */
 public class CommentManager extends DatabaseManager {
 
@@ -58,28 +58,25 @@ public class CommentManager extends DatabaseManager {
 
     /**
      * Function for adding a question to the database
-     * @param experimenter
-     *  Experimenter who created the question
+     * @param commenterID
+     *  Unique ID of experimenter who created the question
      * @param content
      *  Content of question
      * @return
      *  Instance of question object added to database
      */
-    public Question addNewQuestion(Experimenter experimenter, String content) {
+    public Question postQuestion(String commenterID, String content) {
         // Generate unique commentID and create a comment
         String questionID = generateQuestionID();
-        Question question = new Question(questionID, experimenter, content);
+        Question question = new Question(questionID, commenterID, content);
 
         // Retrieve Question data
-        String timestamp = question.getTimeStamp();
-        ArrayList<String> replies = question.getReplies();
-
-        // Retrieve UserProfile data
-        UserProfile userProfile = experimenter.getUserProfile();
+        String timestamp = question.getTimestamp();
+        ArrayList<String> replies = question.getReplyIDs();
 
         // Add question data to HashMap
         HashMap<String, Object> questionData = new HashMap<>();
-        questionData.put("poster", userProfile.getUsername());
+        questionData.put("poster", commenterID);
         questionData.put("content", content);
         questionData.put("timestamp", timestamp);
         questionData.put("replies", replies);
@@ -98,10 +95,10 @@ public class CommentManager extends DatabaseManager {
     public void updateQuestion(Question question) {
         // Retrieve Question data
         String questionID = question.getCommentID();
-        String poster = question.getExperimenter().getUserProfile().getUsername();
+        String poster = question.getCommenterID();
         String content = question.getContent();
-        String timestamp = question.getTimeStamp();
-        ArrayList<String> replies = question.getReplies();
+        String timestamp = question.getTimestamp();
+        ArrayList<String> replies = question.getReplyIDs();
 
         // Add question data to HashMap
         HashMap<String, Object> questionData = new HashMap<>();
@@ -111,40 +108,39 @@ public class CommentManager extends DatabaseManager {
         questionData.put("replies", replies);
 
         // Update question data to database
-        addDataToCollection(questionCollectionPath, questionID, questionData);
+        database.collection(questionCollectionPath)
+                .document(questionID)
+                .update(questionData);
     }
 
     /**
      * Function for adding a reply to the database
      * @param question
      *  Parent question
-     * @param experimenter
-     *  Experimenter who created the reply
+     * @param commenterID
+     *  Unique ID of experimenter who created the reply
      * @param content
      *  Content of reply
      * @return
      *  Instance of Reply object added to database
      */
-    public Reply addNewReply(Experimenter experimenter, Question question, String content) {
+    public Reply postReply(String commenterID, Question question, String content) {
         // Generate unique commentID and create a comment
         String replyID = generateReplyID();
         String questionID = question.getCommentID();
-        Reply reply = new Reply(replyID, experimenter, content);
+        Reply reply = new Reply(replyID, questionID, commenterID, content);
 
         // Retrieve Reply data
-        String timestamp = reply.getTimeStamp();
-
-        // Retrieve UserProfile data
-        UserProfile userProfile = experimenter.getUserProfile();
+        String timestamp = reply.getTimestamp();
 
         // Add reply to question
         question.addReply(replyID);
         HashMap<String, Object> questionData = new HashMap<>();
-        questionData.put("replies", question.getReplies());
+        questionData.put("replies", question.getReplyIDs());
 
         // Add reply data to HashMap
         HashMap<String, Object> replyData = new HashMap<>();
-        replyData.put("poster", userProfile.getUsername());
+        replyData.put("poster", commenterID);
         replyData.put("content", content);
         replyData.put("timestamp", timestamp);
         replyData.put("parent", questionID);
@@ -167,7 +163,7 @@ public class CommentManager extends DatabaseManager {
         removeDataFromCollection(questionCollectionPath, questionID);
 
         // Retrieve reply ID's and remove all child replies from database
-        ArrayList<String> replyIDs = question.getReplies();
+        ArrayList<String> replyIDs = question.getReplyIDs();
         for (String replyID : replyIDs) {
             removeDataFromCollection(replyCollectionPath, replyID);
         }

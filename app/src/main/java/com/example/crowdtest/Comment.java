@@ -10,25 +10,25 @@ public class Comment {
 
     // Comment attributes
     private String commentID;
-    private Experimenter experimenter;
+    private String commenterID;
     private String content;
-    private String timeStamp;
+    private String timestamp;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Comment constructor
      * @param commentID
      *  Unique ID of comment
-     * @param experimenter
+     * @param commenterID
      *  Experimenter who created the comment
      * @param content
      *  Comment's content
      */
-    public Comment(String commentID, Experimenter experimenter, String content) {
+    public Comment(String commentID, String commenterID, String content) {
         this.commentID = commentID;
-        this.experimenter = experimenter;
+        this.commenterID = commenterID;
         this.content = content;
-        timeStamp = dateFormat.format(new Date());
+        timestamp = dateFormat.format(new Date());
     }
 
     /**
@@ -54,17 +54,17 @@ public class Comment {
      * @return
      *  Experimenter who created the comment
      */
-    public Experimenter getExperimenter() {
-        return experimenter;
+    public String getCommenterID() {
+        return commenterID;
     }
 
     /**
      * Function for setting the experimenter of the comment
-     * @param experimenter
+     * @param commenterID
      *  Experimenter who created the comment
      */
-    public void setExperimenter(Experimenter experimenter) {
-        this.experimenter = experimenter;
+    public void setCommenterID(String commenterID) {
+        this.commenterID = commenterID;
     }
 
     /**
@@ -90,16 +90,16 @@ public class Comment {
      * @return
      *  Timestamp of comment
      */
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
     /**
      * Function for setting the timestamp of the comment
-     * @param timeStamp
+     * @param timestamp
      *  Timestamp of comment
      */
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

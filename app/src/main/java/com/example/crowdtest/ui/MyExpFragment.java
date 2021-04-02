@@ -101,7 +101,7 @@ public class MyExpFragment extends Fragment {
 
                     Experiment experiment = experimentManager.getFirestoreExperiment(document);
 
-                    if (experimentManager.experimentIsOwned(user, experiment)) {
+                    if (experimentManager.experimentIsOwned(user, experiment) & experiment.isPublished()) {
 
                         ownedExperiments.add(experiment);
                     }
@@ -119,6 +119,8 @@ public class MyExpFragment extends Fragment {
 
     /**
      * Inflate context menu, and set visibility of items that depend on user being owner
+     * Owners can view options to View, Unpublish, and End Experiments (if Exp is open)
+     * Non-owners can see View option
      * @param menu
      * @param v
      * @param menuInfo
@@ -130,16 +132,24 @@ public class MyExpFragment extends Fragment {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
 
-        MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        int position = info.position;
+        Experiment experiment = ownedExperiments.get(position);
+
+        if (experiment.getStatus().equals("open")) {
+            MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
+            endItem.setVisible(true);
+        }
         MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
-        endItem.setVisible(true);
         unpublishItem.setVisible(true);
     }
 
     /**
-     * Execute code based on selected context mneu item
+     * Execute code based on selected context menu item
      * @param item
+     *     The context menu item that was selected
      * @return
+     *     A boolean representing success of the operation
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -160,7 +170,7 @@ public class MyExpFragment extends Fragment {
 
             case R.id.unpublish_option:
 
-                experimentManager.unpublishExperiment(ownedExperiments.get(info.position));
+                experimentManager.updatePublishExperiment(ownedExperiments.get(info.position), false);
 
                 return true;
 

@@ -9,6 +9,9 @@ import androidx.annotation.Nullable;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 
+/**
+ * Binomial experiment activity class that has two buttons for submitting success and failure
+ */
 public class BinomialActivity extends ExperimentActivity {
     private Button successButton;
     private Button failButton;

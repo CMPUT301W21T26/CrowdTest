@@ -68,7 +68,8 @@ public class UserProfileActivity extends AppCompatActivity implements EditUserFr
         });
     }
 
-    /** Method for updating all UI objects and firestore database
+    /**
+     * Method for updating all UI objects and firestore database
      */
     public void updateViews() {
         userName.setText(userProfile.getUsername());
@@ -77,7 +78,8 @@ public class UserProfileActivity extends AppCompatActivity implements EditUserFr
         experimenterManager.updateExperimenter(user);
     }
 
-    /** Method to update the UI after changes are made by user
+    /**
+     * Method to update the UI after changes are made by user
      */
     @Override
     public void onOkPressed(int errorInd) {
