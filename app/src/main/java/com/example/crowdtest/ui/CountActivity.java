@@ -27,12 +27,40 @@ public class CountActivity extends ExperimentActivity {
         setValues();
 
         addButton = findViewById(R.id.count_add_button);
-        addButton.setOnClickListener(v -> ((Count)experiment).addTrial());
+        addButton.setOnClickListener(v -> ((Count) experiment).addTrial());
+
+        endExperiment = findViewById(R.id.experiment_end_experiment_button);
+        endExperiment.setOnClickListener(v -> {
+            if (endExperiment.getText().equals("End Experiment")) {
+                experiment.setStatus("closed");
+                endExperiment.setText("Reopen Experiment");
+                addButton.setVisibility(View.INVISIBLE);
+                toolbar.setTitleTextColor(0xFFE91E63);
+                toolbar.setTitle(experiment.getTitle() + " (Closed)");
+            } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                experiment.setStatus("open");
+                endExperiment.setText("End Experiment");
+                addButton.setVisibility(View.VISIBLE);
+                toolbar.setTitleTextColor(0xFF000000);
+                toolbar.setTitle(experiment.getTitle());
+            }
+        });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
             addButton.setText(String.valueOf(((Count) experiment).getCount()));
+            if (experiment.getStatus().equals("closed")) {
+                endExperiment.setText("Reopen Experiment");
+                addButton.setVisibility(View.INVISIBLE);
+                toolbar.setTitleTextColor(0xFFE91E63);
+                toolbar.setTitle(experiment.getTitle() + " (Closed)");
+            } else {
+                endExperiment.setText("End Experiment");
+                addButton.setVisibility(View.VISIBLE);
+                toolbar.setTitleTextColor(0xFF000000);
+                toolbar.setTitle(experiment.getTitle());
+            }
         });
     }
 }

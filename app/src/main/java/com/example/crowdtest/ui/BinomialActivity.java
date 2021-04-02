@@ -45,11 +45,44 @@ public class BinomialActivity extends ExperimentActivity {
         failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
         failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
 
+        endExperiment = findViewById(R.id.experiment_end_experiment_button);
+        endExperiment.setOnClickListener(v -> {
+            if (endExperiment.getText().equals("End Experiment")) {
+                experiment.setStatus("closed");
+                endExperiment.setText("Reopen Experiment");
+                successButton.setVisibility(View.INVISIBLE);
+                failButton.setVisibility(View.INVISIBLE);
+                toolbar.setTitleTextColor(0xFFE91E63);
+                toolbar.setTitle(experiment.getTitle()+" (Closed)");
+            } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                experiment.setStatus("open");
+                endExperiment.setText("End Experiment");
+                successButton.setVisibility(View.VISIBLE);
+                failButton.setVisibility(View.VISIBLE);
+                toolbar.setTitleTextColor(0xFF000000);
+                toolbar.setTitle(experiment.getTitle());
+            }
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
-        collectionReference.addSnapshotListener((value, error) -> {
+        collectionReference.addSnapshotListener((value, error) ->
+        {
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+            if (experiment.getStatus().equals("closed")){
+                endExperiment.setText("Reopen Experiment");
+                successButton.setVisibility(View.INVISIBLE);
+                failButton.setVisibility(View.INVISIBLE);
+                toolbar.setTitleTextColor(0xFFE91E63);
+                toolbar.setTitle(experiment.getTitle()+" (Closed)");
+            }else{
+                endExperiment.setText("End Experiment");
+                successButton.setVisibility(View.VISIBLE);
+                failButton.setVisibility(View.VISIBLE);
+                toolbar.setTitleTextColor(0xFF000000);
+                toolbar.setTitle(experiment.getTitle());
+            }
         });
     }
 }

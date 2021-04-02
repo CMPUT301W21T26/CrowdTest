@@ -1,5 +1,7 @@
 package com.example.crowdtest.experiments;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +35,7 @@ public abstract class Experiment implements Serializable {
         this.owner = owner;
         this.experimentID = experimentID;
         datePublished = new Date();
-        status = "open";
+        status = "Open";
         this.subscribers = new ArrayList<>();
         this.questions = new ArrayList<>();
         this.published = true;
@@ -244,6 +246,8 @@ public abstract class Experiment implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Experiments").document(experimentID).update("status", status);
     }
 
 
