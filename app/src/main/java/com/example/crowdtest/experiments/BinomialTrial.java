@@ -1,5 +1,9 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
+import java.util.Date;
+
 /**
  * Class to represent a BinomialTrial result
  */

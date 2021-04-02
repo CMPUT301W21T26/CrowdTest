@@ -9,27 +9,25 @@ import java.util.Date;
  */
 public class NonNegativeTrial extends Trial {
 
-    private int count;
+    private long count;
 
     /**
      * Constructor for non-negative trials
-     *
-     * @param inputCount Input count
      * Empty constructor for NonNegativeTrial object
      * Necessary for converting Firestore documents to NonNegativeTrial objects
      */
-    public NonNegativeTrial(){
+    public NonNegativeTrial() {
 
         //Empty constructor required
 
     }
 
     /**
-     * NonNegativeTrial constructor
-     * @param inputCount
-     *  Non-negative input count
+     * Constructor for non-negative trials
+     *
+     * @param inputCount input count
      */
-    public NonNegativeTrial(int inputCount) {
+    public NonNegativeTrial(long inputCount) {
         if (inputCount > 0) {
             count = inputCount;
         } else {
@@ -43,17 +41,17 @@ public class NonNegativeTrial extends Trial {
      * @param timestamp
      * @param location
      */
-    public NonNegativeTrial(Date timestamp, Location location, int count) {
+    public NonNegativeTrial(Date timestamp, Location location, long count) {
         super(timestamp, location);
         this.count = count;
     }
 
     /**
      * Function for getting the non-negative trial count
-     * @return
-     *  Non-negative trial count
+     *
+     * @return Non-negative trial count
      */
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 }

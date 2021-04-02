@@ -1,10 +1,8 @@
 package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.DatabaseManager;
-import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -47,8 +45,8 @@ public class Measurement extends Experiment {
     public Measurement(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
                        ArrayList<String> questions, boolean geoLocation, Date datePublished,
-                       int minTrials, ArrayList<MeasurementTrial> trials) {
-        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials);
+                       int minTrials, ArrayList<MeasurementTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
         this.trials = trials;
     }
 
@@ -66,7 +64,9 @@ public class Measurement extends Experiment {
     public void addTrialToDB (MeasurementTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("context", trial);
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("measurement", trial.getMeasurement());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 

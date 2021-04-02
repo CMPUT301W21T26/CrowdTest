@@ -11,6 +11,7 @@ public class Trial implements Serializable {
 
     /**
      * Constructor for getting trials from the database
+     *
      * @param timestamp
      * @param location
      */
@@ -38,48 +39,39 @@ public class Trial implements Serializable {
 
     /**
      * Function for getting the timestamp of the trial
-     * @return
-     *  Timestamp of trial
+     *
+     * @return Timestamp of trial
      */
     public Date getTimestamp() {
         return timestamp;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     /**
-     * Function for getting the timestamp of the trial
-     * @param timestamp
-     *  Timestamp of trial
+     * Function for setting the geolocation of the trial if corresponding
+     * experiment has geolocation enabled
+     *
+     * @param location Geolocation of trial
      */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * Function for setting the timestamp of the trial
+     *
+     * @param timestamp Timestamp of trial
+     */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
     /**
-     * Function for getting the geolocation of the trial
-     * @return
-     *  Geolocation of trial
+     * Function for getting the geolocation of where the trial was submitted
+     *
+     * @return Geolocation of trial
      */
-    public Location getGeolocation() {
-        return geolocation;
+    public Location getLocation() {
+        return location;
     }
-
-    /**
-     * Function for setting the geolocation of the trial if corresponding
-     * experiment has geolocation is enabled
-     * @param geolocation
-     *  Geolocation of trial
-     */
-    public void setGeolocation(Location geolocation) {
-        this.geolocation = geolocation;
-    }
-
 
 }

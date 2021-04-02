@@ -1,10 +1,8 @@
 package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.DatabaseManager;
-import com.example.crowdtest.Experimenter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -45,8 +43,8 @@ public class Count extends Experiment {
     public Count(String owner, String experimentID, String status, String title,
                  String description, String region, ArrayList<String> subscribers,
                  ArrayList<String> questions, boolean geoLocation, Date datePublished,
-                 int minTrials, ArrayList<CountTrial> trials) {
-        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials);
+                 int minTrials, ArrayList<CountTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
         this.trials = trials;
     }
 
@@ -62,7 +60,8 @@ public class Count extends Experiment {
     public void addTrialToDB (CountTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("context", trial);
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -82,5 +81,9 @@ public class Count extends Experiment {
      */
     public ArrayList<CountTrial> getTrials() {
         return trials;
+    }
+
+    public int getCount(){
+        return trials.size();
     }
 }

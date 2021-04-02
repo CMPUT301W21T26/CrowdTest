@@ -7,7 +7,10 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.example.crowdtest.R;
+import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Count experiment activity class
@@ -25,5 +28,11 @@ public class CountActivity extends ExperimentActivity {
 
         addButton = findViewById(R.id.count_add_button);
         addButton.setOnClickListener(v -> ((Count)experiment).addTrial());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
+        collectionReference.addSnapshotListener((value, error) -> {
+            addButton.setText(String.valueOf(((Count) experiment).getCount()));
+        });
     }
 }

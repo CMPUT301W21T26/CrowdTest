@@ -19,13 +19,17 @@ import android.widget.ListView;
 import com.example.crowdtest.CustomList;
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -85,27 +89,45 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         registerForContextMenu(allExperimentList);
 
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+        collectionReference.addSnapshotListener((value, error) -> {
 
-                experimentDataList.clear();
+            experimentDataList.clear();
 
-                for (QueryDocumentSnapshot document: value) {
+            for (QueryDocumentSnapshot document: value) {
 
-                    Experiment experiment = experimentManager.getFirestoreExperiment(document);
-
-                    if (experiment.isPublished()) {
-
-                        experimentDataList.add(experiment);
-
-                        allExperimentDataList.add(experiment);
-
-                        experimentAdapter.notifyDataSetChanged();
-
+                Experiment experiment = experimentManager.getFirestoreExperiment(document);
+                experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new GetTrials() {
+                    @Override
+                    public void getBinomialTrials(BinomialTrial binomialTrial) {
+                        ((Binomial) experiment).addTrialFromDb(binomialTrial);
                     }
 
+                    @Override
+                    public void getCountTrials(CountTrial countTrial) {
+                        ((Count) experiment).getTrials().add(countTrial);
+                    }
+
+                    @Override
+                    public void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial) {
+                        ((NonNegative) experiment).getTrials().add(nonnegativeTrial);
+                    }
+
+                    @Override
+                    public void getMeasurementTrials(MeasurementTrial measurementTrial) {
+                        ((Measurement) experiment).getTrials().add(measurementTrial);
+                    }
+                });
+
+                if (experiment.isPublished()) {
+
+                    experimentDataList.add(experiment);
+
+                    allExperimentDataList.add(experiment);
+
+                    experimentAdapter.notifyDataSetChanged();
+
                 }
+
             }
         });
 

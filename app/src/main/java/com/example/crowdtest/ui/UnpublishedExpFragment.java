@@ -1,5 +1,6 @@
 package com.example.crowdtest.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,17 @@ import android.widget.ListView;
 import com.example.crowdtest.CustomList;
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
+import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.BinomialTrial;
+import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
+import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -90,6 +100,25 @@ public class UnpublishedExpFragment extends Fragment {
         listView.setAdapter(listViewAdapter);
 
         registerForContextMenu(listView);
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            Bundle experimentDetailsBundle = new Bundle();
+            Experiment experiment = listViewAdapter.getItem(position);
+            experimentDetailsBundle.putSerializable("experiment", experiment);
+            Intent experimentActivityIntent = null;
+            if (experiment instanceof Binomial){
+                experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+            }
+            else if (experiment instanceof Count){
+                experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+            }
+            else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+                experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+            }
+            experimentActivityIntent.putExtras(experimentDetailsBundle);
+            System.out.println(experiment.getClass());
+
+            startActivity(experimentActivityIntent);
+        });
 
         collectionReference = db.collection("Experiments");
 
@@ -109,7 +138,27 @@ public class UnpublishedExpFragment extends Fragment {
 
                         unpublishedExperiments.add(experiment);
                     }
+                    experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new GetTrials() {
+                        @Override
+                        public void getBinomialTrials(BinomialTrial binomialTrial) {
+                            ((Binomial) experiment).addTrialFromDb(binomialTrial);
+                        }
 
+                        @Override
+                        public void getCountTrials(CountTrial countTrial) {
+                            ((Count) experiment).getTrials().add(countTrial);
+                        }
+
+                        @Override
+                        public void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial) {
+                            ((NonNegative) experiment).getTrials().add(nonnegativeTrial);
+                        }
+
+                        @Override
+                        public void getMeasurementTrials(MeasurementTrial measurementTrial) {
+                            ((Measurement) experiment).getTrials().add(measurementTrial);
+                        }
+                    });
                 }
 
                 listViewAdapter.notifyDataSetChanged();

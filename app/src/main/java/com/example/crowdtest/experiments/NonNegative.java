@@ -1,9 +1,10 @@
 package com.example.crowdtest.experiments;
 
-import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.DatabaseManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Class to represent a NonNegative experiment
@@ -43,8 +44,8 @@ public class NonNegative extends Experiment {
     public NonNegative(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
                        ArrayList<String> questions, boolean geoLocation, Date datePublished,
-                       int minTrials, ArrayList<NonNegativeTrial> trials) {
-        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials);
+                       int minTrials, ArrayList<NonNegativeTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
         this.trials = trials;
     }
 
@@ -62,7 +63,9 @@ public class NonNegative extends Experiment {
     public void addTrialToDB (NonNegativeTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("context", trial);
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("count", trial.getCount());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
