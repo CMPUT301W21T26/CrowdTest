@@ -1,5 +1,9 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
+import java.util.Date;
+
 /**
  * Class to represent a MeasurementTrial result
  */
@@ -18,12 +22,24 @@ public class MeasurementTrial extends Trial {
     }
 
     /**
-     * MeasurementTrial constructor
-     * @param inputMeasurement
-     *  Double representing the user inputted measurement value
+     * Constructor for measurement trials
+     *
+     * @param inputMeasurement Input measurement
      */
     public MeasurementTrial(double inputMeasurement) {
+
         measurement = inputMeasurement;
+    }
+
+    /**
+     * Constructor for getting trials from the database
+     *
+     * @param timestamp
+     * @param location
+     */
+    public MeasurementTrial(Date timestamp, Location location, double measurement) {
+        super(timestamp, location);
+        this.measurement = measurement;
     }
 
     /**

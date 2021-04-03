@@ -30,7 +30,12 @@ public class ExperimentActivity extends AppCompatActivity {
      */
     public void setValues(){
         toolbar = findViewById(R.id.experiment_toolbar);
-        toolbar.setTitle(experiment.getTitle());
+        if (experiment.getStatus().equals("open")) {
+            toolbar.setTitle(experiment.getTitle());
+        }else {
+            toolbar.setTitle(experiment.getTitle()+" (Closed)");
+            toolbar.setTitleTextColor(0xFFE91E63);
+        }
 
         //TODO: participants needs to be implemented
 

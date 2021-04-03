@@ -1,13 +1,15 @@
 package com.example.crowdtest.experiments;
 
+import com.example.crowdtest.DatabaseManager;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Class to represent a Count Experiment
  */
 public class Count extends Experiment {
-
-    // Count attributes
     private ArrayList <CountTrial> trials;
 
     /**
@@ -20,12 +22,47 @@ public class Count extends Experiment {
         this.trials = new ArrayList<>();
     }
 
+    public Count() {
+    }
+
+    /**
+     * Constructor for uploading from the database
+     *
+     * @param owner
+     * @param experimentID
+     * @param status
+     * @param title
+     * @param description
+     * @param region
+     * @param subscribers
+     * @param questions
+     * @param geoLocation
+     * @param datePublished
+     * @param minTrials
+     */
+    public Count(String owner, String experimentID, String status, String title,
+                 String description, String region, ArrayList<String> subscribers,
+                 ArrayList<String> questions, boolean geoLocation, Date datePublished,
+                 int minTrials, ArrayList<CountTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
+        this.trials = trials;
+    }
+
     /**
      * Adds a new trial to the experiment
      */
     public void addTrial() {
         CountTrial trial = new CountTrial();
         trials.add(trial);
+        addTrialToDB(trial);
+    }
+
+    public void addTrialToDB (CountTrial trial){
+        DatabaseManager db = new DatabaseManager();
+        HashMap<String, Object> trialData = new HashMap<>();
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
+        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
     /**
@@ -44,5 +81,9 @@ public class Count extends Experiment {
      */
     public ArrayList<CountTrial> getTrials() {
         return trials;
+    }
+
+    public int getCount(){
+        return trials.size();
     }
 }

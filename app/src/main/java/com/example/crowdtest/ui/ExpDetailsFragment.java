@@ -115,7 +115,6 @@ public class ExpDetailsFragment extends Fragment {
                     userData.setText("");
                     userData.setHint("Enter an integer only.");
                     header.setText("Minimum trials:");
-                    nextButton.setText("Finish");
                     mode = "mintrialcount";
                 }
 

@@ -1,17 +1,15 @@
 package com.example.crowdtest.experiments;
 
-import android.icu.util.MeasureUnit;
-
-import com.example.crowdtest.Experimenter;
+import com.example.crowdtest.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Class to represent a Measurement Experiment
  */
 public class Measurement extends Experiment {
-
-    // Measurement attributes
     private ArrayList <MeasurementTrial> trials;
 
     /**
@@ -26,6 +24,32 @@ public class Measurement extends Experiment {
         trials = new ArrayList<>();
     }
 
+    public Measurement() {
+    }
+
+    /**
+     * Constructor for uploading from the database
+     *
+     * @param owner
+     * @param experimentID
+     * @param status
+     * @param title
+     * @param description
+     * @param region
+     * @param subscribers
+     * @param questions
+     * @param geoLocation
+     * @param datePublished
+     * @param minTrials
+     */
+    public Measurement(String owner, String experimentID, String status, String title,
+                       String description, String region, ArrayList<String> subscribers,
+                       ArrayList<String> questions, boolean geoLocation, Date datePublished,
+                       int minTrials, ArrayList<MeasurementTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
+        this.trials = trials;
+    }
+
     /**
      * Adds a new trial to the experiment
      * @param trialInput
@@ -34,6 +58,16 @@ public class Measurement extends Experiment {
     public void addTrial(double trialInput) {
         MeasurementTrial trial = new MeasurementTrial(trialInput);
         trials.add(trial);
+        addTrialToDB(trial);
+    }
+
+    public void addTrialToDB (MeasurementTrial trial){
+        DatabaseManager db = new DatabaseManager();
+        HashMap<String, Object> trialData = new HashMap<>();
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("measurement", trial.getMeasurement());
+        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
     /**

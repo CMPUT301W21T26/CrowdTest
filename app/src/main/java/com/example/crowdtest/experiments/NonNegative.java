@@ -1,34 +1,72 @@
 package com.example.crowdtest.experiments;
 
+import com.example.crowdtest.DatabaseManager;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Class to represent a NonNegative experiment
  */
 public class NonNegative extends Experiment {
-
-    // NonNegative attributes
     private ArrayList <NonNegativeTrial> trials;
 
     /**
-     * NonNegative experiment constructor
-     * @param owner
-     *  Owner of the experiment
-     * @param experimentID
-     *  A unique ID for this experiment
+     * Experiment constructor
+     *
+     * @param owner         Owner of the experiment
+     * @param experimentID  A unique ID for this experiment
      */
     public NonNegative(String owner, String experimentID) {
         super(owner, experimentID);
         trials = new ArrayList<>();
     }
+
+    public NonNegative() {
+    }
+
+    /**
+     * Constructor for uploading from the database
+     *
+     * @param owner
+     * @param experimentID
+     * @param status
+     * @param title
+     * @param description
+     * @param region
+     * @param subscribers
+     * @param questions
+     * @param geoLocation
+     * @param datePublished
+     * @param minTrials
+     */
+    public NonNegative(String owner, String experimentID, String status, String title,
+                       String description, String region, ArrayList<String> subscribers,
+                       ArrayList<String> questions, boolean geoLocation, Date datePublished,
+                       int minTrials, ArrayList<NonNegativeTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
+        this.trials = trials;
+    }
+
     /**
      * Adds a new trial to the experiment
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(int trialInput) {
+    public void addTrial(int trialInput) throws Exception {
         NonNegativeTrial trial = new NonNegativeTrial(trialInput);
         trials.add(trial);
+        addTrialToDB(trial);
+    }
+
+    public void addTrialToDB (NonNegativeTrial trial){
+        DatabaseManager db = new DatabaseManager();
+        HashMap<String, Object> trialData = new HashMap<>();
+        trialData.put("location", trial.getLocation());
+        trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("count", trial.getCount());
+        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
     /**

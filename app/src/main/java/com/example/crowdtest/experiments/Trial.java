@@ -2,70 +2,76 @@ package com.example.crowdtest.experiments;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Class to represent a generic Trial result
- */
-public class Trial {
-
-    // Trial attributes
+public class Trial implements Serializable {
     private Date timestamp;
-    private Location geolocation;
+    private Location location;
 
     /**
-     * Trial constructor to be used for experiments that don't require geo locations
+     * Constructor for getting trials from the database
+     *
+     * @param timestamp
+     * @param location
+     */
+    public Trial(Date timestamp, Location location) {
+        this.timestamp = timestamp;
+        this.location = location;
+    }
+
+    /**
+     * Constructor for experiments that don't require geo locations
      */
     public Trial() {
         timestamp = new Date(); // The date is set to the current date by default
     }
 
     /**
-     * Constructor to be used  for geo location required experiments
-     * @param geolocation
-     *  Geolocation of the trial
+     * Constructor with for geo location required experiments
+     *
+     * @param location geo location of the trial
      */
-    public Trial(Location geolocation) {
+    public Trial(Location location) {
         timestamp = new Date(); // The date is set to the current date by default
-        this.geolocation = geolocation;
+        this.location = location;
     }
 
     /**
      * Function for getting the timestamp of the trial
-     * @return
-     *  Timestamp of trial
+     *
+     * @return Timestamp of trial
      */
     public Date getTimestamp() {
         return timestamp;
     }
 
     /**
-     * Function for getting the timestamp of the trial
-     * @param timestamp
-     *  Timestamp of trial
+     * Function for setting the geolocation of the trial if corresponding
+     * experiment has geolocation enabled
+     *
+     * @param location Geolocation of trial
+     */
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    /**
+     * Function for setting the timestamp of the trial
+     *
+     * @param timestamp Timestamp of trial
      */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
     /**
-     * Function for getting the geolocation of the trial
-     * @return
-     *  Geolocation of trial
+     * Function for getting the geolocation of where the trial was submitted
+     *
+     * @return Geolocation of trial
      */
-    public Location getGeolocation() {
-        return geolocation;
+    public Location getLocation() {
+        return location;
     }
-
-    /**
-     * Function for setting the geolocation of the trial if corresponding
-     * experiment has geolocation is enabled
-     * @param geolocation
-     *  Geolocation of trial
-     */
-    public void setGeolocation(Location geolocation) {
-        this.geolocation = geolocation;
-    }
-
 
 }

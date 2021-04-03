@@ -66,7 +66,7 @@ public class CustomList extends ArrayAdapter<Experiment> {
         TextView expTitle = view.findViewById(R.id.exp_title_text);
 
         //Set text that is to be displayed for each experiment
-        owner.setText("Owner: " + experiment.getOwnerID());
+        owner.setText("Owner: " + experiment.getOwner());
 
         if (experiment.isPublished()) {
             status.setText("Status: " + experiment.getStatus());

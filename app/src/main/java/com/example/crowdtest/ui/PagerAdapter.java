@@ -6,9 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.crowdtest.Experimenter;
-import com.example.crowdtest.MyExpFragment;
 import com.example.crowdtest.experiments.Experiment;
-import com.example.crowdtest.ui.SubscribedExpFragment;
 
 import java.util.ArrayList;
 
