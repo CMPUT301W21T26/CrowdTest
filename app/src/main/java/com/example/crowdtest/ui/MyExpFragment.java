@@ -111,6 +111,7 @@ public class MyExpFragment extends Fragment {
                 experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
             }
             experimentActivityIntent.putExtras(experimentDetailsBundle);
+            experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
             System.out.println(experiment.getClass());
 
             startActivity(experimentActivityIntent);

@@ -44,9 +44,10 @@ public class Measurement extends Experiment {
      */
     public Measurement(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
-                       ArrayList<String> questions, boolean geoLocation, Date datePublished,
-                       int minTrials, ArrayList<MeasurementTrial> trials, boolean published) {
-        super(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, minTrials, published);
+                       ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                       boolean geoLocation, Date datePublished, int minTrials,
+                       ArrayList<MeasurementTrial> trials, boolean published) {
+        super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);
         this.trials = trials;
     }
 

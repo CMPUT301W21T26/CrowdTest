@@ -40,47 +40,59 @@ public class ValueInputActivity extends ExperimentActivity {
             experiment = (NonNegative) experimentBundle.getSerializable("experiment");
             isMeasurement = false;
         }
+
+        currentUser = (String) getIntent().getStringExtra("username");
+
         setContentView(R.layout.activity_value_input);
         setValues();
 
         addButton = findViewById(R.id.value_input_add_button);
         valueEditText = findViewById(R.id.value_input_trial_input_editText);
 
+        // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
-        endExperiment.setOnClickListener(v -> {
-            if (endExperiment.getText().equals("End Experiment")) {
-                experiment.setStatus("closed");
-                endExperiment.setText("Reopen Experiment");
-                addButton.setVisibility(View.INVISIBLE);
-                valueEditText.setVisibility(View.INVISIBLE);
-                toolbar.setTitleTextColor(0xFFE91E63);
-                toolbar.setTitle(experiment.getTitle() + " (Closed)");
-            } else if (endExperiment.getText().equals("Reopen Experiment")) {
-                experiment.setStatus("open");
-                endExperiment.setText("End Experiment");
-                addButton.setVisibility(View.VISIBLE);
-                valueEditText.setVisibility(View.VISIBLE);
-                toolbar.setTitleTextColor(0xFF000000);
-                toolbar.setTitle(experiment.getTitle());
-            }
-        });
-
-        addButton.setOnClickListener(v -> {
-            if (isMeasurement){
-                double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                ((Measurement)experiment).addTrial(trialInput);
-            }
-            else{
-                int trialInput = Integer.parseInt(valueEditText.getText().toString());
-                valueEditText.setText("");
-                try {
-                    ((NonNegative)experiment).addTrial(trialInput);
-                    Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
-                } catch (Exception e) {
-                    Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+        if (experiment.getOwner().equals(currentUser)) {
+            endExperiment.setVisibility(View.VISIBLE);
+            endExperiment.setOnClickListener(v -> {
+                if (endExperiment.getText().equals("End Experiment")) {
+                    experiment.setStatus("closed");
+                    endExperiment.setText("Reopen Experiment");
+                    addButton.setVisibility(View.INVISIBLE);
+                    valueEditText.setVisibility(View.INVISIBLE);
+                    toolbar.setTitleTextColor(0xFFE91E63);
+                    toolbar.setTitle(experiment.getTitle() + " (Closed)");
+                } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                    experiment.setStatus("open");
+                    endExperiment.setText("End Experiment");
+                    addButton.setVisibility(View.VISIBLE);
+                    valueEditText.setVisibility(View.VISIBLE);
+                    toolbar.setTitleTextColor(0xFF000000);
+                    toolbar.setTitle(experiment.getTitle());
                 }
-            }
-        });
+            });
+        } else {
+            endExperiment.setVisibility(View.INVISIBLE);
+        }
+
+//        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
+        if (experiment.getSubscribers().contains(currentUser)) {
+            addButton.setOnClickListener(v -> {
+                if (isMeasurement) {
+                    double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                    ((Measurement) experiment).addTrial(trialInput);
+                } else {
+                    int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                    valueEditText.setText("");
+                    try {
+                        ((NonNegative) experiment).addTrial(trialInput);
+                        Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                    } catch (Exception e) {
+                        Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                    }
+                }
+            });
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
@@ -92,8 +104,14 @@ public class ValueInputActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle() + " (Closed)");
             } else {
                 endExperiment.setText("End Experiment");
-                addButton.setVisibility(View.VISIBLE);
-                valueEditText.setVisibility(View.VISIBLE);
+//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser)) {
+                    addButton.setVisibility(View.VISIBLE);
+                    valueEditText.setVisibility(View.VISIBLE);
+                } else {
+                    addButton.setVisibility(View.INVISIBLE);
+                    valueEditText.setVisibility(View.INVISIBLE);
+                }
                 toolbar.setTitleTextColor(0xFF000000);
                 toolbar.setTitle(experiment.getTitle());
             }

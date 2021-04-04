@@ -161,23 +161,25 @@ public class SearchExperimentActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Bundle experimentDetailsBundle = new Bundle();
-                Experiment experiment = experimentAdapter.getItem(position);
-                experimentDetailsBundle.putSerializable("experiment", experiment);
-                Intent experimentActivityIntent = null;
-                if (experiment instanceof Binomial){
-                     experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-                }
-                else if (experiment instanceof Count){
-                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-                }
-                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-                }
-                experimentActivityIntent.putExtras(experimentDetailsBundle);
-                System.out.println(experiment.getClass());
+                viewExperiment(view, position);
 
-                startActivity(experimentActivityIntent);
+//                Bundle experimentDetailsBundle = new Bundle();
+//                Experiment experiment = experimentAdapter.getItem(position);
+//                experimentDetailsBundle.putSerializable("experiment", experiment);
+//                Intent experimentActivityIntent = null;
+//                if (experiment instanceof Binomial){
+//                     experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+//                }
+//                else if (experiment instanceof Count){
+//                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+//                }
+//                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+//                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+//                }
+//                experimentActivityIntent.putExtras(experimentDetailsBundle);
+//                System.out.println(experiment.getClass());
+//
+//                startActivity(experimentActivityIntent);
             }
         });
 
@@ -212,12 +214,16 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isSubscriber = experimentManager.experimentIsSubscribed(user, experiment);
 
-        if (!isSubscriber & experiment.getStatus().equals("open")) {
+        if (!isSubscriber && experiment.getStatus().equals("open")) {
 
             MenuItem subscribeItem = (MenuItem) menu.findItem(R.id.susbcribe_option);
             subscribeItem.setVisible(true);
         }
+        else if (isSubscriber && experiment.getStatus().equals("open")) {
 
+            MenuItem unsubscribeItem = (MenuItem) menu.findItem(R.id.unsubscribe_option);
+            unsubscribeItem.setVisible(true);
+        }
     }
 
     /**
@@ -232,9 +238,12 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
+        Experiment experiment;
+
         switch(item.getItemId()) {
             case R.id.view_option:
 
+                viewExperiment(info.targetView, info.position);
 
                 return true;
 
@@ -254,9 +263,19 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
             case R.id.susbcribe_option:
 
-                Experiment experiment = experimentDataList.get(info.position);
+                experiment = experimentDataList.get(info.position);
 
                 experimentManager.addSubscriber(experiment, user.getUserProfile().getUsername());
+
+                return true;
+
+            case R.id.unsubscribe_option:
+
+                experiment = experimentDataList.get(info.position);
+
+                experimentManager.removeSubscriber(experiment, user.getUserProfile().getUsername());
+
+                return true;
 
             default:
 
@@ -264,5 +283,32 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    /**
+     * Function for viewing an experiment
+     * @param position
+     */
+    private void viewExperiment(View view, int position) {
+
+        Bundle experimentDetailsBundle = new Bundle();
+        Experiment experiment = experimentAdapter.getItem(position);
+        experimentDetailsBundle.putSerializable("experiment", experiment);
+
+        Intent experimentActivityIntent = null;
+        if (experiment instanceof Binomial){
+            experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+        }
+        else if (experiment instanceof Count){
+            experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+        }
+        else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+            experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+        }
+        experimentActivityIntent.putExtras(experimentDetailsBundle);
+        experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
+        System.out.println(experiment.getClass());
+
+        startActivity(experimentActivityIntent);
     }
 }
