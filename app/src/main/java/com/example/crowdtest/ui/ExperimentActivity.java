@@ -24,6 +24,7 @@ public class ExperimentActivity extends AppCompatActivity {
     Button endExperiment;
     RecyclerView questionList;
     Experiment experiment;
+    String currentUser;
 
     /**
      * This method sets the values of the views that are common between all the experiment activities (Toolbar, participants, experiment description, date published, experiment details and the end experiment button)

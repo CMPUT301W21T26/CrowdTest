@@ -100,6 +100,9 @@ public class SubscribedExpFragment extends Fragment {
         listView.setAdapter(listViewAdapter);
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
+
+//            viewExperiment(listViewAdapter, view1, position);
+
             Bundle experimentDetailsBundle = new Bundle();
             Experiment experiment = listViewAdapter.getItem(position);
             experimentDetailsBundle.putSerializable("experiment", experiment);
@@ -114,9 +117,11 @@ public class SubscribedExpFragment extends Fragment {
                 experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
             }
             experimentActivityIntent.putExtras(experimentDetailsBundle);
+            experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
             System.out.println(experiment.getClass());
 
             startActivity(experimentActivityIntent);
+
         });
 
         registerForContextMenu(listView);
@@ -195,6 +200,9 @@ public class SubscribedExpFragment extends Fragment {
             }
             MenuItem unpublishItem = (MenuItem) menu.findItem(R.id.unpublish_option);
             unpublishItem.setVisible(isOwner);
+        } else {
+            MenuItem unsubscribeItem = (MenuItem) menu.findItem(R.id.unsubscribe_option);
+            unsubscribeItem.setVisible(true);
         }
     }
 
@@ -213,7 +221,6 @@ public class SubscribedExpFragment extends Fragment {
         switch(item.getItemId()) {
             case R.id.view_option:
 
-
                 return true;
 
             case R.id.end_option:
@@ -228,10 +235,43 @@ public class SubscribedExpFragment extends Fragment {
 
                 return true;
 
+            case R.id.unsubscribe_option:
+
+                Experiment experiment = subscribedExperiments.get(info.position);
+
+                experimentManager.removeSubscriber(experiment, user.getUserProfile().getUsername());
+
+                return true;
+
             default:
 
                 return super.onContextItemSelected(item);
         }
 
     }
+
+//    /**
+//     *
+//     * @param position
+//     */
+//    private void viewExperiment(ArrayAdapter listViewAdapter, View view, int position) {
+//
+//        Bundle experimentDetailsBundle = new Bundle();
+//        Experiment experiment = (Experiment) listViewAdapter.getItem(position);
+//        experimentDetailsBundle.putSerializable("experiment", experiment);
+//        Intent experimentActivityIntent = null;
+//        if (experiment instanceof Binomial){
+//            experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+//        }
+//        else if (experiment instanceof Count){
+//            experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+//        }
+//        else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+//            experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+//        }
+//        experimentActivityIntent.putExtras(experimentDetailsBundle);
+//        System.out.println(experiment.getClass());
+//
+//        startActivity(experimentActivityIntent);
+//    }
 }

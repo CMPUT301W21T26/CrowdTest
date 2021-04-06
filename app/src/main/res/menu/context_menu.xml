@@ -14,5 +14,9 @@
         android:title="Subscribe"
         android:visible="false"
         app:actionViewClass="android.widget.ListView" />
-
+    <item android:id="@+id/unsubscribe_option"
+        android:title="Unsubscribe"
+        android:visible="false"
+        app:actionViewClass="android.widget.ListView" />
+    
 </menu>

@@ -33,6 +33,7 @@ public class BinomialActivity extends ExperimentActivity {
         super.onCreate(savedInstanceState);
         Bundle experimentBundle = getIntent().getExtras();
         experiment = (Binomial) experimentBundle.getSerializable("experiment");
+        currentUser = (String) getIntent().getStringExtra("username");
 
         setContentView(R.layout.activity_binomial);
         setValues();
@@ -45,24 +46,30 @@ public class BinomialActivity extends ExperimentActivity {
         failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
         failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
 
+        // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
-        endExperiment.setOnClickListener(v -> {
-            if (endExperiment.getText().equals("End Experiment")) {
-                experiment.setStatus("closed");
-                endExperiment.setText("Reopen Experiment");
-                successButton.setVisibility(View.INVISIBLE);
-                failButton.setVisibility(View.INVISIBLE);
-                toolbar.setTitleTextColor(0xFFE91E63);
-                toolbar.setTitle(experiment.getTitle()+" (Closed)");
-            } else if (endExperiment.getText().equals("Reopen Experiment")) {
-                experiment.setStatus("open");
-                endExperiment.setText("End Experiment");
-                successButton.setVisibility(View.VISIBLE);
-                failButton.setVisibility(View.VISIBLE);
-                toolbar.setTitleTextColor(0xFF000000);
-                toolbar.setTitle(experiment.getTitle());
-            }
-        });
+        if (experiment.getOwner().equals(currentUser)) {
+            endExperiment.setVisibility(View.VISIBLE);
+            endExperiment.setOnClickListener(v -> {
+                if (endExperiment.getText().equals("End Experiment")) {
+                    experiment.setStatus("closed");
+                    endExperiment.setText("Reopen Experiment");
+                    successButton.setVisibility(View.INVISIBLE);
+                    failButton.setVisibility(View.INVISIBLE);
+                    toolbar.setTitleTextColor(0xFFE91E63);
+                    toolbar.setTitle(experiment.getTitle() + " (Closed)");
+                } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                    experiment.setStatus("open");
+                    endExperiment.setText("End Experiment");
+                    successButton.setVisibility(View.VISIBLE);
+                    failButton.setVisibility(View.VISIBLE);
+                    toolbar.setTitleTextColor(0xFF000000);
+                    toolbar.setTitle(experiment.getTitle());
+                }
+            });
+        } else {
+            endExperiment.setVisibility(View.INVISIBLE);
+        }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
@@ -76,10 +83,16 @@ public class BinomialActivity extends ExperimentActivity {
                 failButton.setVisibility(View.INVISIBLE);
                 toolbar.setTitleTextColor(0xFFE91E63);
                 toolbar.setTitle(experiment.getTitle()+" (Closed)");
-            }else{
+            } else{
                 endExperiment.setText("End Experiment");
-                successButton.setVisibility(View.VISIBLE);
-                failButton.setVisibility(View.VISIBLE);
+//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser)) {
+                    successButton.setVisibility(View.VISIBLE);
+                    failButton.setVisibility(View.VISIBLE);
+                } else {
+                    successButton.setVisibility(View.INVISIBLE);
+                    failButton.setVisibility(View.INVISIBLE);
+                }
                 toolbar.setTitleTextColor(0xFF000000);
                 toolbar.setTitle(experiment.getTitle());
             }
