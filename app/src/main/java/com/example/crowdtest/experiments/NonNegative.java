@@ -5,6 +5,7 @@ import com.example.crowdtest.DatabaseManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Class to represent a NonNegative experiment
@@ -86,4 +87,14 @@ public class NonNegative extends Experiment {
     public ArrayList<NonNegativeTrial> getTrials() {
         return trials;
     }
+
+    public Hashtable<String, Double> getStatistics(){
+
+        Hashtable<String, Double> statistics = new Hashtable<>();
+
+        statistics.put("Mean", 4.0);
+
+        return statistics;
+    };
+
 }
