@@ -41,12 +41,40 @@ public class BinomialActivity extends ExperimentActivity {
         setValues();
 
         successButton = findViewById(R.id.binomial_success_button);
-        successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
-        successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+        if (experiment.isGeolocationEnabled()) {
+            successButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Binomial) experiment).addTrial(true);
+                        successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+                    }
+                });
+            });
+        } else {
+            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
+            successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+        }
 
         failButton = findViewById(R.id.binomial_fail_button);
-        failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
-        failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+        if (experiment.isGeolocationEnabled()) {
+            failButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Binomial) experiment).addTrial(false);
+                        failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+                    }
+                });
+            });
+        } else {
+            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
+            failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+        }
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
