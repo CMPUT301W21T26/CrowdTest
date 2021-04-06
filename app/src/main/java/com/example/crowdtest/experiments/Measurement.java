@@ -2,9 +2,13 @@ package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.DatabaseManager;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Class to represent a Measurement Experiment
@@ -88,4 +92,5 @@ public class Measurement extends Experiment {
     public ArrayList<MeasurementTrial> getTrials() {
         return trials;
     }
+
 }

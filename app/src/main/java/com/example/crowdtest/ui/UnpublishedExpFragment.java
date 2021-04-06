@@ -55,6 +55,8 @@ public class UnpublishedExpFragment extends Fragment {
 
     Experimenter user;
 
+    Boolean trialsInitialized = false;
+
     public UnpublishedExpFragment() {
         // Required empty public constructor
     }
@@ -101,23 +103,29 @@ public class UnpublishedExpFragment extends Fragment {
 
         registerForContextMenu(listView);
         listView.setOnItemClickListener((parent, view1, position, id) -> {
-            Bundle experimentDetailsBundle = new Bundle();
-            Experiment experiment = listViewAdapter.getItem(position);
-            experimentDetailsBundle.putSerializable("experiment", experiment);
-            Intent experimentActivityIntent = null;
-            if (experiment instanceof Binomial){
-                experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-            }
-            else if (experiment instanceof Count){
-                experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-            }
-            else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-                experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-            }
-            experimentActivityIntent.putExtras(experimentDetailsBundle);
-            System.out.println(experiment.getClass());
 
-            startActivity(experimentActivityIntent);
+            if (trialsInitialized) {
+
+                Bundle experimentDetailsBundle = new Bundle();
+                Experiment experiment = listViewAdapter.getItem(position);
+                experimentDetailsBundle.putSerializable("experiment", experiment);
+                Intent experimentActivityIntent = null;
+                if (experiment instanceof Binomial){
+                    experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+                }
+                else if (experiment instanceof Count){
+                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+                }
+                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+                }
+                experimentActivityIntent.putExtras(experimentDetailsBundle);
+                System.out.println(experiment.getClass());
+
+                startActivity(experimentActivityIntent);
+
+
+            }
         });
 
         collectionReference = db.collection("Experiments");
@@ -157,6 +165,13 @@ public class UnpublishedExpFragment extends Fragment {
                         @Override
                         public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                             ((Measurement) experiment).getTrials().add(measurementTrial);
+                        }
+
+                        @Override
+                        public void setTrialsInitialized(){
+
+                            trialsInitialized = true;
+
                         }
                     });
                 }

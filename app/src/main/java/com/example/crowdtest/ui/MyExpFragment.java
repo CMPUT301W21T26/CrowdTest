@@ -54,6 +54,8 @@ public class MyExpFragment extends Fragment {
     ArrayList<Experiment> ownedExperiments;
 
     Experimenter user;
+    
+    Boolean trialsInitialized = false;
 
     public MyExpFragment() {
         // Required empty public constructor
@@ -155,6 +157,13 @@ public class MyExpFragment extends Fragment {
                         public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                             ((Measurement) experiment).getTrials().add(measurementTrial);
                         }
+
+                        @Override
+                        public void setTrialsInitialized(){
+                            
+                            trialsInitialized = true;
+
+                        }
                     });
                 }
 
@@ -162,6 +171,35 @@ public class MyExpFragment extends Fragment {
 
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (trialsInitialized) {
+
+                    Bundle experimentDetailsBundle = new Bundle();
+                    Experiment experiment = listViewAdapter.getItem(position);
+                    experimentDetailsBundle.putSerializable("experiment", experiment);
+                    Intent experimentActivityIntent = null;
+                    if (experiment instanceof Binomial){
+                        experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+                    }
+                    else if (experiment instanceof Count){
+                        experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+                    }
+                    else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+                        experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+                    }
+                    experimentActivityIntent.putExtras(experimentDetailsBundle);
+                    experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
+                    startActivity(experimentActivityIntent);
+
+                }
+
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return view;
@@ -186,7 +224,8 @@ public class MyExpFragment extends Fragment {
         int position = info.position;
         Experiment experiment = ownedExperiments.get(position);
 
-        if (experiment.getStatus().equals("open")) {
+        String status = experiment.getStatus();
+        if (experiment.getStatus().toLowerCase().equals("open")) {
             MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
             endItem.setVisible(true);
         }

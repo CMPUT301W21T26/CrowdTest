@@ -55,6 +55,8 @@ public class SubscribedExpFragment extends Fragment {
 
     Experimenter user;
 
+    Boolean trialsInitialized = false;
+
     public SubscribedExpFragment() {
         // Required empty public constructor
     }
@@ -101,27 +103,26 @@ public class SubscribedExpFragment extends Fragment {
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
 
-//            viewExperiment(listViewAdapter, view1, position);
+            if (trialsInitialized) {
 
-            Bundle experimentDetailsBundle = new Bundle();
-            Experiment experiment = listViewAdapter.getItem(position);
-            experimentDetailsBundle.putSerializable("experiment", experiment);
-            Intent experimentActivityIntent = null;
-            if (experiment instanceof Binomial){
-                experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-            }
-            else if (experiment instanceof Count){
-                experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-            }
-            else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-                experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-            }
-            experimentActivityIntent.putExtras(experimentDetailsBundle);
-            experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
-            System.out.println(experiment.getClass());
+                Bundle experimentDetailsBundle = new Bundle();
+                Experiment experiment = listViewAdapter.getItem(position);
+                experimentDetailsBundle.putSerializable("experiment", experiment);
+                Intent experimentActivityIntent = null;
+                if (experiment instanceof Binomial){
+                    experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+                }
+                else if (experiment instanceof Count){
+                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+                }
+                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+                }
+                experimentActivityIntent.putExtras(experimentDetailsBundle);
+                experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
+                startActivity(experimentActivityIntent);
 
-            startActivity(experimentActivityIntent);
-
+            }
         });
 
         registerForContextMenu(listView);
@@ -162,6 +163,13 @@ public class SubscribedExpFragment extends Fragment {
                     public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                         ((Measurement) experiment).getTrials().add(measurementTrial);
                     }
+
+                    @Override
+                    public void setTrialsInitialized(){
+
+                        trialsInitialized = true;
+
+                    }
                 });
             }
 
@@ -194,7 +202,7 @@ public class SubscribedExpFragment extends Fragment {
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
 
-            if (experiment.getStatus().equals("open")) {
+            if (experiment.getStatus().toLowerCase().equals("open")) {
                 MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
                 endItem.setVisible(isOwner);
             }

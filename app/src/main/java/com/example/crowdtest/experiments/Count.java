@@ -5,6 +5,7 @@ import com.example.crowdtest.DatabaseManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Class to represent a Count Experiment
@@ -87,4 +88,13 @@ public class Count extends Experiment {
     public int getCount(){
         return trials.size();
     }
+
+    public Hashtable<String, Double> getStatistics(){
+
+        Hashtable<String, Double> statistics = new Hashtable<>();
+
+        statistics.put("Total Trials", new Double(trials.size()));
+
+        return statistics;
+    };
 }

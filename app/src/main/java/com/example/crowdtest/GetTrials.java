@@ -10,4 +10,5 @@ public interface GetTrials {
     void getCountTrials (CountTrial countTrial);
     void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial);
     void getMeasurementTrials (MeasurementTrial measurementTrial);
+    void setTrialsInitialized();
 }
