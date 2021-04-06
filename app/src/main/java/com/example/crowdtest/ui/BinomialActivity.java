@@ -107,7 +107,7 @@ public class BinomialActivity extends ExperimentActivity {
         {
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
-            if (experiment.getStatus().equals("closed")){
+            if (experiment.getStatus().toLowerCase().equals("closed")){
                 endExperiment.setText("Reopen Experiment");
                 successButton.setVisibility(View.INVISIBLE);
                 failButton.setVisibility(View.INVISIBLE);

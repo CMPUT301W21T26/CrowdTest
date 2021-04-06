@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private ExperimentManager experimentManager = new ExperimentManager();
     private Experimenter user;
 
+    private ActivityDialogHelper activityDialogHelper;
+
 
     /**
      * Customized onCreate method
@@ -61,11 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
             if (user != null) {
 
-                Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
+                activityDialogHelper = new ActivityDialogHelper(this, experimentManager, user);
+                activityDialogHelper.selectExperimentType();
 
-                intent.putExtra("USER", user);
-
-                startActivity(intent);
+//                Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
+//
+//                intent.putExtra("USER", user);
+//
+//                startActivity(intent);
 
             }
 

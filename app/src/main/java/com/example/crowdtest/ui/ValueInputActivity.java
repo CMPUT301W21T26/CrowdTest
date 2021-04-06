@@ -128,7 +128,7 @@ public class ValueInputActivity extends ExperimentActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
-            if (experiment.getStatus().equals("closed")) {
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
                 valueEditText.setVisibility(View.INVISIBLE);

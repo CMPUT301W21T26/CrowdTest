@@ -73,7 +73,7 @@ public class CountActivity extends ExperimentActivity {
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
             addButton.setText(String.valueOf(((Count) experiment).getCount()));
-            if (experiment.getStatus().equals("closed")) {
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
                 toolbar.setTitleTextColor(0xFFE91E63);

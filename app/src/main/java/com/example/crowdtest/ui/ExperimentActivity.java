@@ -33,7 +33,7 @@ public class ExperimentActivity extends AppCompatActivity {
      */
     public void setValues(){
         toolbar = findViewById(R.id.experiment_toolbar);
-        if (experiment.getStatus().equals("open")) {
+        if (experiment.getStatus().toLowerCase().equals("open")) {
             toolbar.setTitle(experiment.getTitle());
         }else {
             toolbar.setTitle(experiment.getTitle()+" (Closed)");
