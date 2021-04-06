@@ -20,6 +20,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,17 +72,18 @@ public class ExperimentManager extends DatabaseManager {
         String region = (String) document.getData().get("region");
         ArrayList<String> questions = (ArrayList<String>) document.getData().get("questions");
         ArrayList<String> subscribers = (ArrayList<String>) document.getData().get("subscribers");
+        ArrayList<String> blackListedUsers = (ArrayList<String>) document.getData().get("blacklisted");
         boolean isPublished = (boolean) document.getData().get("published");
 
         //TODO: make it so that each experiment created uses actual user (ie add code for actual user here)
         if (type.equals("Binomial")) {
-            experiment = new Binomial(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
+            experiment = new Binomial(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
         } else if (type.equals("Count")) {
-            experiment = new Count(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
+            experiment = new Count(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
         } else if (type.equals("Measurement")) {
-            experiment = new Measurement(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
+            experiment = new Measurement(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
         } else {
-            experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
+            experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, 0, new ArrayList<>(), isPublished);
         }
         return experiment;
     }
@@ -116,7 +118,6 @@ public class ExperimentManager extends DatabaseManager {
                     }
                 }
 
-                getTrials.setTrialsInitialized();
 //                experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials, isPublished);
             } else {
 
@@ -208,6 +209,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
+        experimentData.put("blacklisted", experiment.getBlackListedUsers());
         experimentData.put("questions", experiment.getQuestions());
         experimentData.put("type", experiment.getClass().getSimpleName());
         experimentData.put("datePublished", experiment.getDatePublished());
@@ -265,6 +267,59 @@ public class ExperimentManager extends DatabaseManager {
                 .document(experiment.getExperimentID())
                 .update(experimentData);
 
+    }
+
+    /**
+     * Method to update the subscribers of an experiment by removing a subscriber
+     *
+     * @param experiment The experiment with the added subscriber
+     * @param subscriber The id of the subscriber being added to the experiment
+     */
+    public void removeSubscriber(Experiment experiment, String subscriber) {
+
+        experiment.removeSubscriber(subscriber);
+
+        HashMap<String, Object> experimentData = new HashMap<>();
+
+        experimentData.put("subscribers", experiment.getSubscribers());
+
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
+    }
+
+    /**
+     *
+     * @param experiment
+     * @param username
+     */
+    public void addBlackListedUser(Experiment experiment, String username) {
+        experiment.addBlackListedUser(username);
+
+        HashMap<String, Object> experimentData = new HashMap<>();
+
+        experimentData.put("blacklisted", experiment.getSubscribers());
+
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
+    }
+
+    /**
+     *
+     * @param experiment
+     * @param username
+     */
+    public void removeBlackListedUser(Experiment experiment, String username) {
+        experiment.removeBlackListedUser(username);
+
+        HashMap<String, Object> experimentData = new HashMap<>();
+
+        experimentData.put("blacklisted", experiment.getSubscribers());
+
+        database.collection(collectionPath)
+                .document(experiment.getExperimentID())
+                .update(experimentData);
     }
 
     /**

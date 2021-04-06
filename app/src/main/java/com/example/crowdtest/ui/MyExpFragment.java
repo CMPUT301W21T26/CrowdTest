@@ -54,8 +54,7 @@ public class MyExpFragment extends Fragment {
     ArrayList<Experiment> ownedExperiments;
 
     Experimenter user;
-    
-    Boolean trialsInitialized = false;
+
 
     public MyExpFragment() {
         // Required empty public constructor
@@ -113,6 +112,7 @@ public class MyExpFragment extends Fragment {
                 experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
             }
             experimentActivityIntent.putExtras(experimentDetailsBundle);
+            experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
             System.out.println(experiment.getClass());
 
             startActivity(experimentActivityIntent);
@@ -157,12 +157,6 @@ public class MyExpFragment extends Fragment {
                             ((Measurement) experiment).getTrials().add(measurementTrial);
                         }
 
-                        @Override
-                        public void setTrialsInitialized(){
-                            
-                            trialsInitialized = true;
-
-                        }
                     });
                 }
 
@@ -175,27 +169,7 @@ public class MyExpFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (trialsInitialized) {
-
-                    Bundle experimentDetailsBundle = new Bundle();
-                    Experiment experiment = listViewAdapter.getItem(position);
-                    experimentDetailsBundle.putSerializable("experiment", experiment);
-                    Intent experimentActivityIntent = null;
-                    if (experiment instanceof Binomial){
-                        experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-                    }
-                    else if (experiment instanceof Count){
-                        experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-                    }
-                    else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-                        experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-                    }
-                    experimentActivityIntent.putExtras(experimentDetailsBundle);
-                    System.out.println(experiment.getClass());
-
-                    startActivity(experimentActivityIntent);
-
-                }
+                viewExperiment(view, position);
 
             }
         });
@@ -248,6 +222,7 @@ public class MyExpFragment extends Fragment {
         switch(item.getItemId()) {
             case R.id.view_option:
 
+                viewExperiment(info.targetView, info.position);
 
                 return true;
 
@@ -268,5 +243,32 @@ public class MyExpFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
 
+    }
+
+    /**
+     * Function for viewing an experiment
+     * @param position
+     */
+    private void viewExperiment(View view, int position) {
+
+        Bundle experimentDetailsBundle = new Bundle();
+        Experiment experiment = ownedExperiments.get(position);
+        experimentDetailsBundle.putSerializable("experiment", experiment);
+
+        Intent experimentActivityIntent = null;
+        if (experiment instanceof Binomial){
+            experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+        }
+        else if (experiment instanceof Count){
+            experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+        }
+        else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+            experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+        }
+        experimentActivityIntent.putExtras(experimentDetailsBundle);
+        experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
+        System.out.println(experiment.getClass());
+
+        startActivity(experimentActivityIntent);
     }
 }

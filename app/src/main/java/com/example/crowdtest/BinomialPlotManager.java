@@ -8,7 +8,10 @@ import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
@@ -31,12 +34,6 @@ public class BinomialPlotManager extends PlotManager{
 
         label = "Success Rate (%)";
 
-    }
-
-
-    @Override
-    public IndexAxisValueFormatter getXAxis() {
-        return new IndexAxisValueFormatter(xAxisValues);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -119,6 +116,26 @@ public class BinomialPlotManager extends PlotManager{
             xAxisValues.add(axisValue);
             i++;
         }
+
+    }
+
+    @Override
+    public void createPlot(LineChart lineChart) {
+
+        if (((Binomial) experiment).getTrials().size() == 0) {
+
+            return;
+        }
+
+        LineData theData = getGraphData();
+
+        XAxis xAxis = lineChart.getXAxis();
+
+        xAxis.setValueFormatter(getXAxis());
+
+        lineChart.setData(theData);
+
+        return;
 
     }
 }

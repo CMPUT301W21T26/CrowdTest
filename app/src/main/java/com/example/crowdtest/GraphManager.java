@@ -4,6 +4,7 @@ import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.Trial;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -21,15 +22,19 @@ public abstract class GraphManager {
 
     protected String label;
 
-    GraphManager(){
+    protected Experiment experiment;
 
-        barEntries = new ArrayList<BarEntry>();
+    GraphManager(Experiment experiment){
 
-        xAxisValues = new ArrayList<>();
+        this.barEntries = new ArrayList<BarEntry>();
+
+        this.xAxisValues = new ArrayList<>();
+
+        this.experiment = experiment;
 
     }
 
-    public BarData getGraphData(Experiment experiment){
+    protected BarData getGraphData(Experiment experiment){
 
         setPlotValues(experiment);
 
@@ -43,9 +48,15 @@ public abstract class GraphManager {
 
     }
 
-    public abstract IndexAxisValueFormatter getXAxis();
+    protected IndexAxisValueFormatter getXAxis(){
+
+        return new IndexAxisValueFormatter(xAxisValues);
+    }
+
+    public abstract void createGraph(BarChart barChart);
 
     protected abstract void setPlotValues(Experiment experiment);
 
     protected abstract void setUpGraphData();
+
 }

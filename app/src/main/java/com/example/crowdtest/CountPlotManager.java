@@ -9,8 +9,11 @@ import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
@@ -34,11 +37,6 @@ public class CountPlotManager extends PlotManager{
 
         label = "Measurement Entries in Range";
 
-    }
-
-    public IndexAxisValueFormatter getXAxis(){
-
-        return new IndexAxisValueFormatter(xAxisValues);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -103,5 +101,23 @@ public class CountPlotManager extends PlotManager{
             i++;
         }
 
+    }
+
+    @Override
+    public void createPlot(LineChart lineChart) {
+        if (((Count) experiment).getTrials().size() == 0) {
+
+            return;
+        }
+
+        LineData theData = getGraphData();
+
+        XAxis xAxis = lineChart.getXAxis();
+
+        xAxis.setValueFormatter(getXAxis());
+
+        lineChart.setData(theData);
+
+        return;
     }
 }

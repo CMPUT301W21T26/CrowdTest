@@ -20,6 +20,7 @@ public abstract class Experiment implements Serializable {
     protected String description;
     protected String region;
     protected ArrayList<String> subscribers; //array of subscriber usernames
+    protected ArrayList<String> blackListedUsers;
     protected ArrayList<String> questions; //Array of question ids
     protected Date datePublished;
     protected int minTrials;
@@ -42,34 +43,26 @@ public abstract class Experiment implements Serializable {
         this.published = true;
     }
 
-    protected Experiment() {
-    }
-
-    public boolean isPublished() {
-
-        return this.published;
-
-    }
-
-    public void setPublished(boolean published) {
-
-        this.published = published;
-    }
-
     /**
-     * Function for adding an experimenter to the collection of subscribers for the experiment
      *
-     * @param username Unique username of new subscriber
-     *                 Constructor for uploading from the database
+     * @param owner
+     * @param experimentID
+     * @param status
+     * @param title
+     * @param description
+     * @param region
+     * @param subscribers
+     * @param questions
+     * @param geoLocation
+     * @param datePublished
+     * @param minTrials
+     * @param published
      */
-    public void addSubscriber(String username) {
-        subscribers.add(username);
-    }
-
     public Experiment(String owner, String experimentID, String status,
                       String title, String description, String region,
-                      ArrayList<String> subscribers, ArrayList<String> questions,
-                      boolean geoLocation, Date datePublished, int minTrials, boolean published) {
+                      ArrayList<String> subscribers, ArrayList<String> blackListedUsers,
+                      ArrayList<String> questions, boolean geoLocation, Date datePublished,
+                      int minTrials, boolean published) {
         this.experimentID = experimentID;
         this.owner = owner;
         this.status = status;
@@ -77,11 +70,69 @@ public abstract class Experiment implements Serializable {
         this.description = description;
         this.region = region;
         this.subscribers = subscribers;
+        this.blackListedUsers = blackListedUsers;
         this.questions = questions;
         this.geolocationEnabled = geoLocation;
         this.datePublished = datePublished;
         this.minTrials = minTrials;
         this.published = published;
+    }
+
+    /**
+     *
+     */
+    protected Experiment() { }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isPublished() {
+        return this.published;
+    }
+
+    /**
+     *
+     * @param published
+     */
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    /**
+     * Function for adding an experimenter to the collection of subscribers for the experiment
+     *
+     * @param username Unique username of new subscriber
+     */
+    public void addSubscriber(String username) {
+        subscribers.add(username);
+    }
+
+    /**
+     * Function for removing an experimenter from the collection of subscribers for the experiment
+     *
+     * @param username Unique username of new subscriber
+     */
+    public void removeSubscriber(String username) {
+        subscribers.remove(username);
+    }
+
+    /**
+     * Function for adding an experimenter to the collection of blacklisted users for the experiment
+     *
+     * @param username Unique username of user to blacklist
+     */
+    public void addBlackListedUser(String username) {
+        blackListedUsers.add(username);
+    }
+
+    /**
+     * Function for removing an experimenter from the collection of blacklisted users for the experiment
+     *
+     * @param username Unique username of blacklisted user
+     */
+    public void removeBlackListedUser(String username) {
+        blackListedUsers.remove(username);
     }
 
     /**
@@ -157,6 +208,23 @@ public abstract class Experiment implements Serializable {
      */
     public void setSubscribers(ArrayList<String> subscribers) {
         this.subscribers = subscribers;
+    }
+
+
+    /**
+     * Function fro getting the IDs of the experiment's blacklisted users
+     * @return
+     */
+    public ArrayList<String> getBlackListedUsers() {
+        return blackListedUsers;
+    }
+
+    /**
+     * Function for setting the IDs of the experiment's blacklsited users
+     * @param blackListedUsers
+     */
+    public void setBlackListedUsers(ArrayList<String> blackListedUsers) {
+        this.blackListedUsers = blackListedUsers;
     }
 
     /**

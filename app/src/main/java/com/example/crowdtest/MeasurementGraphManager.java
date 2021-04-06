@@ -9,6 +9,9 @@ import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.Trial;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
@@ -23,18 +26,13 @@ public class MeasurementGraphManager extends GraphManager{
     protected TreeMap<Integer, Integer> plotValues;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public MeasurementGraphManager(){
+    public MeasurementGraphManager(Experiment experiment){
 
-        super();
+        super(experiment);
 
         plotValues = new TreeMap<Integer, Integer>();
 
         label = "Measurement Entries in Range";
-    }
-
-    public IndexAxisValueFormatter getXAxis(){
-
-        return new IndexAxisValueFormatter(xAxisValues);
     }
 
     protected void setPlotValues(Experiment experiment) {
@@ -103,6 +101,28 @@ public class MeasurementGraphManager extends GraphManager{
 
             xValue++;
         }
+
+    }
+
+    @Override
+    public void createGraph(BarChart barChart) {
+
+        if (((Measurement) experiment).getTrials().size() == 0) {
+
+            return;
+        }
+
+        BarData theData = getGraphData(experiment);
+
+        XAxis xAxis = barChart.getXAxis();
+
+        xAxis.setValueFormatter(getXAxis());
+
+        barChart.setData(theData);
+
+        barChart.setVisibleXRangeMaximum(5);
+
+        return;
 
     }
 

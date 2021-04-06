@@ -8,6 +8,9 @@ import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.MeasurementTrial;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
@@ -22,17 +25,13 @@ public class CountGraphManager extends GraphManager{
     private TreeMap<String, Integer> plotValues;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public CountGraphManager(){
+    public CountGraphManager(Experiment experiment){
 
-        super();
+        super(experiment);
 
         plotValues = new TreeMap<String, Integer>(Comparator.reverseOrder());
 
         label = "Total Count";
-    }
-    @Override
-    public IndexAxisValueFormatter getXAxis() {
-        return new IndexAxisValueFormatter(xAxisValues);
     }
 
     @Override
@@ -74,5 +73,26 @@ public class CountGraphManager extends GraphManager{
 
         }
 
+    }
+
+    @Override
+    public void createGraph(BarChart barChart) {
+
+        if (((Count) experiment).getTrials().size() == 0) {
+
+            return;
+        }
+
+        BarData theData = getGraphData(experiment);
+
+        XAxis xAxis =  barChart.getXAxis();
+
+        xAxis.setValueFormatter(getXAxis());
+
+        barChart.setData(theData);
+
+        barChart.setVisibleXRangeMaximum(5);
+
+        return;
     }
 }

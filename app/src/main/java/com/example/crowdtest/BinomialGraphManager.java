@@ -11,6 +11,8 @@ import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.MeasurementTrial;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -31,9 +33,9 @@ public class BinomialGraphManager extends GraphManager {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public BinomialGraphManager(){
+    public BinomialGraphManager(Experiment experiment){
 
-        super();
+        super(experiment);
 
         plotValues = new TreeMap<String, Integer[]>(Comparator.reverseOrder());
 
@@ -43,12 +45,6 @@ public class BinomialGraphManager extends GraphManager {
         label = "Count of Successes/Failures";
 
 
-    }
-
-
-    @Override
-    public IndexAxisValueFormatter getXAxis() {
-        return new IndexAxisValueFormatter(xAxisValues);
     }
 
     @Override
@@ -105,7 +101,7 @@ public class BinomialGraphManager extends GraphManager {
     }
 
     @Override
-    public BarData getGraphData(Experiment experiment) {
+    protected BarData getGraphData(Experiment experiment) {
 
         setPlotValues(experiment);
 
@@ -119,5 +115,35 @@ public class BinomialGraphManager extends GraphManager {
         BarData theData = new BarData(successDataSet, failureDataSet);
 
         return theData;
+    }
+
+    @Override
+    public void createGraph(BarChart barChart) {
+
+        if (((Binomial) experiment).getTrials().size() == 0) {
+
+            return;
+        }
+
+        BarData theData = getGraphData(experiment);
+
+        XAxis xAxis = barChart.getXAxis();
+
+        xAxis.setValueFormatter(getXAxis());
+
+        barChart.setData(theData);
+
+        barChart.setVisibleXRangeMaximum(3);
+
+        xAxis.setCenterAxisLabels(true);
+
+        theData.setBarWidth(0.16f);
+
+        xAxis.setAxisMinimum(0);
+
+        xAxis.setAxisMaximum(0 + barChart.getBarData().getGroupWidth(0.58f, 0.05f)*3);
+
+        barChart.groupBars(0, 0.58f,0.05f);
+
     }
 }
