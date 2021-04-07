@@ -63,11 +63,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
         barChart = (BarChart) findViewById(R.id.bar_chart);
 
-        barChart.setNoDataText("No Trials Recorded Yet");
-
         lineChart = (LineChart) findViewById(R.id.line_chart);
-
-        lineChart.setNoDataText("No Trials Recorded Yet");
 
         createBarChart(experiment);
 
@@ -83,11 +79,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void createBarChart(Experiment experiment) {
 
-        XAxis xAxis = barChart.getXAxis();
-
         formatBarChart();
-
-        BarData theData;
 
         histogramTitle = findViewById(R.id.bar_chart_title_text);
 
@@ -96,90 +88,35 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
             histogramTitle.setText("Number of Measurements by Value Range");
 
-            if (((Measurement) experiment).getTrials().size() == 0) {
+            MeasurementGraphManager measurementGraphManager = new MeasurementGraphManager(experiment);
 
-                return;
-            }
+            measurementGraphManager.createGraph(barChart);
 
-            MeasurementGraphManager measurementGraphManager = new MeasurementGraphManager();
-
-            theData = measurementGraphManager.getGraphData(experiment);
-
-            xAxis.setValueFormatter(measurementGraphManager.getXAxis());
-
-            barChart.setData(theData);
-
-            barChart.setVisibleXRangeMaximum(5);
 
         } else if (experiment instanceof Count) {
 
             histogramTitle.setText("Counts to Date");
 
-            if (((Count) experiment).getTrials().size() == 0) {
+            CountGraphManager countGraphManager = new CountGraphManager(experiment);
 
-                return;
-            }
-
-            CountGraphManager countGraphManager = new CountGraphManager();
-
-            theData = countGraphManager.getGraphData(experiment);
-
-            xAxis.setValueFormatter(countGraphManager.getXAxis());
-
-            barChart.setData(theData);
-
-            barChart.setVisibleXRangeMaximum(5);
+            countGraphManager.createGraph(barChart);
 
         } else if (experiment instanceof Binomial) {
 
             histogramTitle.setText("Successes and Failures by Date");
 
-            if (((Binomial) experiment).getTrials().size() == 0) {
+            BinomialGraphManager binomialGraphManager = new BinomialGraphManager(experiment);
 
-                return;
-            }
-
-            BinomialGraphManager binomialGraphManager = new BinomialGraphManager();
-
-            theData = binomialGraphManager.getGraphData(experiment);
-            
-            xAxis.setValueFormatter(binomialGraphManager.getXAxis());
-
-            barChart.setData(theData);
-
-            barChart.setVisibleXRangeMaximum(3);
-
-            xAxis.setCenterAxisLabels(true);
-
-            theData.setBarWidth(0.16f);
-
-            xAxis.setAxisMinimum(0);
-
-            Integer entries = ((Binomial) experiment).getTrials().size();
-
-            xAxis.setAxisMaximum(0 + barChart.getBarData().getGroupWidth(0.58f, 0.05f)*3);
-
-            barChart.groupBars(0, 0.58f,0.05f);
+            binomialGraphManager.createGraph(barChart);
 
         }
         else if (experiment instanceof NonNegative){
 
             histogramTitle.setText("Num. of Trials by Non-Negative Count Value");
 
-            if (((NonNegative) experiment).getTrials().size() == 0) {
+            NonNegativeGraphManager nonNegativeGraphManager = new NonNegativeGraphManager(experiment);
 
-                return;
-            }
-
-            NonNegativeGraphManager nonNegativeGraphManager = new NonNegativeGraphManager();
-
-            theData = nonNegativeGraphManager.getGraphData(experiment);
-
-            xAxis.setValueFormatter(nonNegativeGraphManager.getXAxis());
-
-            barChart.setData(theData);
-
-            barChart.setVisibleXRangeMaximum(5);
+            nonNegativeGraphManager.createGraph(barChart);
 
         }
 
@@ -187,10 +124,6 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void createPlot(Experiment experiment) {
-
-        LineData theData;
-
-        XAxis xAxis = lineChart.getXAxis();
 
         formatLineChart();
 
@@ -200,77 +133,43 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
             plotTitle.setText("Total Counts Over Time");
 
-            if (((Count) experiment).getTrials().size() == 0) {
-
-                return;
-            }
-
             CountPlotManager countPlotManager = new CountPlotManager(experiment);
 
-            theData = countPlotManager.getGraphData();
-
-            xAxis.setValueFormatter(countPlotManager.getXAxis());
+            countPlotManager.createPlot(lineChart);
 
 
         } else if (experiment instanceof Binomial){
 
             plotTitle.setText("Success Rate Over Time ");
 
-            if (((Binomial) experiment).getTrials().size() == 0) {
-
-                return;
-            }
-
             BinomialPlotManager binomialPlotManager = new BinomialPlotManager(experiment);
 
-            theData = binomialPlotManager.getGraphData();
-
-            xAxis.setValueFormatter(binomialPlotManager.getXAxis());
-
+            binomialPlotManager.createPlot(lineChart);
 
         } else if (experiment instanceof Measurement) {
 
             plotTitle.setText("Average Measurement Over Time");
 
-            if (((Measurement) experiment).getTrials().size() == 0) {
-
-                return;
-            }
-
             MeasurementPlotManager measurementPlotManager = new MeasurementPlotManager(experiment);
 
-            theData = measurementPlotManager.getGraphData();
-
-            xAxis.setValueFormatter(measurementPlotManager.getXAxis());
+            measurementPlotManager.createPlot(lineChart);
 
 
         } else if (experiment instanceof NonNegative) {
 
             plotTitle.setText("Average NonNegative Count Total Over Time");
 
-            if (((NonNegative) experiment).getTrials().size() == 0) {
-
-                return;
-            }
-
             NonNegativePlotManager nonNegativePlotManager = new NonNegativePlotManager(experiment);
 
-            theData = nonNegativePlotManager.getGraphData();
+            nonNegativePlotManager.createPlot(lineChart);
 
-            xAxis.setValueFormatter(nonNegativePlotManager.getXAxis());
-
-        } else {
-
-            theData = null;
         }
-
-        lineChart.setData(theData);
-
 
     }
 
     private void formatLineChart(){
 
+        lineChart.setNoDataText("No Trials Recorded Yet");
         lineChart.getDescription().setEnabled(false);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -282,7 +181,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
     private void formatBarChart(){
 
-
+        barChart.setNoDataText("No Trials Recorded Yet");
         barChart.getDescription().setEnabled(false);
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

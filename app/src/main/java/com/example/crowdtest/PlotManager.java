@@ -1,6 +1,7 @@
 package com.example.crowdtest;
 
 import com.example.crowdtest.experiments.Experiment;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -28,7 +29,7 @@ public abstract class PlotManager {
 
     }
 
-    public LineData getGraphData(){
+    protected LineData getGraphData(){
 
         setPlotValues();
 
@@ -42,10 +43,17 @@ public abstract class PlotManager {
 
     }
 
-    public abstract IndexAxisValueFormatter getXAxis();
+    protected IndexAxisValueFormatter getXAxis() {
+
+        return new IndexAxisValueFormatter(xAxisValues);
+    }
+
+    public abstract void createPlot(LineChart lineChart);
 
     protected abstract void setPlotValues();
 
     protected abstract void setUpGraphData();
+
+
 }
 

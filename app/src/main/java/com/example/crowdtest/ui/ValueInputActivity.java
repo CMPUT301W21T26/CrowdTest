@@ -122,7 +122,6 @@ public class ValueInputActivity extends ExperimentActivity {
                     }
                 });
             }
-
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

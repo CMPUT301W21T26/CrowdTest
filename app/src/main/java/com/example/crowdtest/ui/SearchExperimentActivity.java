@@ -55,7 +55,6 @@ public class SearchExperimentActivity extends AppCompatActivity {
     String searchString;
     FirebaseFirestore db;
     Experimenter user;
-    Boolean trialsInitialized = false;
 
     /**
      * Custom onCreate method
@@ -118,10 +117,6 @@ public class SearchExperimentActivity extends AppCompatActivity {
                         ((Measurement) experiment).getTrials().add(measurementTrial);
                     }
 
-                    @Override
-                    public void setTrialsInitialized(){
-                        trialsInitialized = true;
-                    }
                 });
 
                 if (experiment.isPublished()) {
@@ -166,10 +161,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
         allExperimentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (trialsInitialized) {
-                    viewExperiment(view, position);
-                }
+                viewExperiment(view, position);
             }
         });
     }

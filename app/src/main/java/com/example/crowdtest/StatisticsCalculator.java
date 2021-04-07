@@ -1,14 +1,8 @@
 package com.example.crowdtest;
 
-import com.example.crowdtest.experiments.Experiment;
-import com.example.crowdtest.experiments.Measurement;
-import com.example.crowdtest.experiments.MeasurementTrial;
-import com.example.crowdtest.experiments.Trial;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
 
 public class StatisticsCalculator {
 
