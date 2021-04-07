@@ -117,6 +117,7 @@ public class ExperimentManager extends DatabaseManager {
                         getTrials.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
                     }
                 }
+
 //                experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials, isPublished);
             } else {
 

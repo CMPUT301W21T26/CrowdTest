@@ -116,6 +116,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
                     public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                         ((Measurement) experiment).getTrials().add(measurementTrial);
                     }
+
                 });
 
                 if (experiment.isPublished()) {
@@ -204,7 +205,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
-            if (experiment.getStatus().equals("open")) {
+            if (experiment.getStatus().toLowerCase().equals("open")) {
                 MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
                 endItem.setVisible(isOwner);
             }
@@ -214,7 +215,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isSubscriber = experimentManager.experimentIsSubscribed(user, experiment);
 
-        if (!isSubscriber && experiment.getStatus().equals("open")) {
+        if (!isSubscriber && experiment.getStatus().toLowerCase().equals("open")) {
 
             MenuItem subscribeItem = (MenuItem) menu.findItem(R.id.susbcribe_option);
             subscribeItem.setVisible(true);

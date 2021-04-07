@@ -55,6 +55,7 @@ public class MyExpFragment extends Fragment {
 
     Experimenter user;
 
+
     public MyExpFragment() {
         // Required empty public constructor
     }
@@ -155,6 +156,7 @@ public class MyExpFragment extends Fragment {
                         public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                             ((Measurement) experiment).getTrials().add(measurementTrial);
                         }
+
                     });
                 }
 
@@ -162,6 +164,16 @@ public class MyExpFragment extends Fragment {
 
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                viewExperiment(view, position);
+
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return view;
@@ -186,7 +198,8 @@ public class MyExpFragment extends Fragment {
         int position = info.position;
         Experiment experiment = ownedExperiments.get(position);
 
-        if (experiment.getStatus().equals("open")) {
+        String status = experiment.getStatus();
+        if (experiment.getStatus().toLowerCase().equals("open")) {
             MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
             endItem.setVisible(true);
         }
@@ -209,6 +222,7 @@ public class MyExpFragment extends Fragment {
         switch(item.getItemId()) {
             case R.id.view_option:
 
+                viewExperiment(info.targetView, info.position);
 
                 return true;
 
@@ -229,5 +243,32 @@ public class MyExpFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
 
+    }
+
+    /**
+     * Function for viewing an experiment
+     * @param position
+     */
+    private void viewExperiment(View view, int position) {
+
+        Bundle experimentDetailsBundle = new Bundle();
+        Experiment experiment = ownedExperiments.get(position);
+        experimentDetailsBundle.putSerializable("experiment", experiment);
+
+        Intent experimentActivityIntent = null;
+        if (experiment instanceof Binomial){
+            experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
+        }
+        else if (experiment instanceof Count){
+            experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
+        }
+        else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+            experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
+        }
+        experimentActivityIntent.putExtras(experimentDetailsBundle);
+        experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
+        System.out.println(experiment.getClass());
+
+        startActivity(experimentActivityIntent);
     }
 }
