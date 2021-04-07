@@ -7,20 +7,10 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
-import com.example.crowdtest.experiments.BinomialTrial;
-import com.example.crowdtest.experiments.Count;
-import com.example.crowdtest.experiments.CountTrial;
-import com.example.crowdtest.experiments.Experiment;
-import com.example.crowdtest.experiments.Measurement;
-import com.example.crowdtest.experiments.MeasurementTrial;
-import com.example.crowdtest.experiments.NonNegative;
-import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 /**
  * Binomial experiment activity class that has two buttons for submitting success and failure
@@ -41,12 +31,40 @@ public class BinomialActivity extends ExperimentActivity {
         setValues();
 
         successButton = findViewById(R.id.binomial_success_button);
-        successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
-        successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+        if (experiment.isGeolocationEnabled()) {
+            successButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Binomial) experiment).addTrial(true);
+                        successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+                    }
+                });
+            });
+        } else {
+            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
+            successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
+        }
 
         failButton = findViewById(R.id.binomial_fail_button);
-        failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
-        failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+        if (experiment.isGeolocationEnabled()) {
+            failButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Binomial) experiment).addTrial(false);
+                        failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+                    }
+                });
+            });
+        } else {
+            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
+            failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
+        }
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
@@ -79,7 +97,7 @@ public class BinomialActivity extends ExperimentActivity {
         {
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
-            if (experiment.getStatus().equals("closed")){
+            if (experiment.getStatus().toLowerCase().equals("closed")){
                 endExperiment.setText("Reopen Experiment");
                 successButton.setVisibility(View.INVISIBLE);
                 failButton.setVisibility(View.INVISIBLE);

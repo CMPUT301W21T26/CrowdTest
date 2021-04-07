@@ -78,29 +78,56 @@ public class ValueInputActivity extends ExperimentActivity {
             endExperiment.setVisibility(View.INVISIBLE);
         }
 
-
+//        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
         if (experiment.getSubscribers().contains(currentUser)) {
-            addButton.setOnClickListener(v -> {
-                if (isMeasurement) {
-                    double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                    ((Measurement) experiment).addTrial(trialInput);
-                } else {
-                    int trialInput = Integer.parseInt(valueEditText.getText().toString());
-                    valueEditText.setText("");
-                    try {
-                        ((NonNegative) experiment).addTrial(trialInput);
-                        Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
-                    } catch (Exception e) {
-                        Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+            if (experiment.isGeolocationEnabled()) {
+                addButton.setOnClickListener(v -> {
+                    String title = "Trial Confirmation";
+                    String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                    showConfirmationDialog(title, message, new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isMeasurement) {
+                                double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                                ((Measurement)experiment).addTrial(trialInput);
+                                valueEditText.setText("");
+                            } else {
+                                int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                                valueEditText.setText("");
+                                try {
+                                    ((NonNegative) experiment).addTrial(trialInput);
+                                    Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                                } catch (Exception e) {
+                                    Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                                }
+                            }
+                        }
+                    });
+                });
+            } else {
+                addButton.setOnClickListener(v -> {
+                    if (isMeasurement) {
+                        double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                        ((Measurement)experiment).addTrial(trialInput);
+                        valueEditText.setText("");
+                    } else {
+                        int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                        valueEditText.setText("");
+                        try {
+                            ((NonNegative) experiment).addTrial(trialInput);
+                            Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                        } catch (Exception e) {
+                            Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
-            if (experiment.getStatus().equals("closed")) {
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
                 valueEditText.setVisibility(View.INVISIBLE);

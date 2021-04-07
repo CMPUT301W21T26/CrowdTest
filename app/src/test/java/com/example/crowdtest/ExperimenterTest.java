@@ -161,7 +161,7 @@ public class ExperimenterTest {
         owner.closeExperiment(experiment);
 
         // Check that experiment has been successfully archived
-        assertEquals("closed", experiment.getStatus());
+        assertEquals("closed", experiment.getStatus().toLowerCase());
     }
 
     /**

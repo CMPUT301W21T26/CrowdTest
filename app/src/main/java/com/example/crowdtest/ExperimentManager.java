@@ -210,7 +210,7 @@ public class ExperimentManager extends DatabaseManager {
         experimentData.put("owner", experiment.getOwner());
         experimentData.put("status", experiment.getStatus());
         experimentData.put("title", experiment.getTitle());
-        experimentData.put("geolocation", experiment.isGeoLocationEnabled());
+        experimentData.put("geolocation", experiment.isGeolocationEnabled());
         experimentData.put("description", experiment.getDescription());
         experimentData.put("region", experiment.getRegion());
         experimentData.put("subscribers", experiment.getSubscribers());
