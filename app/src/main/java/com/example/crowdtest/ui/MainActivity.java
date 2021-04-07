@@ -2,7 +2,6 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.ExperimenterManager;
 import com.example.crowdtest.Installation;
 import com.example.crowdtest.R;
-import com.example.crowdtest.RetrieveExperimenterResults;
 import com.example.crowdtest.experiments.Experiment;
 
 import java.util.ArrayList;
@@ -31,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ExperimenterManager experimenterManager = new ExperimenterManager();
     private ExperimentManager experimentManager = new ExperimentManager();
     private Experimenter user;
+
+    private ExperimentCreationHelper experimentCreationHelper;
 
 
     /**
@@ -61,11 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (user != null) {
 
-                Intent intent = new Intent(view.getContext(), CreateExperimentActivity.class);
-
-                intent.putExtra("USER", user);
-
-                startActivity(intent);
+                experimentCreationHelper = new ExperimentCreationHelper(this, experimentManager, user);
+                experimentCreationHelper.selectExperimentType();
 
             }
 

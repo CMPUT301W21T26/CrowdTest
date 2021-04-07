@@ -102,29 +102,7 @@ public class SubscribedExpFragment extends Fragment {
         listView.setAdapter(listViewAdapter);
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
-
-
             viewExperiment(view1, position);
-
-//            Bundle experimentDetailsBundle = new Bundle();
-//            Experiment experiment = listViewAdapter.getItem(position);
-//            experimentDetailsBundle.putSerializable("experiment", experiment);
-//            Intent experimentActivityIntent = null;
-//            if (experiment instanceof Binomial){
-//                experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-//            }
-//            else if (experiment instanceof Count){
-//                experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-//            }
-//            else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-//                experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-//            }
-//            experimentActivityIntent.putExtras(experimentDetailsBundle);
-//            experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
-//            System.out.println(experiment.getClass());
-//
-//            startActivity(experimentActivityIntent);
-
         });
 
         registerForContextMenu(listView);
@@ -280,8 +258,6 @@ public class SubscribedExpFragment extends Fragment {
         }
         experimentActivityIntent.putExtras(experimentDetailsBundle);
         experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
-        System.out.println(experiment.getClass());
-
         startActivity(experimentActivityIntent);
     }
 

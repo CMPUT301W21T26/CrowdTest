@@ -161,29 +161,9 @@ public class SearchExperimentActivity extends AppCompatActivity {
         allExperimentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 viewExperiment(view, position);
-
-//                Bundle experimentDetailsBundle = new Bundle();
-//                Experiment experiment = experimentAdapter.getItem(position);
-//                experimentDetailsBundle.putSerializable("experiment", experiment);
-//                Intent experimentActivityIntent = null;
-//                if (experiment instanceof Binomial){
-//                     experimentActivityIntent = new Intent(view.getContext(), BinomialActivity.class);
-//                }
-//                else if (experiment instanceof Count){
-//                    experimentActivityIntent = new Intent(view.getContext(), CountActivity.class);
-//                }
-//                else if (experiment instanceof Measurement || experiment instanceof NonNegative){
-//                    experimentActivityIntent = new Intent(view.getContext(), ValueInputActivity.class);
-//                }
-//                experimentActivityIntent.putExtras(experimentDetailsBundle);
-//                System.out.println(experiment.getClass());
-//
-//                startActivity(experimentActivityIntent);
             }
         });
-
     }
 
     /**
@@ -205,7 +185,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
         Boolean isOwner = experimentManager.experimentIsOwned(user, experiment);
         if (isOwner) {
-            if (experiment.getStatus().toLowerCase().equals("open")) {
+            if (experiment.getStatus().toLowerCase().toLowerCase().equals("open")) {
                 MenuItem endItem = (MenuItem) menu.findItem(R.id.end_option);
                 endItem.setVisible(isOwner);
             }
@@ -220,7 +200,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
             MenuItem subscribeItem = (MenuItem) menu.findItem(R.id.susbcribe_option);
             subscribeItem.setVisible(true);
         }
-        else if (isSubscriber && experiment.getStatus().equals("open")) {
+        else if (isSubscriber && experiment.getStatus().toLowerCase().equals("open")) {
 
             MenuItem unsubscribeItem = (MenuItem) menu.findItem(R.id.unsubscribe_option);
             unsubscribeItem.setVisible(true);
@@ -308,8 +288,6 @@ public class SearchExperimentActivity extends AppCompatActivity {
         }
         experimentActivityIntent.putExtras(experimentDetailsBundle);
         experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
-        System.out.println(experiment.getClass());
-
         startActivity(experimentActivityIntent);
     }
 }

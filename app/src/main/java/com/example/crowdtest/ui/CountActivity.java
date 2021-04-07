@@ -31,7 +31,20 @@ public class CountActivity extends ExperimentActivity {
         setValues();
 
         addButton = findViewById(R.id.count_add_button);
-        addButton.setOnClickListener(v -> ((Count) experiment).addTrial());
+        if (experiment.isGeolocationEnabled()) {
+            addButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Count) experiment).addTrial();
+                    }
+                });
+            });
+        } else {
+            addButton.setOnClickListener(v -> ((Count) experiment).addTrial());
+        }
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
@@ -60,7 +73,7 @@ public class CountActivity extends ExperimentActivity {
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
             addButton.setText(String.valueOf(((Count) experiment).getCount()));
-            if (experiment.getStatus().equals("closed")) {
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
                 toolbar.setTitleTextColor(0xFFE91E63);

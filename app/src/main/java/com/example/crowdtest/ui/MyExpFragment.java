@@ -267,8 +267,6 @@ public class MyExpFragment extends Fragment {
         }
         experimentActivityIntent.putExtras(experimentDetailsBundle);
         experimentActivityIntent.putExtra("username", user.getUserProfile().getUsername());
-        System.out.println(experiment.getClass());
-
         startActivity(experimentActivityIntent);
     }
 }

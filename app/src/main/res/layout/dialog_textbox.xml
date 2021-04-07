@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<!--    Title:          Custom Dialog with EditText and Button Action Android-->
+<!--    Author:         Mujjtahidah-->
+<!--    Date:           2021-02-06-->
+<!--    License:        Public Domain-->
+<!--    Availability:   https://medium.com/@mujjtahidah/custom-dialog-with-edittext-and-button-action-android-fc64ef5eb2b2-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/textbox_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="12"
+                android:hint="Experiment Title"
+                android:inputType="textPersonName"
+                android:padding="15dp"
+                android:scrollbars="vertical"
+                android:textColorHint="#808080" />
+
+            <EditText
+                android:id="@+id/textbox_desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="12"
+                android:hint="Experiment Description"
+                android:inputType="textMultiLine"
+                android:padding="15dp"
+                android:textColorHint="#808080" />
+
+            <EditText
+                android:id="@+id/textbox_region"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="12"
+                android:hint="Experiment Region"
+                android:inputType="textPersonName"
+                android:padding="15dp"
+                android:textColorHint="#808080" />
+
+            <EditText
+                android:id="@+id/textbox_mintrials"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="12"
+                android:hint="Minimum Trials"
+                android:inputType="number|text"
+                android:padding="15dp"
+                android:textColorHint="#808080" />
+
+            <Switch
+                android:id="@+id/switch_geolocation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:textSize="18dp"
+                android:text="Geo-Location"
+                android:textColor="#808080" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
