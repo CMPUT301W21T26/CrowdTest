@@ -18,13 +18,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * Count experiment activity class
  */
 public class CountActivity extends ExperimentActivity {
-<<<<<<< HEAD
-    Button addButton;
-    ImageButton qrButton;
-=======
+
     private Button addButton;
     private Button detailsButton;
->>>>>>> 0f4552a55e9dc43128813c4029efef566e72af3e
+    private ImageButton qrButton;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class CountActivity extends ExperimentActivity {
         qrButton.setOnClickListener(view -> {
 
             Intent intent = new Intent(view.getContext(), QRActivity.class);
-            intent.putExtra("EXTRA_EXP_TITLE", experiment.getTitle());
+            //intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
             startActivity(intent);
 
         });
