@@ -25,12 +25,12 @@ import com.example.crowdtest.experiments.NonNegative;
 import java.util.ArrayList;
 
 /**
- * Fragment for choosing which type of experiment is made
+ * Fragment for displaying measurement QR text
  */
-public class QRCodeFragment extends Fragment {
+public class QRCodeFragmentMeasurement extends Fragment {
     Experiment experiment;
 
-    public QRCodeFragment(Experiment exp) {
+    public QRCodeFragmentMeasurement(Experiment exp) {
 
         experiment = exp;
     }
@@ -48,8 +48,8 @@ public class QRCodeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if experiment.getT
-        View view = inflater.inflate(R.layout.fragment_new_exp, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_measurement_qr, container, false);
+        return view;
     }
 }

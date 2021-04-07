@@ -17,6 +17,7 @@
         <activity android:name=".ui.SearchExperimentActivity"/>
         <activity android:name=".ui.ExperimentListActivity" />
         <activity android:name=".ui.CreateExperimentActivity" />
+        <activity android:name=".ui.QRActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
