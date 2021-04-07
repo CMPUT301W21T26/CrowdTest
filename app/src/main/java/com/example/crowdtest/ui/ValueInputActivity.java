@@ -1,5 +1,6 @@
 package com.example.crowdtest.ui;
 
+import android.content.Intent;
 import android.icu.util.Measure;
 import android.os.Bundle;
 import android.view.View;
@@ -21,8 +22,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * Value input experiment activity class. Value input experiments are experiments that require a number for their trials. Double for measurement trials and positive int for Non negative trials
  */
 public class ValueInputActivity extends ExperimentActivity {
-    Button addButton;
-    EditText valueEditText;
+    private Button addButton;
+    private EditText valueEditText;
+    private Button detailsButton;
+
+
     /**
      * To determine whether the experiment is a measurement experiment or a non negative integer experiment
      */
@@ -76,27 +80,54 @@ public class ValueInputActivity extends ExperimentActivity {
 
 //        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
         if (experiment.getSubscribers().contains(currentUser)) {
-            addButton.setOnClickListener(v -> {
-                if (isMeasurement) {
-                    double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                    ((Measurement) experiment).addTrial(trialInput);
-                } else {
-                    int trialInput = Integer.parseInt(valueEditText.getText().toString());
-                    valueEditText.setText("");
-                    try {
-                        ((NonNegative) experiment).addTrial(trialInput);
-                        Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
-                    } catch (Exception e) {
-                        Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+            if (experiment.isGeolocationEnabled()) {
+                addButton.setOnClickListener(v -> {
+                    String title = "Trial Confirmation";
+                    String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                    showConfirmationDialog(title, message, new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isMeasurement) {
+                                double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                                ((Measurement)experiment).addTrial(trialInput);
+                                valueEditText.setText("");
+                            } else {
+                                int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                                valueEditText.setText("");
+                                try {
+                                    ((NonNegative) experiment).addTrial(trialInput);
+                                    Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                                } catch (Exception e) {
+                                    Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                                }
+                            }
+                        }
+                    });
+                });
+            } else {
+                addButton.setOnClickListener(v -> {
+                    if (isMeasurement) {
+                        double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                        ((Measurement)experiment).addTrial(trialInput);
+                        valueEditText.setText("");
+                    } else {
+                        int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                        valueEditText.setText("");
+                        try {
+                            ((NonNegative) experiment).addTrial(trialInput);
+                            Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                        } catch (Exception e) {
+                            Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
-            if (experiment.getStatus().equals("closed")) {
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
                 valueEditText.setVisibility(View.INVISIBLE);
@@ -114,6 +145,21 @@ public class ValueInputActivity extends ExperimentActivity {
                 }
                 toolbar.setTitleTextColor(0xFF000000);
                 toolbar.setTitle(experiment.getTitle());
+            }
+        });
+
+        detailsButton = findViewById(R.id.experiment_details_button);
+
+        detailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(view.getContext(), ExpStatisticsActivity.class);
+
+                intent.putExtra("EXP", experiment);
+
+                startActivity(intent);
+
             }
         });
     }

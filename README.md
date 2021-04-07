@@ -40,7 +40,7 @@ Note that you will automatically be subscribed to any experiments that you creat
 2. Long click on one of the displayed experiments that you own. This will open a context menu. 
 3. Select "Unpublish".
 
-## View Owned and Unpublished Expeirments
+## View Owned and Unpublished Experiments
 1. Select the "MY EXPERIMENTS" button
 2. Click on the "UNPUBLISHED EXPERIMENTS" tab.
 3. Experiments that are both owned and unpublished are displayed.

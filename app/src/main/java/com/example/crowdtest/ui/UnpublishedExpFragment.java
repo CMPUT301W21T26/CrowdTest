@@ -101,6 +101,7 @@ public class UnpublishedExpFragment extends Fragment {
 
         registerForContextMenu(listView);
         listView.setOnItemClickListener((parent, view1, position, id) -> {
+
             Bundle experimentDetailsBundle = new Bundle();
             Experiment experiment = listViewAdapter.getItem(position);
             experimentDetailsBundle.putSerializable("experiment", experiment);
@@ -118,6 +119,7 @@ public class UnpublishedExpFragment extends Fragment {
             System.out.println(experiment.getClass());
 
             startActivity(experimentActivityIntent);
+
         });
 
         collectionReference = db.collection("Experiments");
@@ -158,6 +160,7 @@ public class UnpublishedExpFragment extends Fragment {
                         public void getMeasurementTrials(MeasurementTrial measurementTrial) {
                             ((Measurement) experiment).getTrials().add(measurementTrial);
                         }
+
                     });
                 }
 

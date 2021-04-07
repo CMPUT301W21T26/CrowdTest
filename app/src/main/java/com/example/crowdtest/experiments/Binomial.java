@@ -6,6 +6,7 @@ import com.example.crowdtest.DatabaseManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Class to represent a Binomial experiment
@@ -149,4 +150,23 @@ public class Binomial extends Experiment {
     public ArrayList<BinomialTrial> getTrials() {
         return trials;
     }
+
+    public Hashtable<String, Double> getStatistics(){
+
+        Hashtable<String, Double> statistics = new Hashtable<>();
+
+        statistics.put("Total Trials", new Double(trials.size()));
+        statistics.put("Successes", new Double(getSuccessCount()));
+        statistics.put("Failures", new Double(getFailCount()));
+        statistics.put("SuccessRate", getSuccessRate());
+
+        return statistics;
+    };
+
+    private Double getSuccessRate(){
+
+        return (new Double(getSuccessCount())/new Double(trials.size()))*100;
+    }
+
+
 }

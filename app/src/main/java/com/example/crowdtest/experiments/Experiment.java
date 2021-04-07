@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 /**
  * Class to represent a generic Experiment
@@ -163,10 +164,6 @@ public abstract class Experiment implements Serializable {
 
     public void setQuestions(ArrayList<String> questions) {
         this.questions = questions;
-    }
-
-    public boolean isGeoLocationEnabled() {
-        return geolocationEnabled;
     }
 
     public void setGeoLocation(boolean geoLocation) {
