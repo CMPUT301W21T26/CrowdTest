@@ -41,6 +41,11 @@ public class ExperimentManager extends DatabaseManager {
         super();
     }
 
+    public ExperimentManager(FirebaseFirestore db) {
+
+        super(db);
+    }
+
     /**
      * Function for generating a unique experiment ID
      *
