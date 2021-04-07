@@ -28,8 +28,7 @@
                 android:inputType="textPersonName"
                 android:padding="15dp"
                 android:scrollbars="vertical"
-                android:textColorHint="@color/grey"
-                android:textColorLink="#FFFFFF" />
+                android:textColorHint="#808080" />
 
             <EditText
                 android:id="@+id/textbox_desc"
@@ -39,8 +38,7 @@
                 android:hint="Experiment Description"
                 android:inputType="textMultiLine"
                 android:padding="15dp"
-                android:textColorHint="@color/grey"
-                android:textColorLink="#FFFFFF" />
+                android:textColorHint="#808080" />
 
             <EditText
                 android:id="@+id/textbox_region"
@@ -50,7 +48,7 @@
                 android:hint="Experiment Region"
                 android:inputType="textPersonName"
                 android:padding="15dp"
-                android:textColorHint="@color/grey" />
+                android:textColorHint="#808080" />
 
             <EditText
                 android:id="@+id/textbox_mintrials"
@@ -60,15 +58,16 @@
                 android:hint="Minimum Trials"
                 android:inputType="number|text"
                 android:padding="15dp"
-                android:textColorHint="@color/grey" />
+                android:textColorHint="#808080" />
 
             <Switch
                 android:id="@+id/switch_geolocation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="15dp"
-                android:text="Geo-Location Enabled"
-                android:textColor="@color/black" />
+                android:textSize="18dp"
+                android:text="Geo-Location"
+                android:textColor="#808080" />
         </LinearLayout>
     </ScrollView>
 
