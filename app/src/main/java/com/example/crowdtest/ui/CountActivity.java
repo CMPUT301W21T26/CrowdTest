@@ -54,7 +54,8 @@ public class CountActivity extends ExperimentActivity {
         qrButton.setOnClickListener(view -> {
 
             Intent intent = new Intent(view.getContext(), QRActivity.class);
-            //intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            intent.putExtra("EXTRA_EXP_TYPE", "count");
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
             startActivity(intent);
 
         });

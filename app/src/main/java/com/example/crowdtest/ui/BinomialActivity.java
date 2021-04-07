@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
@@ -19,6 +20,7 @@ public class BinomialActivity extends ExperimentActivity {
     private Button successButton;
     private Button failButton;
     private Button detailsButton;
+    private ImageButton qrButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +67,16 @@ public class BinomialActivity extends ExperimentActivity {
             failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
         }
+
+        qrButton = findViewById(R.id.qr_icon);
+        qrButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(view.getContext(), QRActivity.class);
+            intent.putExtra("EXTRA_EXP_TYPE", "binomial");
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            startActivity(intent);
+
+        });
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);

@@ -20,4 +20,5 @@
     <string name="value">Value</string>
     <string name="participants">Participants</string>
     <string name="add_count">Add count</string>
+    <string name="qrgenerate">Generate QR</string>
 </resources>

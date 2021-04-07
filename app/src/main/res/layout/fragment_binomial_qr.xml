@@ -12,7 +12,14 @@
         android:gravity="center"/>
 
     <ImageView
-        android:id="@+id/qr_image"
+        android:id="@+id/qr_image_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/qr_image_bot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"

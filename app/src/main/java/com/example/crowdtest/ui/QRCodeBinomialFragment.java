@@ -40,14 +40,15 @@ import static android.content.Context.WINDOW_SERVICE;
 /**
  * Fragment for displaying measurement QR text
  */
-public class QRCodeCountFragment extends Fragment {
-    private ImageView qrImage;
+public class QRCodeBinomialFragment extends Fragment {
+    private ImageView qrImageTop;
+    private ImageView qrImageBot;
     private String inputValue;
     private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
 
-    public QRCodeCountFragment(String input){
+    public QRCodeBinomialFragment(String input){
         inputValue = input;
     }
     /**
@@ -63,18 +64,35 @@ public class QRCodeCountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_count_qr, container, false);
-        qrImage = view.findViewById(R.id.qr_image);
+        View view = inflater.inflate(R.layout.fragment_binomial_qr, container, false);
+        qrImageTop = view.findViewById(R.id.qr_image_top);
+        String inputValueSuccess = inputValue + " s";
 
-        if (inputValue.length() > 0) {
+        if (inputValueSuccess.length() > 0) {
 
             qrgEncoder = new QRGEncoder(
-                    inputValue, null,
+                    inputValueSuccess, null,
                     QRGContents.Type.TEXT,
                     500);
             try {
                 bitmap = qrgEncoder.getBitmap();
-                qrImage.setImageBitmap(bitmap);
+                qrImageTop.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        qrImageBot = view.findViewById(R.id.qr_image_bot);
+        String inputValueFailure = inputValue + " f";
+        if (inputValueFailure.length() > 0) {
+
+            qrgEncoder = new QRGEncoder(
+                    inputValueSuccess, null,
+                    QRGContents.Type.TEXT,
+                    500);
+            try {
+                bitmap = qrgEncoder.getBitmap();
+                qrImageBot.setImageBitmap(bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -27,12 +27,12 @@ import java.util.ArrayList;
 /**
  * Fragment for displaying measurement QR text
  */
-public class QRCodeFragmentMeasurement extends Fragment {
-    Experiment experiment;
+public class QRCodeMeasurementFragment extends Fragment {
+    private String inputValue;
 
-    public QRCodeFragmentMeasurement(Experiment exp) {
+    public QRCodeMeasurementFragment(String expId) {
 
-        experiment = exp;
+        inputValue = expId;
     }
 
     /**

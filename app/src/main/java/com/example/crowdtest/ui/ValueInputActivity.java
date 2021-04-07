@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
@@ -25,7 +26,7 @@ public class ValueInputActivity extends ExperimentActivity {
     private Button addButton;
     private EditText valueEditText;
     private Button detailsButton;
-
+    private ImageButton qrButton;
 
     /**
      * To determine whether the experiment is a measurement experiment or a non negative integer experiment
@@ -52,6 +53,16 @@ public class ValueInputActivity extends ExperimentActivity {
 
         addButton = findViewById(R.id.value_input_add_button);
         valueEditText = findViewById(R.id.value_input_trial_input_editText);
+
+        qrButton = findViewById(R.id.qr_icon);
+        qrButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(view.getContext(), QRActivity.class);
+            intent.putExtra("EXTRA_EXP_TYPE", "measurement");
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            startActivity(intent);
+
+        });
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
