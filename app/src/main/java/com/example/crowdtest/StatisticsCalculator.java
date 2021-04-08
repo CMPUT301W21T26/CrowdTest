@@ -4,6 +4,9 @@ package com.example.crowdtest;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Calculate statistics for an experiment, and provide a string containing statistical values
+ */
 public class StatisticsCalculator {
 
     ArrayList<Double> trialValues;
@@ -16,6 +19,11 @@ public class StatisticsCalculator {
 
     Double[] quartiles;
 
+    /**
+     * Constructo
+     * @param trialValues
+     *     An ArrayList<Double> of the values of each of an experiment's trials
+     */
     public StatisticsCalculator(ArrayList<Double> trialValues) {
 
         this.trialValues = trialValues;
@@ -26,6 +34,9 @@ public class StatisticsCalculator {
 
     }
 
+    /**
+     * Calculate all of th different statistics, which are stored as attributes
+     */
     public void initializeStatistics(){
 
         mean = calculateMean();
@@ -34,10 +45,14 @@ public class StatisticsCalculator {
 
         stdDev = getStdDev();
 
-        quartiles = getQuartiles(median);
+        quartiles = getQuartiles();
 
     };
 
+    /**
+     * Return a string with all of an experiment's statistics
+     * @return
+     */
     public String getStatisticsString(){
 
         String lowerQuartileString = ((quartiles[0] == null) ? "N/A" : String.format("%.2f", quartiles[0]));
@@ -56,6 +71,10 @@ public class StatisticsCalculator {
     }
 
 
+    /**
+     * Calculate mean of trial values
+     * @return
+     */
     public Double calculateMean(){
 
         Integer n = trialValues.size();
@@ -77,6 +96,13 @@ public class StatisticsCalculator {
 
     }
 
+    /**
+     * Calculate median of trialValues
+     * Helper function for calculating quartiles
+     * @param trialValues
+     *     An array of the trialValues for which the median will be calculated
+     * @return
+     */
     private Double getMedian(ArrayList<Double> trialValues){
 
         Integer n = trialValues.size();
@@ -100,7 +126,11 @@ public class StatisticsCalculator {
         return median;
     }
 
-    private Double getStdDev(){
+    /**
+     * Calculate standard deviation for trial values
+     * @return
+     */
+    public Double getStdDev(){
 
         Integer n = trialValues.size();
 
@@ -121,7 +151,12 @@ public class StatisticsCalculator {
         return stdDev;
     }
 
-    private Double[] getQuartiles(Double median){
+    /**
+     * Calculate quartiles for trial values, and return them in array
+     * @return
+     *     An array containing lower and upper quartile values
+     */
+    private Double[] getQuartiles(){
 
         if (trialValues.size() < 4) {
 

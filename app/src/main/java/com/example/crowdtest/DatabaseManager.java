@@ -22,10 +22,22 @@ public class DatabaseManager implements Serializable {
     protected FirebaseFirestore database;
 
     /**
-     * DatabaseManager constructor
+     * DatabaseManager constructor for general use
      */
     public DatabaseManager() {
+
         database = FirebaseFirestore.getInstance();
+    }
+
+    /**
+     * Constructor for testing.
+     * Uses dependency injection to allow mock firebase object to be passed in.
+     * @param database
+     */
+    public DatabaseManager(FirebaseFirestore database){
+
+        this.database = database;
+
     }
 
     /**

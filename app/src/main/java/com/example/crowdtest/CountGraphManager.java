@@ -20,10 +20,18 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class for creating a histogram for a Count experiment
+ */
 public class CountGraphManager extends GraphManager{
 
     private TreeMap<String, Integer> plotValues;
 
+    /**
+     * Constructor for CountGraphManager
+     * @param experiment
+     *     Experiment with trial data to be displayed in a histogram
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public CountGraphManager(Experiment experiment){
 
@@ -34,8 +42,13 @@ public class CountGraphManager extends GraphManager{
         label = "Total Count";
     }
 
+    /**
+     * Aggregates data to be displayed in histogram using TreeMap plotValues object
+     * Keys are dates of the experiment
+     * Values is the sum of count trials on that date
+     */
     @Override
-    protected void setPlotValues(Experiment experiment) {
+    protected void setPlotValues() {
 
         ArrayList<CountTrial> trials = ((Count) experiment).getTrials();
 
@@ -63,6 +76,10 @@ public class CountGraphManager extends GraphManager{
 
     }
 
+    /**
+     * Initializes array of that will contain ordered BarEntry objects
+     * Initializes array that wil contain the x axis values
+     */
     @Override
     protected void setUpGraphData() {
 
@@ -75,6 +92,11 @@ public class CountGraphManager extends GraphManager{
 
     }
 
+    /**
+     * Fully set up the bar chart to be displayed
+     * @param barChart
+     *     Unformatted BarChart object
+     */
     @Override
     public void createGraph(BarChart barChart) {
 
@@ -83,7 +105,7 @@ public class CountGraphManager extends GraphManager{
             return;
         }
 
-        BarData theData = getGraphData(experiment);
+        BarData theData = getGraphData();
 
         XAxis xAxis =  barChart.getXAxis();
 

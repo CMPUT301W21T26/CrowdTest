@@ -14,6 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Abstract parent class to all graph managers for different experiment types
+ * Lays out the algorithm for setting up graph data
+ */
 public abstract class GraphManager {
 
     protected ArrayList<BarEntry> barEntries;
@@ -24,7 +28,12 @@ public abstract class GraphManager {
 
     protected Experiment experiment;
 
-    GraphManager(Experiment experiment){
+    /**
+     * Graph manager constructor
+     * @param experiment
+     *     Experiment the graph is being made for
+     */
+    public GraphManager(Experiment experiment){
 
         this.barEntries = new ArrayList<BarEntry>();
 
@@ -34,9 +43,14 @@ public abstract class GraphManager {
 
     }
 
-    protected BarData getGraphData(Experiment experiment){
+    /**
+     * Sets up bar data to be displayed in a histogram and returns it
+     * @return
+     *    BarData representing the information to be displayed in the experiment's histogram
+     */
+    protected BarData getGraphData(){
 
-        setPlotValues(experiment);
+        setPlotValues();
 
         setUpGraphData();
 
@@ -48,6 +62,11 @@ public abstract class GraphManager {
 
     }
 
+    /**
+     * Returns IndexAxisValueFormatter with values to be displayed on histogram's X Axis
+     * @return
+     *    IndexAxisValueFormatter object with xAxis values
+     */
     protected IndexAxisValueFormatter getXAxis(){
 
         return new IndexAxisValueFormatter(xAxisValues);
@@ -55,7 +74,7 @@ public abstract class GraphManager {
 
     public abstract void createGraph(BarChart barChart);
 
-    protected abstract void setPlotValues(Experiment experiment);
+    protected abstract void setPlotValues();
 
     protected abstract void setUpGraphData();
 

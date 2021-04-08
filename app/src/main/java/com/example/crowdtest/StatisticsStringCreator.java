@@ -12,11 +12,18 @@ import com.example.crowdtest.experiments.NonNegativeTrial;
 
 import java.util.ArrayList;
 
+/**
+ * Get a different statistics string from StatisticsCalculator depending on experiment type
+ * Get experiment specific statistics and add them to a generic string of statistics
+ * Provide a string of statistics to be displayed in ExperimentStatisticsActivity
+ */
 public class StatisticsStringCreator {
 
     private Experiment experiment;
 
     private String additionalStatistics;
+
+    private StatisticsCalculator statisticsCalculator;
 
     public StatisticsStringCreator(Experiment experiment){
 
@@ -26,6 +33,11 @@ public class StatisticsStringCreator {
 
     }
 
+    /**
+     * Create the statistics string
+     * @return
+     *    Returns a string with general and experiment specific statistics
+     */
     public String createStatisticsString(){
 
         ArrayList<Double> trialValues = new ArrayList<Double>();
@@ -83,7 +95,8 @@ public class StatisticsStringCreator {
         }
 
 
-        return additionalStatistics + (new StatisticsCalculator(trialValues)).getStatisticsString();
+        statisticsCalculator = new StatisticsCalculator(trialValues);
+        return additionalStatistics + statisticsCalculator.getStatisticsString();
 
 
     }
