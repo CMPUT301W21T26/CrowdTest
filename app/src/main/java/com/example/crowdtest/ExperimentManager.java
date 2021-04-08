@@ -70,7 +70,7 @@ public class ExperimentManager extends DatabaseManager {
         String status = (String) document.getData().get("status");
         String title = (String) document.getData().get("title");
         String region = (String) document.getData().get("region");
-        ArrayList<String> questions = (ArrayList<String>) document.getData().get("questions");
+        ArrayList<Question> questions = new ArrayList<>();
         ArrayList<String> subscribers = (ArrayList<String>) document.getData().get("subscribers");
         ArrayList<String> blackListedUsers = (ArrayList<String>) document.getData().get("blacklisted");
         boolean isPublished = (boolean) document.getData().get("published");
@@ -88,7 +88,7 @@ public class ExperimentManager extends DatabaseManager {
         return experiment;
     }
 
-    public void getTrials(String experimentID, String experimentType, GetTrials getTrials) {
+    public void getTrials(String experimentID, String experimentType, TrialRetriever trialRetriever) {
         Query query = database.collection(collectionPath).whereEqualTo("installationID", experimentID);
 
         //run query to see if the installation id is already in the database
@@ -100,21 +100,21 @@ public class ExperimentManager extends DatabaseManager {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         boolean success = (boolean) documentSnapshot.getData().get("success");
-                        getTrials.getBinomialTrials(new BinomialTrial(timeStamp, location, success));
+                        trialRetriever.getBinomialTrials(new BinomialTrial(timeStamp, location, success));
                     } else if (experimentType.equals("Count")) {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
-                        getTrials.getCountTrials(new CountTrial(timeStamp, location));
+                        trialRetriever.getCountTrials(new CountTrial(timeStamp, location));
                     } else if (experimentType.equals("Measurement")) {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         double measurement = (double) documentSnapshot.getData().get("measurement");
-                        getTrials.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement));
+                        trialRetriever.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement));
                     } else {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         long count = (long) documentSnapshot.getData().get("count");
-                        getTrials.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
+                        trialRetriever.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
                     }
                 }
 

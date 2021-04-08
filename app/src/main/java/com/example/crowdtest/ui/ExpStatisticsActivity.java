@@ -28,6 +28,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
+import com.google.android.gms.maps.MapView;
 
 import java.text.DecimalFormat;
 import java.util.Hashtable;
@@ -72,6 +73,8 @@ public class ExpStatisticsActivity extends AppCompatActivity {
         String statisticsString = (new StatisticsStringCreator(experiment)).createStatisticsString();
 
         statsText.setText(statisticsString);
+
+        MapView map = findViewById(R.id.participants_mapView);
 
     }
 
@@ -189,4 +192,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
     }
 
+    private void mapInit(){
+
+    }
 }

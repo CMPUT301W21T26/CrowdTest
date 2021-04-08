@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,6 +188,12 @@ public class ExperimenterManager extends DatabaseManager {
 
         // Remove experimenter profile from database
         removeDataFromCollection(collectionPath, username);
+    }
+
+    public static Experimenter getUser(String userID){
+        DocumentSnapshot ds = FirebaseFirestore.getInstance().collection("Users").document(userID).get().getResult();
+        Experimenter experimenter = new Experimenter(new UserProfile(userID, (String) ds.getData().get("installationID"), (String) ds.getData().get("email"), (String) ds.getData().get("phoneNumber")));
+        return experimenter;
     }
 
 }

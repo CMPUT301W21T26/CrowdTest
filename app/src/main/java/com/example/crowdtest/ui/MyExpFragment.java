@@ -17,10 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.crowdtest.CustomList;
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
-import com.example.crowdtest.GetTrials;
+import com.example.crowdtest.TrialRetriever;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
@@ -136,7 +135,7 @@ public class MyExpFragment extends Fragment {
 
                         ownedExperiments.add(experiment);
                     }
-                    experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new GetTrials() {
+                    experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new TrialRetriever() {
                         @Override
                         public void getBinomialTrials(BinomialTrial binomialTrial) {
                             ((Binomial) experiment).addTrialFromDb(binomialTrial);

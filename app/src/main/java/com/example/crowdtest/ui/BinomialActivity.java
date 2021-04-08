@@ -1,16 +1,24 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crowdtest.Question;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 /**
  * Binomial experiment activity class that has two buttons for submitting success and failure
@@ -20,6 +28,7 @@ public class BinomialActivity extends ExperimentActivity {
     private Button failButton;
     private Button detailsButton;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +100,6 @@ public class BinomialActivity extends ExperimentActivity {
             endExperiment.setVisibility(View.INVISIBLE);
         }
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) ->
         {
@@ -117,7 +125,6 @@ public class BinomialActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle());
             }
         });
-
         detailsButton = findViewById(R.id.experiment_details_button);
 
         detailsButton.setOnClickListener(new View.OnClickListener() {

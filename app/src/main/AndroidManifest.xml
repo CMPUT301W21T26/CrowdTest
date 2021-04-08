@@ -15,6 +15,7 @@
         <activity android:name=".ui.BinomialActivity" />
         <activity android:name=".ui.CountActivity" />
         <activity android:name=".ui.SearchExperimentActivity" />
+        <activity android:name=".ui.QuestionThread" />
         <activity android:name=".ui.ExperimentListActivity" />
         <activity android:name=".ui.CreateExperimentActivity" />
         <activity android:name=".ui.MainActivity">

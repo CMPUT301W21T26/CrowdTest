@@ -1,6 +1,7 @@
 package com.example.crowdtest.experiments;
 
 import com.example.crowdtest.DatabaseManager;
+import com.example.crowdtest.Question;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class NonNegative extends Experiment {
      */
     public NonNegative(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
-                       ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                       ArrayList<String> blackListedUsers, ArrayList<Question> questions,
                        boolean geoLocation, Date datePublished, int minTrials,
                        ArrayList<NonNegativeTrial> trials, boolean published) {
         super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);

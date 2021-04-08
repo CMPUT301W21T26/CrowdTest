@@ -5,7 +5,7 @@ import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegativeTrial;
 
-public interface GetTrials {
+public interface TrialRetriever {
     void getBinomialTrials (BinomialTrial binomialTrial);
     void getCountTrials (CountTrial countTrial);
     void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial);
