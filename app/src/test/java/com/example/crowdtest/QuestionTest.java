@@ -23,7 +23,7 @@ public class QuestionTest {
 
         // Set question attributes
         question.setReplyIDs(new ArrayList());
-        
+
         // Check that defined attributes have been successfully set
         assertEquals(0, question.getReplyIDs().size());
 
