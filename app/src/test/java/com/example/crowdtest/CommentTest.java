@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * CommentTest class for unit testing Comment class and its children
  */
-public class CommentTest { lala
+public class CommentTest {
 
     private MockClassCreator mockClassCreator = new MockClassCreator();
 
