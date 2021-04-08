@@ -2,11 +2,23 @@ package com.example.crowdtest.experiments;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Trial {
+public class Trial implements Serializable {
     private Date timestamp;
     private Location location;
+
+    /**
+     * Constructor for getting trials from the database
+     *
+     * @param timestamp
+     * @param location
+     */
+    public Trial(Date timestamp, Location location) {
+        this.timestamp = timestamp;
+        this.location = location;
+    }
 
     /**
      * Constructor for experiments that don't require geo locations
@@ -25,24 +37,41 @@ public class Trial {
         this.location = location;
     }
 
+    /**
+     * Function for getting the timestamp of the trial
+     *
+     * @return Timestamp of trial
+     */
     public Date getTimestamp() {
         return timestamp;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     /**
-     * setLocation will be called within experiment if the experiment had location enabled
+     * Function for setting the geolocation of the trial if corresponding
+     * experiment has geolocation enabled
      *
-     * @param location The new location for the trial
+     * @param location Geolocation of trial
      */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * Function for setting the timestamp of the trial
+     *
+     * @param timestamp Timestamp of trial
+     */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    /**
+     * Function for getting the geolocation of where the trial was submitted
+     *
+     * @return Geolocation of trial
+     */
+    public Location getLocation() {
+        return location;
+    }
+
 }

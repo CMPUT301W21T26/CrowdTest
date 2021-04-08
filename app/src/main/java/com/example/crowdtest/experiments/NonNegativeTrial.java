@@ -1,23 +1,57 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
+import java.util.Date;
+
+/**
+ * Class to represent a NonNegativeTrial result
+ */
 public class NonNegativeTrial extends Trial {
-    private int count;
+
+    private long count;
+
+    /**
+     * Constructor for non-negative trials
+     * Empty constructor for NonNegativeTrial object
+     * Necessary for converting Firestore documents to NonNegativeTrial objects
+     */
+    public NonNegativeTrial() {
+
+        //Empty constructor required
+
+    }
 
     /**
      * Constructor for non-negative trials
      *
-     * @param inputCount Input count
-     * @throws Exception For when the value is not positive
+     * @param inputCount input count
      */
-    public NonNegativeTrial(int inputCount) throws Exception {
+    public NonNegativeTrial(long inputCount) {
         if (inputCount > 0) {
             count = inputCount;
         } else {
-            throw new Exception("Input value must be greater than 0");
+            throw new IllegalArgumentException("Input value must be greater than 0");
         }
     }
 
-    public int getCount() {
+    /**
+     * Constructor for getting trials from the database
+     *
+     * @param timestamp
+     * @param location
+     */
+    public NonNegativeTrial(Date timestamp, Location location, long count) {
+        super(timestamp, location);
+        this.count = count;
+    }
+
+    /**
+     * Function for getting the non-negative trial count
+     *
+     * @return Non-negative trial count
+     */
+    public long getCount() {
         return count;
     }
 }

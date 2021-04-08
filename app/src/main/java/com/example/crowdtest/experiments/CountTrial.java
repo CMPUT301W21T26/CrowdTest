@@ -1,22 +1,31 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
+import java.util.Date;
+
+/**
+ * Class to represent a CountTrial result
+ */
 public class CountTrial extends Trial {
-    private int count;
+    /**
+     * Constructor for getting trials from the database
+     *
+     * @param timestamp
+     * @param location
+     */
+    public CountTrial(Date timestamp, Location location) {
+        super(timestamp, location);
+    }
 
     /**
-     * Constructor for count trials
-     *
-     * @param inputCount Input count
+     * Empty constructor for CountTrial objects
+     * Necessary for converting Firestore documents to CountTrial objects
      */
-    public CountTrial(int inputCount) {
-        count = inputCount;
+    public CountTrial(){
+
+        //empty constructor required
     }
 
-    public int getCount() {
-        return count;
-    }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

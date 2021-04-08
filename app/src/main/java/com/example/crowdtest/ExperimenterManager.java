@@ -1,7 +1,5 @@
 package com.example.crowdtest;
 
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,11 +12,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
-
 
 /**
- *
+ * Class to manage the accessing, removing, and updating data related to Experimenter objects in the firestore database
  */
 public class ExperimenterManager extends DatabaseManager {
 
@@ -41,13 +37,6 @@ public class ExperimenterManager extends DatabaseManager {
         return generateDocumentID("user", collectionPath);
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getAllExperimenterIDs() {
-        return getAllDocuments(collectionPath);
-    }
 
     /**
      * Method used to retrieve the signed in Experimenter, if already in the database, or create new one.
@@ -93,7 +82,7 @@ public class ExperimenterManager extends DatabaseManager {
                                     ArrayList<String> subscribed = (ArrayList<String>) document.getData().get("subscribed");
 
                                     experimenter = new Experimenter(new UserProfile(userName, installationID, email, phoneNumber));
-                                    experimenter.setSubscribedExperiments(subscribed);
+                                    experimenter.setSubscribedExperimentIDs(subscribed);
                                     experimenter.setStatus(status);
 
                                     //call helper method
@@ -127,14 +116,14 @@ public class ExperimenterManager extends DatabaseManager {
      * @return
      *     Returns the new experimenter created with the installationID
      */
-    private Experimenter addNewExperimenter(String installationID) {
+    public Experimenter addNewExperimenter(String installationID) {
         // Generate initial unique username and create an experimenter
         String username = generateUsername();
         Experimenter experimenter = new Experimenter(new UserProfile(username, installationID));
 
         // Retrieve Experimenter data
         String status = experimenter.getStatus();
-        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
+        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperimentIDs();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
@@ -164,13 +153,14 @@ public class ExperimenterManager extends DatabaseManager {
 
         // Retrieve Experimenter data
         String status = experimenter.getStatus();
-        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperiments();
+        ArrayList<String> subscribedExperiments = experimenter.getSubscribedExperimentIDs();
 
         // Retrieve UserProfile data
         UserProfile userProfile = experimenter.getUserProfile();
         String username = userProfile.getUsername();
         String email = userProfile.getEmail();
         String phoneNumber = userProfile.getPhoneNumber();
+        String installationID = userProfile.getInstallationID();
 
         // Add experimenter data to HashMap
         HashMap<String, Object> experimenterData = new HashMap<>();
@@ -178,6 +168,7 @@ public class ExperimenterManager extends DatabaseManager {
         experimenterData.put("email", email);
         experimenterData.put("phoneNumber", phoneNumber);
         experimenterData.put("subscribed", subscribedExperiments);
+        experimenterData.put("installationID", installationID);
 
         // Add experimenter data to database
         addDataToCollection(collectionPath, username, experimenterData);
@@ -187,7 +178,7 @@ public class ExperimenterManager extends DatabaseManager {
      * Function for deleting a experimenter from the database
      * @param experimenter
      */
-    public void delExperimenter(Experimenter experimenter) {
+    public void deleteExperimenter(Experimenter experimenter) {
         // Retrieve username
         UserProfile userProfile = experimenter.getUserProfile();
         String username = userProfile.getUsername();

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_launcher_foreground"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
+<!--    android:background="@drawable/ic_launcher_foreground">-->
 
     <TextView
         android:id="@+id/textView2"
@@ -13,7 +13,7 @@
         android:layout_height="104dp"
         android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
-        android:text="Crowdsource Experiment"
+        android:text="CrowdTest"
         android:textSize="32dp"
         app:layout_constraintBottom_toTopOf="@+id/create_new_button"
         app:layout_constraintEnd_toEndOf="parent"
