@@ -22,6 +22,7 @@ public class CountActivity extends ExperimentActivity {
     private Button addButton;
     private Button detailsButton;
     private ImageButton qrButton;
+    private ImageButton qrScanButton;
 
 
     @Override
@@ -58,6 +59,13 @@ public class CountActivity extends ExperimentActivity {
             intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
             startActivity(intent);
 
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            //intent.putExtra("EXTA_EXP", experiment);
+            startActivity(intent);
         });
 
 
