@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/success"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add 1 Count:"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="@string/add_count"
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/qr_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/save_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name"
-        android:gravity="center"/>
+        android:background="#FFFFFF"
+        android:contentDescription="@string/participants"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24" />
+
+
 </LinearLayout>

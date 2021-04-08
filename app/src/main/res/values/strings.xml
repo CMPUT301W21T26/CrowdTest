@@ -19,6 +19,8 @@
     <string name="details">Details</string>
     <string name="value">Value</string>
     <string name="participants">Participants</string>
-    <string name="add_count">Add count</string>
+    <string name="add_count">Add Count:</string>
     <string name="qrgenerate">Generate QR</string>
+    <string name="success">Success:</string>
+    <string name="failure">Failure:</string>
 </resources>

@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/success_textview"
+        android:layout_marginTop = "150dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add 1 Count:"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:text="@string/success"
+        android:gravity="center"
+        android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/qr_image_top"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name"
         android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/failure_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/failure"
+        android:gravity="center"
+        android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/qr_image_bot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/save_qr_code_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name"
-        android:gravity="center"/>
+        android:background="#FFFFFF"
+        android:contentDescription="@string/participants"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24" />
+
 </LinearLayout>

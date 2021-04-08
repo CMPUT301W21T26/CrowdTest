@@ -1,6 +1,8 @@
 package com.example.crowdtest.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -14,10 +16,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,6 +40,7 @@ import java.util.ArrayList;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
+import androidmads.library.qrgenearator.QRGSaver;
 
 import static android.content.Context.WINDOW_SERVICE;
 /*
@@ -47,6 +54,8 @@ public class QRCodeBinomialFragment extends Fragment {
     private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
+    private ImageButton saveButton;
+    private AppCompatActivity activity;
 
     public QRCodeBinomialFragment(String input){
         inputValue = input;
@@ -67,6 +76,7 @@ public class QRCodeBinomialFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_binomial_qr, container, false);
         qrImageTop = view.findViewById(R.id.qr_image_top);
         String inputValueSuccess = inputValue + " s";
+        activity = (AppCompatActivity) getActivity();
 
         if (inputValueSuccess.length() > 0) {
 
@@ -87,7 +97,7 @@ public class QRCodeBinomialFragment extends Fragment {
         if (inputValueFailure.length() > 0) {
 
             qrgEncoder = new QRGEncoder(
-                    inputValueSuccess, null,
+                    inputValueFailure, null,
                     QRGContents.Type.TEXT,
                     500);
             try {
@@ -97,6 +107,24 @@ public class QRCodeBinomialFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        saveButton = (ImageButton) view.findViewById(R.id.save_qr_code_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    try {
+                        boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                        String result = save ? "Image Saved" : "Image Not Saved";
+                        Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+            }
+        });
         return view;
     }
 }
