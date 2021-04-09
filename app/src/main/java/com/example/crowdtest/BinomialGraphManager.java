@@ -24,6 +24,9 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class for creating a histogram for a Binomial experiment
+ */
 public class BinomialGraphManager extends GraphManager {
 
     private TreeMap<String, Integer[]> plotValues;
@@ -31,7 +34,11 @@ public class BinomialGraphManager extends GraphManager {
     ArrayList<BarEntry> successEntries;
     ArrayList<BarEntry> failureEntries;
 
-
+    /**
+     * Constructor for BinomialGraphManager
+     * @param experiment
+     *     Experiment with trial data to be displayed in a histogram
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public BinomialGraphManager(Experiment experiment){
 
@@ -47,8 +54,14 @@ public class BinomialGraphManager extends GraphManager {
 
     }
 
+    /**
+     * Aggregates data to be displayed in histogram using TreeMap plotValues object
+     * Keys are dates of the experiment
+     * Values are a array with the number of trials that were successes on that date
+     * in the first index, and the number of failures on that date in the second index
+     */
     @Override
-    protected void setPlotValues(Experiment experiment) {
+    protected void setPlotValues() {
 
         ArrayList<BinomialTrial> trials = ((Binomial) experiment).getTrials();
 
@@ -86,6 +99,10 @@ public class BinomialGraphManager extends GraphManager {
 
     }
 
+    /**
+     * Initializes array of that will contain ordered BarEntry objects
+     * Initializes array that wil contain the x axis values
+     */
     @Override
     protected void setUpGraphData() {
 
@@ -100,15 +117,24 @@ public class BinomialGraphManager extends GraphManager {
 
     }
 
+    /**
+     * Override getGraphData method to account for the unique formatting in a binomial graph
+     * and the fact that it uses two data sets
+     * @return
+     *     BarData representing the information to be displayed in the experiment's histogram
+     */
     @Override
-    protected BarData getGraphData(Experiment experiment) {
+    protected BarData getGraphData() {
 
-        setPlotValues(experiment);
+        setPlotValues();
 
         setUpGraphData();
 
+        //create success data set and set the color to blue
         BarDataSet successDataSet = new BarDataSet(successEntries, "Success");
         successDataSet.setColor(Color.BLUE);
+
+        //create failure data set and set the color to red
         BarDataSet failureDataSet = new BarDataSet(failureEntries, "Failure");
         failureDataSet.setColor(Color.RED);
 
@@ -117,6 +143,11 @@ public class BinomialGraphManager extends GraphManager {
         return theData;
     }
 
+    /**
+     * Fully set up the bar chart to be displayed
+     * @param barChart
+     *     Unformatted BarChart object
+     */
     @Override
     public void createGraph(BarChart barChart) {
 
@@ -125,7 +156,7 @@ public class BinomialGraphManager extends GraphManager {
             return;
         }
 
-        BarData theData = getGraphData(experiment);
+        BarData theData = getGraphData();
 
         XAxis xAxis = barChart.getXAxis();
 
