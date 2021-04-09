@@ -1,18 +1,26 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,6 +33,8 @@ public class CountActivity extends ExperimentActivity {
     private Button detailsButton;
     private ImageButton qrButton;
     private ImageButton qrScanButton;
+
+    private ExperimentManager experimentManager;
 
 
     @Override
@@ -69,7 +79,7 @@ public class CountActivity extends ExperimentActivity {
             bundle.putSerializable("experiment", experiment);
             Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         });
 
 
@@ -133,4 +143,19 @@ public class CountActivity extends ExperimentActivity {
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1)
+        {
+            Bundle experimentBundle = data.getExtras();
+            experiment = (Count) experimentBundle.getSerializable("experiment");
+            setValues();
+        }
+    }
+
 }
