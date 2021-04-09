@@ -81,6 +81,8 @@ public class CustomBarcodeActivity extends AppCompatActivity implements InputVal
                                 double barcodeValue = Double.parseDouble(inputValue);
                                 // ADD BARCODE TO DATABASE (experiment____)
                             } else {
+                                openBinomialDialogue();
+                                output = "NICE";
                                 Toast.makeText(CustomBarcodeActivity.this, output, Toast.LENGTH_SHORT).show();
                             }
                         }
