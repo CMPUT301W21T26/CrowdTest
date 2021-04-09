@@ -133,6 +133,7 @@ public abstract class Experiment implements Serializable {
      * @param username Unique username of blacklisted user
      */
     public void removeBlackListedUser(String username) {
+
         blackListedUsers.remove(username);
     }
 

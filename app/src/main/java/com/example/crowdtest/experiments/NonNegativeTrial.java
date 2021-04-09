@@ -41,8 +41,8 @@ public class NonNegativeTrial extends Trial {
      * @param timestamp
      * @param location
      */
-    public NonNegativeTrial(Date timestamp, Location location, long count) {
-        super(timestamp, location);
+    public NonNegativeTrial(Date timestamp, Location location, long count, String poster) {
+        super(timestamp, location, poster);
         this.count = count;
     }
 

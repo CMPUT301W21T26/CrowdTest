@@ -63,7 +63,7 @@ public class BinomialGraphManager extends GraphManager {
     @Override
     protected void setPlotValues() {
 
-        ArrayList<BinomialTrial> trials = ((Binomial) experiment).getTrials();
+        ArrayList<BinomialTrial> trials = ((Binomial) experiment).getValidTrials();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

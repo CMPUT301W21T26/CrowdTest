@@ -50,7 +50,7 @@ public class CountGraphManager extends GraphManager{
     @Override
     protected void setPlotValues() {
 
-        ArrayList<CountTrial> trials = ((Count) experiment).getTrials();
+        ArrayList<CountTrial> trials = ((Count) experiment).getValidTrials();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

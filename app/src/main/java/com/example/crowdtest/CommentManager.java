@@ -2,6 +2,7 @@ package com.example.crowdtest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Class to contain methods which manager the accessing and updating of Comment objects through firestore
@@ -19,7 +20,12 @@ public class CommentManager extends DatabaseManager {
     public CommentManager() {
         super();
     }
-
+    /**
+     * CommentManager constructor for mock FireStore database
+     */
+    public CommentManager(FirebaseFirestore db) {
+        super(db);
+    }
     /**
      * Function for generating a unique question ID
      * @return
