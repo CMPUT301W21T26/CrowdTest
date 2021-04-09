@@ -1,5 +1,6 @@
 package com.example.crowdtest;
 
+import android.icu.util.ULocale;
 import android.location.Location;
 import android.util.Log;
 
@@ -93,37 +94,52 @@ public class ExperimentManager extends DatabaseManager {
         return experiment;
     }
 
-    public void getTrials(String experimentID, String experimentType, TrialRetriever trialRetriever) {
-        Query query = database.collection(collectionPath).whereEqualTo("installationID", experimentID);
+    public void getTrials(Experiment experiment, String experimentType, TrialRetriever trialRetriever) {
+        Query query = database.collection(collectionPath).whereEqualTo("installationID", experiment.getExperimentID());
 
         //run query to see if the installation id is already in the database
-        final Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection(collectionPath).document(experimentID).collection("trials").get();
+        final Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection(collectionPath).document(experiment.getExperimentID()).collection("trials").get();
         task.addOnCompleteListener(task1 -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                     if (experimentType.equals("Binomial")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         boolean success = (boolean) documentSnapshot.getData().get("success");
                         trialRetriever.getBinomialTrials(new BinomialTrial(timeStamp, location, success));
                     } else if (experimentType.equals("Count")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         trialRetriever.getCountTrials(new CountTrial(timeStamp, location));
                     } else if (experimentType.equals("Measurement")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         double measurement = (double) documentSnapshot.getData().get("measurement");
                         trialRetriever.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement));
                     } else {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         long count = (long) documentSnapshot.getData().get("count");
                         trialRetriever.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
                     }
                 }
 
-//                experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials, isPublished);
             } else {
 
                 //if firestore query is unsuccessful, log an error and return
@@ -294,7 +310,6 @@ public class ExperimentManager extends DatabaseManager {
     }
 
     /**
-     *
      * @param experiment
      * @param username
      */
@@ -311,7 +326,6 @@ public class ExperimentManager extends DatabaseManager {
     }
 
     /**
-     *
      * @param experiment
      * @param username
      */

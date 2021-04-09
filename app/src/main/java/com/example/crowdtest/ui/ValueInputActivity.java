@@ -2,12 +2,14 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.icu.util.Measure;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
@@ -32,6 +34,7 @@ public class ValueInputActivity extends ExperimentActivity {
      */
     boolean isMeasurement;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,13 +92,13 @@ public class ValueInputActivity extends ExperimentActivity {
                         public void run() {
                             if (isMeasurement) {
                                 double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                                ((Measurement)experiment).addTrial(trialInput);
+                                ((Measurement)experiment).addTrial(trialInput, currentLocation);
                                 valueEditText.setText("");
                             } else {
                                 int trialInput = Integer.parseInt(valueEditText.getText().toString());
                                 valueEditText.setText("");
                                 try {
-                                    ((NonNegative) experiment).addTrial(trialInput);
+                                    ((NonNegative) experiment).addTrial(trialInput, currentLocation);
                                     Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                                 } catch (Exception e) {
                                     Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -108,13 +111,13 @@ public class ValueInputActivity extends ExperimentActivity {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement)experiment).addTrial(trialInput);
+                        ((Measurement)experiment).addTrial(trialInput, null);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
                         valueEditText.setText("");
                         try {
-                            ((NonNegative) experiment).addTrial(trialInput);
+                            ((NonNegative) experiment).addTrial(trialInput, null);
                             Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                         } catch (Exception e) {
                             Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -150,17 +153,14 @@ public class ValueInputActivity extends ExperimentActivity {
 
         detailsButton = findViewById(R.id.experiment_details_button);
 
-        detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        detailsButton.setOnClickListener(view -> {
 
-                Intent intent = new Intent(view.getContext(), ExpStatisticsActivity.class);
+            Intent intent = new Intent(view.getContext(), ExpStatisticsActivity.class);
 
-                intent.putExtra("EXP", experiment);
+            intent.putExtra("EXP", experiment);
 
-                startActivity(intent);
+            startActivity(intent);
 
-            }
         });
     }
 }

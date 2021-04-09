@@ -1,5 +1,7 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
 import com.example.crowdtest.Question;
 
@@ -57,8 +59,9 @@ public class NonNegative extends Experiment {
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(int trialInput) throws Exception {
+    public void addTrial(int trialInput, Location location) throws Exception {
         NonNegativeTrial trial = new NonNegativeTrial(trialInput);
+        if (geolocationEnabled) trial.setLocation(location);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -66,7 +69,8 @@ public class NonNegative extends Experiment {
     public void addTrialToDB (NonNegativeTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("location", trial.getLocation());
+        trialData.put("locationLong", trial.getLocationLong());
+        trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("count", trial.getCount());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);

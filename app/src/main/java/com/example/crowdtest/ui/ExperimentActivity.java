@@ -1,23 +1,42 @@
 package com.example.crowdtest.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crowdtest.CommentManager;
+import com.example.crowdtest.LocationService;
 import com.example.crowdtest.Question;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -28,7 +47,7 @@ import java.util.ArrayList;
 /**
  * The general activity class for all the experiment activities
  */
-public abstract class ExperimentActivity extends AppCompatActivity {
+public abstract class ExperimentActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     Toolbar toolbar;
     ImageButton participants;
     TextView experimentDescription;
@@ -39,7 +58,14 @@ public abstract class ExperimentActivity extends AppCompatActivity {
     RecyclerView questionList;
     RecyclerView.LayoutManager layoutManager;
     Experiment experiment;
+
     String currentUser;
+
+    Location currentLocation;
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    LocationManager locationManager;
 
     CommentManager commentManager = CommentManager.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -100,6 +126,49 @@ public abstract class ExperimentActivity extends AppCompatActivity {
             commentManager.postQuestion(currentUser, experiment.getExperimentID(), comment, questionCollectionSize.get(0));
             questionCollectionSize.set(0, questionCollectionSize.get(0) + 1);
         });
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+            return;
+        }
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(20 * 1000);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        currentLocation.setLongitude(location.getLongitude());
+                        currentLocation.setLatitude(location.getLatitude());
+                    }
+                }
+            }
+        };
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        getCurrentLocation();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        }
+    }
+
+    public void getCurrentLocation() {
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    currentLocation.setLongitude(location.getLongitude());
+                    currentLocation.setLatitude(location.getLatitude());
+                }
+            }
+        });
     }
 
     /**
@@ -154,4 +223,5 @@ public abstract class ExperimentActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
 }

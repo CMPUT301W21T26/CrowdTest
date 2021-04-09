@@ -91,7 +91,7 @@ public class SearchExperimentActivity extends AppCompatActivity {
             for (QueryDocumentSnapshot document: value) {
 
                 Experiment experiment = experimentManager.getFirestoreExperiment(document);
-                experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new TrialRetriever() {
+                experimentManager.getTrials(experiment, experiment.getClass().getSimpleName(), new TrialRetriever() {
                     @Override
                     public void getBinomialTrials(BinomialTrial binomialTrial) {
                         ((Binomial) experiment).addTrialFromDb(binomialTrial);

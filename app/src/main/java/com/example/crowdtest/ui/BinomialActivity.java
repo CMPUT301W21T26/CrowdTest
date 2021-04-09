@@ -47,13 +47,13 @@ public class BinomialActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Binomial) experiment).addTrial(true);
+                        ((Binomial) experiment).addTrial(true, currentLocation);
                         successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
                     }
                 });
             });
         } else {
-            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
+            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, null));
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
         }
 
@@ -65,13 +65,13 @@ public class BinomialActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Binomial) experiment).addTrial(false);
+                        ((Binomial) experiment).addTrial(false, currentLocation);
                         failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
                     }
                 });
             });
         } else {
-            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
+            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, null));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
         }
 

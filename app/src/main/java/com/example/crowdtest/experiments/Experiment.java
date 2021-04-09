@@ -351,4 +351,6 @@ public abstract class Experiment implements Serializable {
     public int getMinTrials() {
         return minTrials;
     }
+
+    public abstract ArrayList getTrials();
 }

@@ -1,11 +1,13 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
@@ -20,6 +22,7 @@ public class CountActivity extends ExperimentActivity {
     private Button addButton;
     private Button detailsButton;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +41,12 @@ public class CountActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Count) experiment).addTrial();
+                        ((Count) experiment).addTrial(currentLocation);
                     }
                 });
             });
         } else {
-            addButton.setOnClickListener(v -> ((Count) experiment).addTrial());
+            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(null));
         }
 
         // Allows user to end an experiment if they are the owner

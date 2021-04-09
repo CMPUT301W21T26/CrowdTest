@@ -7,7 +7,8 @@ import java.util.Date;
 
 public class Trial implements Serializable {
     private Date timestamp;
-    private Location location;
+    private double locationLong;
+    private double locationLat;
 
     /**
      * Constructor for getting trials from the database
@@ -17,7 +18,8 @@ public class Trial implements Serializable {
      */
     public Trial(Date timestamp, Location location) {
         this.timestamp = timestamp;
-        this.location = location;
+        this.locationLong = location.getLongitude();
+        this.locationLat = location.getLatitude();
     }
 
     /**
@@ -34,7 +36,8 @@ public class Trial implements Serializable {
      */
     public Trial(Location location) {
         timestamp = new Date(); // The date is set to the current date by default
-        this.location = location;
+        this.locationLong = location.getLongitude();
+        this.locationLat = location.getLatitude();
     }
 
     /**
@@ -53,7 +56,8 @@ public class Trial implements Serializable {
      * @param location Geolocation of trial
      */
     public void setLocation(Location location) {
-        this.location = location;
+        this.locationLong = location.getLongitude();
+        this.locationLat = location.getLatitude();
     }
 
     /**
@@ -66,12 +70,21 @@ public class Trial implements Serializable {
     }
 
     /**
-     * Function for getting the geolocation of where the trial was submitted
+     * Function for getting the latitude of where the trial was submitted
      *
-     * @return Geolocation of trial
+     * @return Latitude of trial
      */
-    public Location getLocation() {
-        return location;
+    public double getLocationLat() {
+        return locationLat;
+    }
+
+    /**
+     * Function for getting the longitude of where the trial was submitted
+     *
+     * @return Longitude of trial
+     */
+    public double getLocationLong() {
+        return locationLong;
     }
 
 }

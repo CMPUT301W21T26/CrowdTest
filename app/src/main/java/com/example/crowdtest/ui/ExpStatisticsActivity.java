@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -23,17 +24,24 @@ import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.Trial;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
 import java.util.Hashtable;
 
-public class ExpStatisticsActivity extends AppCompatActivity {
+public class ExpStatisticsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     TextView statsText;
 
@@ -48,6 +56,9 @@ public class ExpStatisticsActivity extends AppCompatActivity {
     TextView plotTitle;
 
     StatisticsStringCreator statisticsStringCreator;
+
+    MapView trialMapView;
+    GoogleMap trialMap;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -78,7 +89,9 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
         statsText.setText(statisticsString);
 
-        MapView map = findViewById(R.id.participants_mapView);
+        trialMapView = findViewById(R.id.participants_mapView);
+        trialMapView.onCreate(savedInstanceState);
+        trialMapView.getMapAsync(this);
 
     }
 
@@ -196,7 +209,17 @@ public class ExpStatisticsActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
     }
 
-    private void mapInit(){
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        trialMap = googleMap;
+        trialMap.getUiSettings().setMyLocationButtonEnabled(true);
+        trialMap.setMyLocationEnabled(true);
+        for (Object trial: experiment.getTrials()){
+            LatLng submissionLocation = new LatLng(((Trial)trial).getLocationLat(), ((Trial)trial).getLocationLong());
+            trialMap.addMarker(new MarkerOptions().position(submissionLocation).title(((Trial)trial).getTimestamp().toString()));
+            trialMap.moveCamera(CameraUpdateFactory.newLatLng(submissionLocation));
+        }
+        trialMapView.onResume();
     }
 }

@@ -139,7 +139,7 @@ public class UnpublishedExpFragment extends Fragment {
 
                         unpublishedExperiments.add(experiment);
                     }
-                    experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new TrialRetriever() {
+                    experimentManager.getTrials(experiment, experiment.getClass().getSimpleName(), new TrialRetriever() {
                         @Override
                         public void getBinomialTrials(BinomialTrial binomialTrial) {
                             ((Binomial) experiment).addTrialFromDb(binomialTrial);
