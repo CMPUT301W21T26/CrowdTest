@@ -15,6 +15,8 @@ import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
+import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Measurement;
@@ -34,7 +36,9 @@ public class CountActivity extends ExperimentActivity {
     private ImageButton qrButton;
     private ImageButton qrScanButton;
 
-    private ExperimentManager experimentManager;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
 
     @Override
@@ -141,6 +145,14 @@ public class CountActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_count_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 

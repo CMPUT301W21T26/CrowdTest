@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
@@ -25,6 +26,9 @@ public class BinomialActivity extends ExperimentActivity {
     private Button detailsButton;
     private ImageButton qrButton;
     private ImageButton qrScanButton;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,6 +160,14 @@ public class BinomialActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_binomial_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 

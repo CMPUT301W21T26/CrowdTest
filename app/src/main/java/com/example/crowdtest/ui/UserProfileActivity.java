@@ -17,7 +17,7 @@ import com.example.crowdtest.UserProfile;
  * Activity for viewing the user profile, uses a fragment to allow for editing of contact information
  * in the UserProfile object
  */
-public class UserProfileActivity extends AppCompatActivity implements EditUserFragment.OnFragmentInteractionListener {
+public class UserProfileActivity extends AppCompatActivity{
 
     private ImageButton editProfileButton;
     private ImageButton backButton;
@@ -29,6 +29,8 @@ public class UserProfileActivity extends AppCompatActivity implements EditUserFr
     private Experimenter user;
     private Intent intent = new Intent();
     private ExperimenterManager experimenterManager = new ExperimenterManager();
+
+    private ProfileEditorHelper profileEditorHelper;
 
     /**
      * Custom OnCreate method for the Activity
@@ -51,12 +53,11 @@ public class UserProfileActivity extends AppCompatActivity implements EditUserFr
         // update the views
         updateViews();
         // onClickListener for the edit button. Creates a fragment to edit info
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditUserFragment fragment = new EditUserFragment().newInstance(userProfile);
-                fragment.show(getSupportFragmentManager(), "userProfile");
-            }
+        editProfileButton.setOnClickListener(view -> {
+
+            profileEditorHelper = new ProfileEditorHelper(this, experimenterManager, user);
+            profileEditorHelper.editUserProfile("Edit Your Contact Info", "Save", "Cancel");
+
         });
         // onClickListener for the back button. Sends back experimenter and finishes activity
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -75,24 +76,6 @@ public class UserProfileActivity extends AppCompatActivity implements EditUserFr
         userName.setText(userProfile.getUsername());
         userEmail.setText(userProfile.getEmail());
         userPhoneNumber.setText(userProfile.getPhoneNumber());
-        experimenterManager.updateExperimenter(user);
-    }
-
-    /**
-     * Method to update the UI after changes are made by user
-     */
-    @Override
-    public void onOkPressed(int errorInd) {
-        if (errorInd == 1) {
-            warningMessage.setText("ERROR: Invalid EMAIL was entered");
-        } else if (errorInd == 2) {
-            warningMessage.setText("ERROR: Invalid PHONE was entered");
-        } else if (errorInd == 3) {
-            warningMessage.setText("ERROR: Invalid EMAIL and PHONE was entered");
-        } else {
-            warningMessage.setText("");
-        }
-        updateViews();
     }
 }
 

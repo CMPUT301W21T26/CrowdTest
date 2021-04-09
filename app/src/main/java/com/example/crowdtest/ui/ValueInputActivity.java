@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
@@ -30,6 +31,10 @@ public class ValueInputActivity extends ExperimentActivity {
     private Button detailsButton;
     private ImageButton qrButton;
     private ImageButton qrScanButton;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
+
 
     /**
      * To determine whether the experiment is a measurement experiment or a non negative integer experiment
@@ -189,6 +194,14 @@ public class ValueInputActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_value_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 
