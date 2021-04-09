@@ -1,17 +1,16 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crowdtest.Question;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,8 +26,10 @@ public class BinomialActivity extends ExperimentActivity {
     private Button successButton;
     private Button failButton;
     private Button detailsButton;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +101,7 @@ public class BinomialActivity extends ExperimentActivity {
             endExperiment.setVisibility(View.INVISIBLE);
         }
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) ->
         {
@@ -125,6 +127,7 @@ public class BinomialActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle());
             }
         });
+
         detailsButton = findViewById(R.id.experiment_details_button);
 
         detailsButton.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +141,14 @@ public class BinomialActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_binomial_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 }
