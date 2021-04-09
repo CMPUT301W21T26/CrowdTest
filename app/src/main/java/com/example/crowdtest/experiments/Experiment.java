@@ -40,6 +40,7 @@ public abstract class Experiment implements Serializable {
         status = "Open";
         this.subscribers = new ArrayList<>();
         this.questions = new ArrayList<>();
+        this.blackListedUsers = new ArrayList<>();
         this.published = true;
     }
 
@@ -164,6 +165,10 @@ public abstract class Experiment implements Serializable {
 
     public void setQuestions(ArrayList<String> questions) {
         this.questions = questions;
+    }
+
+    public boolean isGeoLocationEnabled() {
+        return geolocationEnabled;
     }
 
     public void setGeoLocation(boolean geoLocation) {

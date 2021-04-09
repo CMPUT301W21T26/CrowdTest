@@ -30,7 +30,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
 import java.text.DecimalFormat;
-import java.util.Hashtable;
 
 public class ExpStatisticsActivity extends AppCompatActivity {
 
@@ -46,6 +45,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
     TextView plotTitle;
 
+    StatisticsStringCreator statisticsStringCreator;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -65,19 +65,20 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
         lineChart = (LineChart) findViewById(R.id.line_chart);
 
-        createBarChart(experiment);
+        createBarChart();
 
-        createPlot(experiment);
+        createPlot();
 
-        String statisticsString = (new StatisticsStringCreator(experiment)).createStatisticsString();
+        statisticsStringCreator = new StatisticsStringCreator(experiment);
+
+        String statisticsString = statisticsStringCreator.createStatisticsString();
 
         statsText.setText(statisticsString);
-
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void createBarChart(Experiment experiment) {
+    private void createBarChart() {
 
         formatBarChart();
 
@@ -123,7 +124,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void createPlot(Experiment experiment) {
+    private void createPlot() {
 
         formatLineChart();
 

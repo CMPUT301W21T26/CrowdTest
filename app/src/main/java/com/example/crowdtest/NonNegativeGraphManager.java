@@ -21,10 +21,18 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class for creating a histogram for a NonNegative experiment
+ */
 public class NonNegativeGraphManager extends GraphManager{
 
     private TreeMap<String, Integer> plotValues;
 
+    /**
+     * Constructor for NegativeGraphManager
+     * @param experiment
+     *     Experiment with trial data to be displayed in a histogram
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public NonNegativeGraphManager(Experiment experiment){
 
@@ -44,8 +52,13 @@ public class NonNegativeGraphManager extends GraphManager{
 
     }
 
+    /**
+     * Aggregates data to be displayed in histogram using TreeMap plotValues object
+     * Keys of plotValues will be set up as a count value (ex. count entered is 2, is 3, etc)
+     * Values are the number of trials with that count value
+     */
     @Override
-    protected void setPlotValues(Experiment experiment) {
+    protected void setPlotValues() {
 
         ArrayList<NonNegativeTrial> trials = ((NonNegative) experiment).getTrials();
 
@@ -71,6 +84,10 @@ public class NonNegativeGraphManager extends GraphManager{
 
     }
 
+    /**
+     * Initializes array of that will contain ordered BarEntry objects
+     * Initializes array that wil contain the x axis values
+     */
     @Override
     protected void setUpGraphData() {
 
@@ -83,20 +100,29 @@ public class NonNegativeGraphManager extends GraphManager{
 
     }
 
+    /**
+     * Fully set up the bar chart to be displayed
+     * @param barChart
+     *     Unformatted BarChart object
+     */
     @Override
     public void createGraph(BarChart barChart) {
 
+        //if the experiment doesn't have any trials, leave graph empty
         if (((NonNegative) experiment).getTrials().size() == 0) {
 
             return;
         }
 
-        BarData theData = getGraphData(experiment);
+        //get data for the graph
+        BarData theData = getGraphData();
 
+        //set up the x axis
         XAxis xAxis = barChart.getXAxis();
 
         xAxis.setValueFormatter(getXAxis());
 
+        //set up the data for the graph
         barChart.setData(theData);
 
         barChart.setVisibleXRangeMaximum(5);
