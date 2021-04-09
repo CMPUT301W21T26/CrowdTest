@@ -55,7 +55,6 @@ public class ExperimentTest {
         measurementExperiment.addTrial(measurementTrial.getMeasurement());
         assertEquals(measurementExperiment.getTrials().size(), 1);
     }
-
     /**
      * Function to test adding a count trial to an experiment
      */
@@ -68,3 +67,4 @@ public class ExperimentTest {
         assertEquals(nonNegativeExperiment.getTrials().size(), 1);
     }
 }
+
