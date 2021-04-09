@@ -52,7 +52,6 @@ public class QRCodeCountFragment extends Fragment {
     private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
-    private TextView text;
     public QRCodeCountFragment(String input){
         inputValue = input;
     }
@@ -71,8 +70,6 @@ public class QRCodeCountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_count_qr, container, false);
         qrImage = view.findViewById(R.id.qr_image);
-        text = view.findViewById(R.id.count_textView);
-        text.setText("Add NonNegative Count:");
         if (inputValue.length() > 0) {
 
             qrgEncoder = new QRGEncoder(

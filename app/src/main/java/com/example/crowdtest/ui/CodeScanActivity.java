@@ -50,6 +50,7 @@ public class CodeScanActivity extends AppCompatActivity  {
     CodeScannerView scanView;
     Experiment experiment;
     String currentUserName;
+    String output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,30 +92,40 @@ public class CodeScanActivity extends AppCompatActivity  {
                         if (experiment instanceof Count) {
 
                             ((Count) experiment).addTrial();
-
+                            output = "Added trial with value 1 to " + id;
+                            Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                         } else if (experiment instanceof Binomial) {
 
                             ((Binomial) experiment).addTrial(getBoolean(result.getText()));
-
+                            if (getBoolean(result.getText())) {
+                                output = "Added successful trial to " + id;
+                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                output = "Added failure trial to " + id;
+                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                            }
                         } else if (experiment instanceof NonNegative) {
 
                             try {
                                 int inputInt= getInt(result.getText());
                                 ((NonNegative) experiment).addTrial(inputInt);
-                                Toast.makeText(CodeScanActivity.this, Integer.toString(inputInt), Toast.LENGTH_SHORT).show();
+                                output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             try {
                                 Double inputDouble= getDouble(result.getText());
-                                Toast.makeText(CodeScanActivity.this, Double.toString(inputDouble), Toast.LENGTH_SHORT).show();
                                 ((Measurement) experiment).addTrial(inputDouble);
+                                output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
                             } catch (Exception e) {
 
                                 e.printStackTrace();
                             }
                         }
+
+                        output = "Tap anywhere on screen to scan another code.";
                     }
                 });
             }

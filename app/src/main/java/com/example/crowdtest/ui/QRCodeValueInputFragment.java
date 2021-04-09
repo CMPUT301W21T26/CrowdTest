@@ -65,7 +65,7 @@ public class QRCodeValueInputFragment extends Fragment {
         qrImage = view.findViewById(R.id.qr_image);
         //text = view.findViewById(R.id.count_textView);
         //text.setText("Add NonNegative Count:");
-
+        text = view.findViewById(R.id.count_textView);
         if (inputValue.length() > 0) {
 
             qrgEncoder = new QRGEncoder(
@@ -94,6 +94,7 @@ public class QRCodeValueInputFragment extends Fragment {
                     int trialInput = Integer.parseInt(changeValueEditText.getText().toString());
                     inputValueUpdated = inputValue + " " + Integer.toString(trialInput);
                     changeValueEditText.setText("");
+
                 }
                 if (inputValueUpdated.length() > 0) {
 
