@@ -167,6 +167,10 @@ public abstract class Experiment implements Serializable {
         this.questions = questions;
     }
 
+    public boolean isGeoLocationEnabled() {
+        return geolocationEnabled;
+    }
+
     public void setGeoLocation(boolean geoLocation) {
         this.geolocationEnabled = geoLocation;
     }

@@ -60,11 +60,11 @@ public class ExperimentTest {
      * Function to test adding a count trial to an experiment
      */
     @Test
-    void testAddNonNegativeTrial() {
+    void testAddNonNegativeTrial() throws Exception {
         NonNegative nonNegativeExperiment = mockClassCreator.mockNonNegativeExperiment();
         NonNegativeTrial nonNegativeTrial = mockClassCreator.mockNonNegativeTrial(5);
 
-        nonNegativeExperiment.addTrial(nonNegativeTrial.getCount());
+        nonNegativeExperiment.addTrial((int) nonNegativeTrial.getCount());
         assertEquals(nonNegativeExperiment.getTrials().size(), 1);
     }
 }

@@ -32,6 +32,11 @@ public class ExperimenterManager extends DatabaseManager {
         super();
     }
 
+    public ExperimenterManager(FirebaseFirestore db) {
+
+        super(db);
+    }
+
     /**
      * Function for generating a unique username
      * @return

@@ -9,6 +9,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract parent class to all plot managers for different experiment types
+ * Lays out the algorithm for setting up graph data
+ */
 public abstract class PlotManager {
 
     protected ArrayList<Entry> entries;
@@ -19,6 +23,11 @@ public abstract class PlotManager {
 
     protected Experiment experiment;
 
+    /**
+     * Plot manager constructor
+     * @param experiment
+     *     Experiment the plot is being made for
+     */
     PlotManager(Experiment experiment){
 
         entries = new ArrayList<Entry>();
@@ -29,6 +38,11 @@ public abstract class PlotManager {
 
     }
 
+    /**
+     * Sets up line data to be displayed in a histogram and returns it
+     * @return
+     *    LineData representing the information to be displayed in the experiment's plot
+     */
     protected LineData getGraphData(){
 
         setPlotValues();
@@ -43,6 +57,11 @@ public abstract class PlotManager {
 
     }
 
+    /**
+     * Returns IndexAxisValueFormatter with values to be displayed on histogram's X Axis
+     * @return
+     *    IndexAxisValueFormatter object with xAxis values
+     */
     protected IndexAxisValueFormatter getXAxis() {
 
         return new IndexAxisValueFormatter(xAxisValues);

@@ -19,10 +19,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Class for creating line charts for Measurement experiments
+ */
 public class MeasurementPlotManager extends PlotManager {
 
     protected TreeMap<LocalDate, Double[]> plotValues;
 
+    /**
+     * Constructor for MeasurementPlotManager
+     * @param experiment
+     *     Experiment with trial data to be displayed in a plot
+     */
     public MeasurementPlotManager(Experiment experiment){
 
         super(experiment);
@@ -33,6 +41,12 @@ public class MeasurementPlotManager extends PlotManager {
 
     }
 
+    /**
+     * Aggregates data to be displayed in plot using TreeMap plotValues object
+     * Keys are dates of the experiment
+     * Values are a array with the sum of measurement trial entries on that date
+     * in the first index, and the total number of trials on that date in the second index.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setPlotValues() {
@@ -65,6 +79,10 @@ public class MeasurementPlotManager extends PlotManager {
 
     }
 
+    /**
+     * Initializes array of that will contain ordered Entry objects
+     * Initializes array that wil contain the X axis values
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setUpGraphData() {
@@ -83,7 +101,10 @@ public class MeasurementPlotManager extends PlotManager {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+        //iterate through dates from the date experiment was published until the last date a trial was added
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+
+            //create Entry object containing the average measurement trial up until the given date
             if (plotValues.containsKey(date)){
 
                 Double[] dateValues = plotValues.get(date);
@@ -100,6 +121,7 @@ public class MeasurementPlotManager extends PlotManager {
                 entry = new Entry(i,sumOfMeasurements.floatValue()/numOfMeasurements.floatValue());
             }
 
+            //add entry and xAxis string to the correct arrays
             entries.add(entry);
             String axisValue = date.format(dtf);
             xAxisValues.add(axisValue);
@@ -108,6 +130,11 @@ public class MeasurementPlotManager extends PlotManager {
 
     }
 
+    /**
+     * Fully set up the line chart to be displayed
+     * @param lineChart
+     *     Unformatted LineChart object
+     */
     @Override
     public void createPlot(LineChart lineChart) {
 
