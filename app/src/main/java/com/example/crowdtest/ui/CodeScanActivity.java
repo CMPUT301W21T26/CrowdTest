@@ -50,7 +50,7 @@ public class CodeScanActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_code_scanner);
         scanView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this, scanView);
-        ExperimentManager experimentManager = new ExperimentManager();
+        //ExperimentManager experimentManager = new ExperimentManager();
 
         // resultData = findViewById(R.id.resultsOfQr);
 
