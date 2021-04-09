@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.params.MandatoryStreamCombination;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -35,6 +36,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,7 +49,7 @@ import java.util.ArrayList;
 /**
  * The general activity class for all the experiment activities
  */
-public abstract class ExperimentActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public abstract class ExperimentActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
     Toolbar toolbar;
     ImageButton participants;
     TextView experimentDescription;
@@ -126,49 +128,69 @@ public abstract class ExperimentActivity extends AppCompatActivity implements Ac
             commentManager.postQuestion(currentUser, experiment.getExperimentID(), comment, questionCollectionSize.get(0));
             questionCollectionSize.set(0, questionCollectionSize.get(0) + 1);
         });
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-            return;
-        }
         locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(20 * 1000);
+        locationRequest
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10000)
+                .setFastestInterval(2000);
         locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
-                        currentLocation.setLongitude(location.getLongitude());
                         currentLocation.setLatitude(location.getLatitude());
+                        currentLocation.setLongitude(location.getLongitude());
                     }
                 }
             }
         };
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        getCurrentLocation();
+        currentLocation = new Location("provider");
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    currentLocation.setLatitude(location.getLatitude());
+                    currentLocation.setLongitude(location.getLongitude());
+                }
+                else {
+                    locationRequest = LocationRequest.create();
+                    locationRequest
+                            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                            .setInterval(10000)
+                            .setFastestInterval(2000);
+                }
+            }
+        });
+        startLocationUpdate();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults.length > 0 && grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation();
+            return;
         }
     }
 
-    public void getCurrentLocation() {
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation.setLongitude(location.getLongitude());
-                    currentLocation.setLatitude(location.getLatitude());
-                }
-            }
-        });
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startLocationUpdate();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void startLocationUpdate() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
 
     /**
@@ -180,48 +202,48 @@ public abstract class ExperimentActivity extends AppCompatActivity implements Ac
      * License:        CC BY-SA
      * Availability:   https://stackoverflow.com/a/2115770
      */
-    public void showConfirmationDialog(String title, String message, Runnable runnable) {
-        // Build the AlertDialog and define its contents
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Set builder attributes
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setCancelable(false);
-
-        // Delete the experiment item if the user presses "Yes"
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-            /**
-             * Function for defining the dialog's behavior when the "Yes" button is pressed
-             * @param dialog    :   The dialog that received the click
-             * @param which     :   The item that was clicked (represented by an integer)
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                runnable.run();
-            }
-
-        });
-
-        // Cancel the dialog if the user presses "No"
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-            /**
-             * Function for defining the dialog's behavior when the "No" button is pressed
-             * @param dialog    :   The dialog that received the click
-             * @param which     :   The button that was clicked (represented by an integer)
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-
-        });
-
-        // Create and show the dialog
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    public void showConfirmationDialog(String title, String message, Runnable runnable) {
+//        // Build the AlertDialog and define its contents
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        // Set builder attributes
+//        builder.setTitle(title);
+//        builder.setMessage(message);
+//        builder.setCancelable(false);
+//
+//        // Delete the experiment item if the user presses "Yes"
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//            /**
+//             * Function for defining the dialog's behavior when the "Yes" button is pressed
+//             * @param dialog    :   The dialog that received the click
+//             * @param which     :   The item that was clicked (represented by an integer)
+//             */
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                runnable.run();
+//            }
+//
+//        });
+//
+//        // Cancel the dialog if the user presses "No"
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//            /**
+//             * Function for defining the dialog's behavior when the "No" button is pressed
+//             * @param dialog    :   The dialog that received the click
+//             * @param which     :   The button that was clicked (represented by an integer)
+//             */
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//
+//        });
+//
+//        // Create and show the dialog
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
 }

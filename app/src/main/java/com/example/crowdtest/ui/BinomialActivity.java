@@ -1,6 +1,7 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,6 +32,7 @@ public class BinomialActivity extends ExperimentActivity {
     private ParticipantsHelper participantsHelper;
     private ExperimentManager experimentManager = new ExperimentManager();
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +46,8 @@ public class BinomialActivity extends ExperimentActivity {
         successButton = findViewById(R.id.binomial_success_button);
         if (experiment.isGeolocationEnabled()) {
             successButton.setOnClickListener(v -> {
-                String title = "Trial Confirmation";
-                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                showConfirmationDialog(title, message, new Runnable() {
-                    @Override
-                    public void run() {
                         ((Binomial) experiment).addTrial(true, currentLocation);
                         successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
-                    }
-                });
             });
         } else {
             successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, null));
@@ -61,15 +57,8 @@ public class BinomialActivity extends ExperimentActivity {
         failButton = findViewById(R.id.binomial_fail_button);
         if (experiment.isGeolocationEnabled()) {
             failButton.setOnClickListener(v -> {
-                String title = "Trial Confirmation";
-                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                showConfirmationDialog(title, message, new Runnable() {
-                    @Override
-                    public void run() {
-                        ((Binomial) experiment).addTrial(false, currentLocation);
-                        failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
-                    }
-                });
+                ((Binomial) experiment).addTrial(false, currentLocation);
+                failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
             });
         } else {
             failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, null));
@@ -107,13 +96,13 @@ public class BinomialActivity extends ExperimentActivity {
         {
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
-            if (experiment.getStatus().toLowerCase().equals("closed")){
+            if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 successButton.setVisibility(View.INVISIBLE);
                 failButton.setVisibility(View.INVISIBLE);
                 toolbar.setTitleTextColor(0xFFE91E63);
-                toolbar.setTitle(experiment.getTitle()+" (Closed)");
-            } else{
+                toolbar.setTitle(experiment.getTitle() + " (Closed)");
+            } else {
                 endExperiment.setText("End Experiment");
 //                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
                 if (experiment.getSubscribers().contains(currentUser)) {
@@ -148,7 +137,7 @@ public class BinomialActivity extends ExperimentActivity {
         participantsButton.setOnClickListener(view -> {
 
             participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
-            participantsHelper.displayParticipantList("Participants","Back");
+            participantsHelper.displayParticipantList("Participants", "Back");
         });
     }
 }

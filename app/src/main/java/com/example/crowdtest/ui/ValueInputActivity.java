@@ -44,11 +44,10 @@ public class ValueInputActivity extends ExperimentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle experimentBundle = getIntent().getExtras();
-        if (experimentBundle.getSerializable("experiment") instanceof Measurement){
+        if (experimentBundle.getSerializable("experiment") instanceof Measurement) {
             experiment = (Measurement) experimentBundle.getSerializable("experiment");
             isMeasurement = true;
-        }
-        else {
+        } else {
             experiment = (NonNegative) experimentBundle.getSerializable("experiment");
             isMeasurement = false;
         }
@@ -90,33 +89,26 @@ public class ValueInputActivity extends ExperimentActivity {
         if (experiment.getSubscribers().contains(currentUser)) {
             if (experiment.isGeolocationEnabled()) {
                 addButton.setOnClickListener(v -> {
-                    String title = "Trial Confirmation";
-                    String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                    showConfirmationDialog(title, message, new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isMeasurement) {
-                                double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                                ((Measurement)experiment).addTrial(trialInput, currentLocation);
-                                valueEditText.setText("");
-                            } else {
-                                int trialInput = Integer.parseInt(valueEditText.getText().toString());
-                                valueEditText.setText("");
-                                try {
-                                    ((NonNegative) experiment).addTrial(trialInput, currentLocation);
-                                    Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
-                                } catch (Exception e) {
-                                    Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
-                                }
-                            }
+                    if (isMeasurement) {
+                        double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                        ((Measurement) experiment).addTrial(trialInput, currentLocation);
+                        valueEditText.setText("");
+                    } else {
+                        int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                        valueEditText.setText("");
+                        try {
+                            ((NonNegative) experiment).addTrial(trialInput, currentLocation);
+                            Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                        } catch (Exception e) {
+                            Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
                         }
-                    });
+                    }
                 });
             } else {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement)experiment).addTrial(trialInput, null);
+                        ((Measurement) experiment).addTrial(trialInput, null);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
