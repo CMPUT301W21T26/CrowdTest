@@ -16,8 +16,12 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
+import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Experiment;
+import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.NonNegative;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -43,6 +47,7 @@ import java.util.ArrayList;
 public class CodeScanActivity extends AppCompatActivity  {
     CodeScanner codeScanner;
     CodeScannerView scanView;
+    Experiment experiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,20 @@ public class CodeScanActivity extends AppCompatActivity  {
         scanView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this, scanView);
         ExperimentManager experimentManager = new ExperimentManager();
+
+        Bundle experimentBundle = getIntent().getExtras();
+
+        if (experimentBundle.getSerializable("experiment") instanceof Measurement){
+            experiment = (Measurement) experimentBundle.getSerializable("experiment");
+        }
+        else if (experimentBundle.getSerializable("experiment") instanceof Binomial){
+            experiment = (Binomial) experimentBundle.getSerializable("experiment");
+
+        } else if (experimentBundle.getSerializable("experiment") instanceof Count) {
+            experiment = (Count) experimentBundle.getSerializable("experiment");
+        } else {
+            experiment = (NonNegative) experimentBundle.getSerializable("experiment");
+        }
 
         // resultData = findViewById(R.id.resultsOfQr);
 
@@ -63,8 +82,13 @@ public class CodeScanActivity extends AppCompatActivity  {
                         String id = getExperimentId(result.getText());
                         //String type = getExperimentType(result.getText());
                         Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
+                        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
+                        if (experiment instanceof Count) {
+
+                            ((Count) experiment).addTrial();
+
+                        }
                         //new CountTrial()
                         /*
                         help!!! at this point I want to grab the experiment (we have the id) and then add a trial to it, and then update database
