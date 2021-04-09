@@ -121,53 +121,7 @@ public class QRCodeBinomialFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
-        saveButton = (ImageButton) view.findViewById(R.id.save_qr_code_button);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    try {
-                        //boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                        //String result = save ? "Image Saved" : "Image Not Saved";
-                        QRGSaver qrgSaver = new QRGSaver();
-                        boolean save = qrgSaver.save(savePath, "hello buddy", bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                        String result =  save ? "Image Saved" : "Image Not Saved";
-                        Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                }
-            }
-        });
         return view;
     }
-/*
-    private void requestForSave() {
-        Dexter.withActivity(getActivity()).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener() {
-            @Override
-            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                try {
-                    boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                    String result = save ? "Image Saved" : "Image Not Saved";
-                    Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                Toast.makeText(getActivity(), "Storage permission is required.", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                permissionToken.continuePermissionRequest();
-            }
-        });
-    }*/
 }

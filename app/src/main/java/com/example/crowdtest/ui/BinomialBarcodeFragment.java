@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.crowdtest.R;
 
 public class BinomialBarcodeFragment extends AppCompatDialogFragment {
-    //private EditText value;
     private Switch value;
     private BinomialBarcodeFragmentListener listener;
     @NonNull
@@ -27,7 +26,7 @@ public class BinomialBarcodeFragment extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_barcode_binomial, null);
         builder.setView(view)
-                .setTitle("Custom Barcode Trial Value (Success/Failure)")
+                .setTitle("Custom Barcode Trial Value:")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

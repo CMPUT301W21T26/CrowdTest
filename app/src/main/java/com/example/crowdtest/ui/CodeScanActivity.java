@@ -92,86 +92,64 @@ public class CodeScanActivity extends AppCompatActivity  {
                             //FirebaseFirestore db = FirebaseFirestore.getInstance();
                             //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
                             if (experiment instanceof Count) {
-
-                                ((Count) experiment).addTrial();
-                                output = "Added trial with value 1 to " + id;
-                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
-                            } else if (experiment instanceof Binomial) {
-
-                                ((Binomial) experiment).addTrial(getBoolean(result.getText()));
-                                if (getBoolean(result.getText())) {
-                                    output = "Added successful trial to " + id;
+                                if (id.equals(experiment.getExperimentID())) {
+                                    ((Count) experiment).addTrial();
+                                    output = "Added trial with value 1 to " + id;
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();}
+                                else {
+                                    output = "Using wrong QR code for " + experiment.getExperimentID() + ".";
                                     Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                 }
+                            } else if (experiment instanceof Binomial) {
+                                if (id.equals(experiment.getExperimentID())) {
+                                    ((Binomial) experiment).addTrial(getBoolean(result.getText()));
+                                    if (getBoolean(result.getText())) {
+                                        output = "Added successful trial to " + id;
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        output = "Added failure trial to " + id;
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                                 else {
-                                    output = "Added failure trial to " + id;
+                                    output = "Using wrong QR code for " + experiment.getExperimentID() + ".";
                                     Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                 }
                             } else if (experiment instanceof NonNegative) {
-
-                                try {
-                                    int inputInt= getInt(result.getText());
-                                    ((NonNegative) experiment).addTrial(inputInt);
-                                    output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                if (id.equals(experiment.getExperimentID())) {
+                                    try {
+                                        int inputInt = getInt(result.getText());
+                                        ((NonNegative) experiment).addTrial(inputInt);
+                                        output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else {
+                                    output = "Using wrong QR code for " + experiment.getExperimentID() + ".";
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                try {
-                                    Double inputDouble= getDouble(result.getText());
-                                    ((Measurement) experiment).addTrial(inputDouble);
-                                    output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
-                                } catch (Exception e) {
+                                if (id.equals(experiment.getExperimentID())) {
+                                    try {
+                                        Double inputDouble = getDouble(result.getText());
+                                        ((Measurement) experiment).addTrial(inputDouble);
+                                        output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
+                                    } catch (Exception e) {
 
-                                    e.printStackTrace();
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else {
+                                    output = "Using wrong QR code for " + experiment.getExperimentID() + ".";
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } else {
-                            Toast.makeText(CodeScanActivity.this, "barcode scanned", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CodeScanActivity.this, "Barcode scanned.", Toast.LENGTH_SHORT).show();
+                            // IMPLEMENT DATABASE SEARCH GIVEN experimentid FOR ANY BARCODES
                         }
-                        /*
-                        String id = getExperimentId(result.getText());
-                        //String type = getExperimentType(result.getText());
-                        //Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
-                        //FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
-                        if (experiment instanceof Count) {
-
-                            ((Count) experiment).addTrial();
-                            output = "Added trial with value 1 to " + id;
-                            Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
-                        } else if (experiment instanceof Binomial) {
-
-                            ((Binomial) experiment).addTrial(getBoolean(result.getText()));
-                            if (getBoolean(result.getText())) {
-                                output = "Added successful trial to " + id;
-                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                output = "Added failure trial to " + id;
-                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (experiment instanceof NonNegative) {
-
-                            try {
-                                int inputInt= getInt(result.getText());
-                                ((NonNegative) experiment).addTrial(inputInt);
-                                output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                Double inputDouble= getDouble(result.getText());
-                                ((Measurement) experiment).addTrial(inputDouble);
-                                output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                            }
-                        }*/
-
-                        output = "Tap anywhere on screen to scan another code.";
                     }
                 });
             }

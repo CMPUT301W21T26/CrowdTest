@@ -110,7 +110,6 @@ public class QRCodeValueInputFragment extends Fragment {
                     }
                 }
             }
-
         });
         return view;
     }

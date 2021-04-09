@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:text="@string/success"
         android:gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_marginTop="35dp"/>
 
     <ImageView
         android:id="@+id/qr_image_top"
@@ -33,13 +34,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"/>
 
-    <ImageButton
-        android:id="@+id/save_qr_code_button"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_gravity="center"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/participants"
-        app:srcCompat="@drawable/ic_baseline_save_alt_24" />
 
 </LinearLayout>

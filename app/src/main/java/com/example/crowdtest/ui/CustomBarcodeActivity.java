@@ -14,6 +14,8 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -23,7 +25,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 /**
- * Class for scanning QR codes and updating database
+ * Class for scanning bar codes and creating custom documents of them
  *
  * Title:          code-scanner
  * Author:         Yuriy Budiyev et al (https://github.com/yuriy-budiyev/code-scanner/graphs/contributors)
@@ -38,7 +40,11 @@ public class CustomBarcodeActivity extends AppCompatActivity implements InputVal
     String currentUserName;
     String output;
     String inputValue;
-    Boolean inputValueBinomial;
+    boolean inputValueBinomial;
+    int barcodeValueInt;
+    double barcodeValueDouble;
+    boolean barcodeValueBool;
+
     TextView test;
 
 
@@ -67,23 +73,26 @@ public class CustomBarcodeActivity extends AppCompatActivity implements InputVal
                             if (expType.equals("count")) {
                                 output = "Barcode scanned for " + expId + " (" + result.getText() + ") with value 1.";
                                 Toast.makeText(CustomBarcodeActivity.this, output, Toast.LENGTH_SHORT).show();
+                                barcodeValueInt = 1;
+                                //String type = getExperimentType(result.getText());
+                                //Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
+                                // ADD BARCODE TO DATABASE (experiment____)
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                CollectionReference collectionReference = db.collection("Experiments").document(expId).collection("trials");
                                 // ADD BARCODE TO DATABASE (experiment____)
                             } else if (expType.equals("nonnegative")) {
                                 openInputDialogue();
-                                /*
                                 // ADD BARCODE TO DATABASE (experiment____)
-                                test = findViewById(R.id.textView3);
-                                test.setText(inputValue);*/
-                                int barcodeValue = Integer.parseInt(inputValue);
-                                // ADD BARCODE : BARCODEVALUE TO DATABASE
+                                barcodeValueInt = Integer.parseInt(inputValue);
                             } else if (expType.equals("measurement")) {
                                 openInputDialogue();
-                                double barcodeValue = Double.parseDouble(inputValue);
+                                barcodeValueDouble = Double.parseDouble(inputValue);
                                 // ADD BARCODE TO DATABASE (experiment____)
                             } else {
                                 openBinomialDialogue();
-                                output = "NICE";
-                                Toast.makeText(CustomBarcodeActivity.this, output, Toast.LENGTH_SHORT).show();
+                                barcodeValueBool = inputValueBinomial;
+                                // ADD BARCODE TO DATABASE (experiment____)
+                                //Toast.makeText(CustomBarcodeActivity.this, output, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -235,14 +244,5 @@ public class CustomBarcodeActivity extends AppCompatActivity implements InputVal
         inputValueBinomial = value;
     }
 
-    /*
-    public void openBinomialDialogue() {
-        BinomialBarcodeFragment inputValueDialog = new BinomialBarcodeFragment();
-        inputValueDialog.show(getSupportFragmentManager(), "input value dialog");
-    }
-    @Override
-    public void applySwitch(Boolean value) {
-        inputValue = value;
-    }
-    */
+
 }
