@@ -43,9 +43,13 @@ import androidmads.library.qrgenearator.QRGEncoder;
 import androidmads.library.qrgenearator.QRGSaver;
 
 import static android.content.Context.WINDOW_SERVICE;
-/*
 /**
- * Fragment for displaying measurement QR text
+ * Fragment for generating QR codes for Binomial experiments
+ * Title:          QRGenerator
+ * Author:         AndroidMad / Mushtaq M A et al, (https://github.com/androidmads)
+ * Date:           2021-04-08
+ * License:        MIT
+ * Availability:   https://github.com/androidmads/QRGenerator
  */
 public class QRCodeBinomialFragment extends Fragment {
     private ImageView qrImageTop;
@@ -83,7 +87,7 @@ public class QRCodeBinomialFragment extends Fragment {
             qrgEncoder = new QRGEncoder(
                     inputValueSuccess, null,
                     QRGContents.Type.TEXT,
-                    500);
+                    800);
             try {
                 bitmap = qrgEncoder.getBitmap();
                 qrImageTop.setImageBitmap(bitmap);
@@ -99,7 +103,7 @@ public class QRCodeBinomialFragment extends Fragment {
             qrgEncoder = new QRGEncoder(
                     inputValueFailure, null,
                     QRGContents.Type.TEXT,
-                    500);
+                    800);
             try {
                 bitmap = qrgEncoder.getBitmap();
                 qrImageBot.setImageBitmap(bitmap);

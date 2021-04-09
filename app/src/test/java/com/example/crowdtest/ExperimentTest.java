@@ -64,7 +64,7 @@ public class ExperimentTest {
         NonNegative nonNegativeExperiment = mockClassCreator.mockNonNegativeExperiment();
         NonNegativeTrial nonNegativeTrial = mockClassCreator.mockNonNegativeTrial(5);
 
-        nonNegativeExperiment.addTrial(nonNegativeTrial.getCount());
+        //nonNegativeExperiment.addTrial(nonNegativeTrial.getCount());
         assertEquals(nonNegativeExperiment.getTrials().size(), 1);
     }
 }

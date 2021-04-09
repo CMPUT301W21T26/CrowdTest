@@ -20,13 +20,5 @@
         app:frameAspectRatioHeight="1"
         app:frameSize="0.75"
         app:frameThickness="2dp"
-        app:maskColor="#77000000">
-
-    </com.budiyev.android.codescanner.CodeScannerView>
-
-    <TextView
-        android:id="@+id/resultsOfQr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        app:maskColor="#77000000"/>
 </FrameLayout>

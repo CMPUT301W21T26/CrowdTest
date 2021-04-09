@@ -36,9 +36,14 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 import static android.content.Context.WINDOW_SERVICE;
-/*
+
 /**
- * Fragment for displaying measurement QR text
+ * Fragment for generating QR codes for Count experiments
+ * Title:          QRGenerator
+ * Author:         AndroidMad / Mushtaq M A et al, (https://github.com/androidmads)
+ * Date:           2021-04-08
+ * License:        MIT
+ * Availability:   https://github.com/androidmads/QRGenerator
  */
 public class QRCodeCountFragment extends Fragment {
     private ImageView qrImage;
@@ -71,7 +76,7 @@ public class QRCodeCountFragment extends Fragment {
             qrgEncoder = new QRGEncoder(
                     inputValue, null,
                     QRGContents.Type.TEXT,
-                    500);
+                    800);
             try {
                 bitmap = qrgEncoder.getBitmap();
                 qrImage.setImageBitmap(bitmap);
