@@ -107,6 +107,22 @@ public class Count extends Experiment {
         return trials.size();
     }
 
+    public Integer getValidCount(){
+
+        Integer count = 0;
+
+        for (CountTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                count++;
+            }
+        }
+
+        return count;
+
+    }
+
     public Hashtable<String, Double> getStatistics(){
 
         Hashtable<String, Double> statistics = new Hashtable<>();

@@ -83,8 +83,8 @@ public class StatisticsStringCreator {
                 }
             }
 
-            Integer successCount = exp.getSuccessCount();
-            Integer failCount = exp.getFailCount();
+            Integer successCount = exp.getValidSuccessCount();
+            Integer failCount = exp.getValidFailCount();
             Integer totalTrials = successCount + failCount;
             Double successRate = ((trialValues.size() == 0) ? 0.0 : ((double) successCount / totalTrials)*100);
 

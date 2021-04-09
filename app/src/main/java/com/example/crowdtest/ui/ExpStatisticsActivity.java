@@ -30,7 +30,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
 import java.text.DecimalFormat;
-import java.util.Hashtable;
 
 public class ExpStatisticsActivity extends AppCompatActivity {
 
@@ -47,7 +46,6 @@ public class ExpStatisticsActivity extends AppCompatActivity {
     TextView plotTitle;
 
     StatisticsStringCreator statisticsStringCreator;
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -76,7 +74,6 @@ public class ExpStatisticsActivity extends AppCompatActivity {
         String statisticsString = statisticsStringCreator.createStatisticsString();
 
         statsText.setText(statisticsString);
-
     }
 
 

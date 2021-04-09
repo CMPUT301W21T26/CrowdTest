@@ -123,28 +123,6 @@ public class SubscribedExpFragment extends Fragment {
 
                     subscribedExperiments.add(experiment);
                 }
-                experimentManager.getTrials(experiment.getExperimentID(), experiment.getClass().getSimpleName(), new GetTrials() {
-                    @Override
-                    public void getBinomialTrials(BinomialTrial binomialTrial) {
-                        ((Binomial) experiment).addTrialFromDb(binomialTrial);
-                    }
-
-                    @Override
-                    public void getCountTrials(CountTrial countTrial) {
-                        ((Count) experiment).getTrials().add(countTrial);
-                    }
-
-                    @Override
-                    public void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial) {
-                        ((NonNegative) experiment).getTrials().add(nonnegativeTrial);
-                    }
-
-                    @Override
-                    public void getMeasurementTrials(MeasurementTrial measurementTrial) {
-                        ((Measurement) experiment).getTrials().add(measurementTrial);
-                    }
-
-                });
             }
 
             listViewAdapter.notifyDataSetChanged();

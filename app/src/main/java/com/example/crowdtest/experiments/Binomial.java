@@ -76,6 +76,7 @@ public class Binomial extends Experiment {
 
     }
 
+
     /**
      * Adds a new trial to the experiment
      *
@@ -126,6 +127,21 @@ public class Binomial extends Experiment {
         return successCount;
     }
 
+    public int getValidSuccessCount(){
+
+        Integer validSuccessCount = 0;
+
+        for (BinomialTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster()) && trial.isSuccess()) {
+
+                validSuccessCount ++;
+            }
+        }
+
+        return validSuccessCount;
+    }
+
     /**
      * Function for getting the number of recorded fail trials for the binomial experiment
      * @return
@@ -133,6 +149,21 @@ public class Binomial extends Experiment {
      */
     public int getFailCount() {
         return failCount;
+    }
+
+    public int getValidFailCount(){
+
+        Integer validFailCount = 0;
+
+        for (BinomialTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster()) && !trial.isSuccess()) {
+
+                validFailCount ++;
+            }
+        }
+
+        return validFailCount;
     }
 
     /**

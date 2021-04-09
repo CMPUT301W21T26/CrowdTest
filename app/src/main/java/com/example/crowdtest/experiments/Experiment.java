@@ -125,7 +125,6 @@ public abstract class Experiment implements Serializable {
      */
     public void addBlackListedUser(String username) {
         blackListedUsers.add(username);
-        subscribers.remove(username);
     }
 
     /**
@@ -136,7 +135,6 @@ public abstract class Experiment implements Serializable {
     public void removeBlackListedUser(String username) {
 
         blackListedUsers.remove(username);
-        subscribers.add(username);
     }
 
     /**

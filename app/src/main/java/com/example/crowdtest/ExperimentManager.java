@@ -303,6 +303,7 @@ public class ExperimentManager extends DatabaseManager {
      * @param username
      */
     public void addBlackListedUser(Experiment experiment, String username) {
+
         experiment.addBlackListedUser(username);
 
         HashMap<String, Object> experimentData = new HashMap<>();
@@ -320,15 +321,17 @@ public class ExperimentManager extends DatabaseManager {
      * @param username
      */
     public void removeBlackListedUser(Experiment experiment, String username) {
-        experiment.removeBlackListedUser(username);
 
-        HashMap<String, Object> experimentData = new HashMap<>();
+//        ArrayList<String> blacklisted = experiment.getBlackListedUsers();
+//        if (blacklisted.isEmpty()) {
+            experiment.removeBlackListedUser(username);
 
-        experimentData.put("blacklisted", experiment.getBlackListedUsers());
+            HashMap<String, Object> experimentData = new HashMap<>();
+            experimentData.put("blacklisted", experiment.getBlackListedUsers());
 
-        database.collection(collectionPath)
-                .document(experiment.getExperimentID())
-                .update(experimentData);
+            database.collection(collectionPath)
+                    .document(experiment.getExperimentID())
+                    .update(experimentData);
     }
 
     /**
