@@ -1,15 +1,9 @@
 package com.example.crowdtest;
 
-import com.example.crowdtest.experiments.Binomial;
-import com.example.crowdtest.experiments.Experiment;
-import com.example.crowdtest.ui.Comment;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,49 +11,35 @@ public class CommentManagerTest {
 
     FirebaseFirestore mockDatabase = Mockito.mock(FirebaseFirestore.class);
 
-    ExperimentManager mockExperimentManager = new ExperimentManager();
+    CommentManager mockCommentManager = new CommentManager(mockDatabase);
 
-    Experimenter mockOwner = new Experimenter(new UserProfile("mockUserName1", "123", "mockemail@gmail.com", "1234567"));
+    Question mockQuestion = new Question("mockQuestionID","mockCommentID", "mockQuestionContent");
 
-    Experiment mockExperiment = new Binomial("mockUserName1", "mock123", "open", "Mock Experiment", "Mock Description", "Mock region", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), true, new Date(), 10, new ArrayList<>(), true);
-
-    Question mockQuestion = new Question("mockQuestionID","mockCommentID", "mockQuestionContent")
-
-    Reply mockReply = new Reply("mockReplyID","mockParentID","mockCommenterID", "mockReplyContent")
+    /**
+     * Test to see if question is posted
+     */
 
     @Test
     public void testPostQuestion() {
+        String content = "test content";
+        String commenterID = "commentID";
+        Question question = mockCommentManager.postQuestion(commenterID, content);
 
-
-
-
+        assertEquals(question.getCommenterID(), commenterID);
+        assertEquals(question.getContent(), content);
     }
 
+    /**
+     * Test to see if reply is posted
+     */
     @Test
     public void testPostReply() {
+        String content = "test reply";
+        String commenterID = "commentID";
+        Reply reply = mockCommentManager.postReply(commenterID, mockQuestion, content);
 
-
-
+        assertEquals(reply.getCommenterID(), commenterID);
+        assertEquals(reply.getContent(), content);
     }
 
-    @Test
-    public void testUpdateQuestion() {
-
-        mockQuestion.
-
-    }
-
-    @Test
-    public void testDeleteQuestion() {
-
-        mockQuestion.
-
-    }
-
-    @Test
-    public void testDeleteReply() {
-
-        mockQuestion.
-
-    }
 }
