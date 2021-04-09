@@ -55,5 +55,16 @@ public class ExperimentTest {
         measurementExperiment.addTrial(measurementTrial.getMeasurement());
         assertEquals(measurementExperiment.getTrials().size(), 1);
     }
+    /**
+     * Function to test adding a count trial to an experiment
+     */
+    @Test
+    void testAddNonNegativeTrial() {
+        NonNegative nonNegativeExperiment = mockClassCreator.mockNonNegativeExperiment();
+        NonNegativeTrial nonNegativeTrial = mockClassCreator.mockNonNegativeTrial(5);
 
+        nonNegativeExperiment.addTrial(nonNegativeTrial.getCount());
+        assertEquals(nonNegativeExperiment.getTrials().size(), 1);
+    }
 }
+
