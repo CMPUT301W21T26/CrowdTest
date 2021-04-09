@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +17,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 public class QRActivity extends AppCompatActivity {
 
-    private ImageView qrImageTop;
-    private ImageView qrImageBot;
-    private String inputValue;
-    private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
-    private Bitmap bitmap;
-    private QRGEncoder qrgEncoder;
-    private AppCompatActivity activity;
+    private Button customBarcodeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +44,16 @@ public class QRActivity extends AppCompatActivity {
             transaction.replace(R.id.qr_fragment_layout, QRFragment);
             transaction.commit();
         }
+
+        /*
+        customBarcodeButton = findViewById(R.id.custom_barcode_button);
+        customBarcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+         */
     }
 }

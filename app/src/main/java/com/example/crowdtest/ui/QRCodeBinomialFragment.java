@@ -79,7 +79,7 @@ public class QRCodeBinomialFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_binomial_qr, container, false);
         qrImageTop = view.findViewById(R.id.qr_image_top);
-        String inputValueSuccess = inputValue + " s";
+        String inputValueSuccess = inputValue + " binomial s"; // full encoding: experiment___ binomial s
         activity = (AppCompatActivity) getActivity();
 
         if (inputValueSuccess.length() > 0) {
@@ -97,7 +97,7 @@ public class QRCodeBinomialFragment extends Fragment {
         }
 
         qrImageBot = view.findViewById(R.id.qr_image_bot);
-        String inputValueFailure = inputValue + " f";
+        String inputValueFailure = inputValue + " binomial f"; // full encoding: experiment___ binomial f
         if (inputValueFailure.length() > 0) {
 
             qrgEncoder = new QRGEncoder(

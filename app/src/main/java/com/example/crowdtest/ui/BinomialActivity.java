@@ -21,6 +21,7 @@ public class BinomialActivity extends ExperimentActivity {
     private Button failButton;
     private Button detailsButton;
     private ImageButton qrButton;
+    private ImageButton qrScanButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,13 @@ public class BinomialActivity extends ExperimentActivity {
             intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
             startActivity(intent);
 
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            //intent.putExtra("EXTA_EXP", experiment);
+            startActivity(intent);
         });
 
         // Allows user to end an experiment if they are the owner

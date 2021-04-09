@@ -18,7 +18,7 @@
         app:frameCornersRadius="0dp"
         app:frameAspectRatioWidth="1"
         app:frameAspectRatioHeight="1"
-        app:frameSize="0.75"
+        app:frameSize="0.85"
         app:frameThickness="2dp"
-        app:maskColor="#77000000"/>
+        app:maskColor="#432196F3"/>
 </FrameLayout>
