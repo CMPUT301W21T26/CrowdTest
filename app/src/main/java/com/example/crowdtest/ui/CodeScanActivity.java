@@ -51,6 +51,7 @@ public class CodeScanActivity extends AppCompatActivity  {
     Experiment experiment;
     String currentUserName;
     String output;
+    Bundle experimentBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class CodeScanActivity extends AppCompatActivity  {
         codeScanner = new CodeScanner(this, scanView);
         //ExperimentManager experimentManager = new ExperimentManager();
 
-        Bundle experimentBundle = getIntent().getExtras();
+        experimentBundle = getIntent().getExtras();
 
         if (experimentBundle.getSerializable("experiment") instanceof Measurement){
             experiment = (Measurement) experimentBundle.getSerializable("experiment");
@@ -84,6 +85,51 @@ public class CodeScanActivity extends AppCompatActivity  {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if ("e".equals(Character.toString(result.getText().charAt(0)))) {
+                            String id = getExperimentId(result.getText());
+                            //String type = getExperimentType(result.getText());
+                            //Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
+                            //FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
+                            if (experiment instanceof Count) {
+
+                                ((Count) experiment).addTrial();
+                                output = "Added trial with value 1 to " + id;
+                                Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                            } else if (experiment instanceof Binomial) {
+
+                                ((Binomial) experiment).addTrial(getBoolean(result.getText()));
+                                if (getBoolean(result.getText())) {
+                                    output = "Added successful trial to " + id;
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    output = "Added failure trial to " + id;
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                }
+                            } else if (experiment instanceof NonNegative) {
+
+                                try {
+                                    int inputInt= getInt(result.getText());
+                                    ((NonNegative) experiment).addTrial(inputInt);
+                                    output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    Double inputDouble= getDouble(result.getText());
+                                    ((Measurement) experiment).addTrial(inputDouble);
+                                    output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
+                                } catch (Exception e) {
+
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Toast.makeText(CodeScanActivity.this, "barcode scanned", Toast.LENGTH_SHORT).show();
+                        }
+                        /*
                         String id = getExperimentId(result.getText());
                         //String type = getExperimentType(result.getText());
                         //Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
@@ -123,7 +169,7 @@ public class CodeScanActivity extends AppCompatActivity  {
 
                                 e.printStackTrace();
                             }
-                        }
+                        }*/
 
                         output = "Tap anywhere on screen to scan another code.";
                     }

@@ -35,6 +35,12 @@ import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.Experiment;
 import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.NonNegative;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.ArrayList;
 
@@ -55,11 +61,15 @@ public class QRCodeBinomialFragment extends Fragment {
     private ImageView qrImageTop;
     private ImageView qrImageBot;
     private String inputValue;
+    //private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
     private String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
+    //private String savePath2 = "/sdk_gphone_86/pictures";
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
     private ImageButton saveButton;
     private AppCompatActivity activity;
+    private String inputValueSuccess;
+
 
     public QRCodeBinomialFragment(String input){
         inputValue = input;
@@ -79,7 +89,7 @@ public class QRCodeBinomialFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_binomial_qr, container, false);
         qrImageTop = view.findViewById(R.id.qr_image_top);
-        String inputValueSuccess = inputValue + " s";
+        inputValueSuccess = inputValue + " s";
         activity = (AppCompatActivity) getActivity();
 
         if (inputValueSuccess.length() > 0) {
@@ -87,7 +97,7 @@ public class QRCodeBinomialFragment extends Fragment {
             qrgEncoder = new QRGEncoder(
                     inputValueSuccess, null,
                     QRGContents.Type.TEXT,
-                    800);
+                    700);
             try {
                 bitmap = qrgEncoder.getBitmap();
                 qrImageTop.setImageBitmap(bitmap);
@@ -103,7 +113,7 @@ public class QRCodeBinomialFragment extends Fragment {
             qrgEncoder = new QRGEncoder(
                     inputValueFailure, null,
                     QRGContents.Type.TEXT,
-                    800);
+                    700);
             try {
                 bitmap = qrgEncoder.getBitmap();
                 qrImageBot.setImageBitmap(bitmap);
@@ -113,13 +123,18 @@ public class QRCodeBinomialFragment extends Fragment {
         }
 
         saveButton = (ImageButton) view.findViewById(R.id.save_qr_code_button);
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     try {
-                        boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                        String result = save ? "Image Saved" : "Image Not Saved";
+                        //boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                        //String result = save ? "Image Saved" : "Image Not Saved";
+                        QRGSaver qrgSaver = new QRGSaver();
+                        boolean save = qrgSaver.save(savePath, "hello buddy", bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                        String result =  save ? "Image Saved" : "Image Not Saved";
                         Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -131,4 +146,28 @@ public class QRCodeBinomialFragment extends Fragment {
         });
         return view;
     }
+/*
+    private void requestForSave() {
+        Dexter.withActivity(getActivity()).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                try {
+                    boolean save = new QRGSaver().save(savePath, inputValueSuccess, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                    String result = save ? "Image Saved" : "Image Not Saved";
+                    Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                Toast.makeText(getActivity(), "Storage permission is required.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                permissionToken.continuePermissionRequest();
+            }
+        });
+    }*/
 }

@@ -2,6 +2,7 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,15 +46,16 @@ public class QRActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        /*
         customBarcodeButton = findViewById(R.id.custom_barcode_button);
-        customBarcodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        customBarcodeButton.setOnClickListener(view -> {
+            //Bundle bundle = new Bundle();
+            //bundle.putSerializable("experiment", experiment);
+            Intent barcodeIntent = new Intent(view.getContext(), CustomBarcodeActivity.class);
+            barcodeIntent.putExtra("EXTRA_EXP_ID", expId);
+            barcodeIntent.putExtra("EXTRA_EXP_TYPE", expType);
+            startActivityForResult(barcodeIntent, 1);
         });
 
-         */
+
     }
 }
