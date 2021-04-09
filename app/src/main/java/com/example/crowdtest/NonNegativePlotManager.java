@@ -20,6 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Class for creating line charts for NonNegative experiments
+ */
 public class NonNegativePlotManager extends PlotManager{
 
     protected TreeMap<LocalDate, Integer[]> plotValues;
@@ -34,6 +37,12 @@ public class NonNegativePlotManager extends PlotManager{
 
     }
 
+    /**
+     * Aggregates data to be displayed in plot using TreeMap plotValues object
+     * Keys are dates of the experiment
+     * Values are a array with the sum of NonNegative trial entry values on that date in
+     * the first index, and the total number of trials on that date in the second index.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setPlotValues() {
@@ -67,6 +76,10 @@ public class NonNegativePlotManager extends PlotManager{
 
     }
 
+    /**
+     * Initializes array of that will contain ordered Entry objects
+     * Initializes array that wil contain the X axis values
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setUpGraphData() {
@@ -85,7 +98,10 @@ public class NonNegativePlotManager extends PlotManager{
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+        //iterate through dates from the date experiment was published until the last date a trial was added
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+
+            //create Entry objects for each date, which each entry containing the overall average NonNegative Count trial value up until that date
             if (plotValues.containsKey(date)){
 
                 Integer[] dateValues = plotValues.get(date);
@@ -102,6 +118,7 @@ public class NonNegativePlotManager extends PlotManager{
                 entry = new Entry(i,(float) sumOfCounts/numOfCounts);
             }
 
+            //add entry and xAxis values to corresponding arrays
             entries.add(entry);
             String axisValue = date.format(dtf);
             xAxisValues.add(axisValue);
@@ -110,6 +127,11 @@ public class NonNegativePlotManager extends PlotManager{
 
     }
 
+    /**
+     * Fully set up the line chart to be displayed
+     * @param lineChart
+     *     Unformatted LineChart object
+     */
     @Override
     public void createPlot(LineChart lineChart) {
 

@@ -22,10 +22,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+/**
+ * Class for creating line charts for Binomial experiments
+ */
 public class BinomialPlotManager extends PlotManager{
 
     private TreeMap<LocalDate, Integer[]> plotValues;
 
+    /**
+     * Constructor for BinomialPlotManager
+     * @param experiment
+     *     Experiment with trial data to be displayed in a plot
+     */
     public BinomialPlotManager(Experiment experiment){
 
         super(experiment);
@@ -36,6 +44,12 @@ public class BinomialPlotManager extends PlotManager{
 
     }
 
+    /**
+     * Aggregates data to be displayed in plot using TreeMap plotValues object
+     * Keys are dates of the experiment
+     * Values are a array with the number of trials that were successes on that date
+     * in the first index, and the total number of trials on that date in the second index.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setPlotValues() {
@@ -76,6 +90,10 @@ public class BinomialPlotManager extends PlotManager{
 
     }
 
+    /**
+     * Initializes array of that will contain ordered Entry objects
+     * Initializes array that wil contain the X axis values
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void setUpGraphData() {
@@ -94,7 +112,10 @@ public class BinomialPlotManager extends PlotManager{
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+        //iterate through dates from the date experiment was published until the last date a trial was added
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+
+            //create plot entries with each entry being the total success rate on that date
             if (plotValues.containsKey(date)){
 
                 Integer[] dateValues = plotValues.get(date);
@@ -111,6 +132,7 @@ public class BinomialPlotManager extends PlotManager{
                 entry = new Entry(i,((float) totalSuccesses/totalTrials)*100);
             }
 
+            //add entry to the entry to the ArrayList and the xAxis string to the xAxisValues array list
             entries.add(entry);
             String axisValue = date.format(dtf);
             xAxisValues.add(axisValue);
@@ -119,6 +141,11 @@ public class BinomialPlotManager extends PlotManager{
 
     }
 
+    /**
+     * Fully set up the line chart to be displayed
+     * @param lineChart
+     *     Unformatted LineChart object
+     */
     @Override
     public void createPlot(LineChart lineChart) {
 

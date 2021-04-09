@@ -45,6 +45,8 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
     TextView plotTitle;
 
+    StatisticsStringCreator statisticsStringCreator;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +65,20 @@ public class ExpStatisticsActivity extends AppCompatActivity {
 
         lineChart = (LineChart) findViewById(R.id.line_chart);
 
-        createBarChart(experiment);
+        createBarChart();
 
-        createPlot(experiment);
+        createPlot();
 
-        String statisticsString = (new StatisticsStringCreator(experiment)).createStatisticsString();
+        statisticsStringCreator = new StatisticsStringCreator(experiment);
+
+        String statisticsString = statisticsStringCreator.createStatisticsString();
 
         statsText.setText(statisticsString);
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void createBarChart(Experiment experiment) {
+    private void createBarChart() {
 
         formatBarChart();
 
@@ -120,7 +124,7 @@ public class ExpStatisticsActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void createPlot(Experiment experiment) {
+    private void createPlot() {
 
         formatLineChart();
 
