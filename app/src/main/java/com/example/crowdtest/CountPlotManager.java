@@ -56,7 +56,7 @@ public class CountPlotManager extends PlotManager{
     @Override
     protected void setPlotValues() {
 
-        ArrayList<CountTrial> trials = ((Count) experiment).getTrials();
+        ArrayList<CountTrial> trials = ((Count) experiment).getValidTrials();
 
         for (int i=0; i < trials.size(); i++) {
 

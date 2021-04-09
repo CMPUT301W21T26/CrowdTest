@@ -47,7 +47,7 @@ public class NonNegativePlotManager extends PlotManager{
     @Override
     protected void setPlotValues() {
 
-        ArrayList<NonNegativeTrial> trials = ((NonNegative) experiment).getTrials();
+        ArrayList<NonNegativeTrial> trials = ((NonNegative) experiment).getValidTrials();
 
 
         for (int i=0; i < trials.size(); i++) {

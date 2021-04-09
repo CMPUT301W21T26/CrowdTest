@@ -51,7 +51,7 @@ public class MeasurementPlotManager extends PlotManager {
     @Override
     protected void setPlotValues() {
 
-        ArrayList<MeasurementTrial> trials = ((Measurement) experiment).getTrials();
+        ArrayList<MeasurementTrial> trials = ((Measurement) experiment).getValidTrials();
 
         for (int i=0; i < trials.size(); i++) {
 
