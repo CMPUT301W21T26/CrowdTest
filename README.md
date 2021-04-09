@@ -116,31 +116,31 @@ Note that if you are not the owned of an experiment, the unpublish option will n
 
 Title: Tab Layout with Different Fragments  
 Author: Master Coding  
-Date: 
+Date:  
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=HHd-Fa3DCng&ab_channel=MasterCoding  
 
 Title: How to retrieve an Unique ID to identify Android devices?  
 Author: Sylvain Saurel    
-Date: 
+Date:  
 License: Public Domain  
 Availability: https://ssaurel.medium.com/how-to-retrieve-an-unique-id-to-identify-android-devices-6f99fd5369eb
 
 Title: firestore read is asynchronous and I want synchronous behaviour  
 Author: Luca Murra, https://stackoverflow.com/users/8579556/luca-murra  
-Date: 
+Date:  
 License: Public Domain  
 Availability: https://stackoverflow.com/questions/53970276/firestore-read-is-asynchronous-and-i-want-synchronous-behaviour  
 
 Title: How to get my activity context?  
 Author: hasanghaforian, https://stackoverflow.com/users/1043882/hasanghaforian  
-Date: 
+Date:  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/12320857/how-to-get-my-activity-context  
 
 Title: Identifying App Installations  
 Author: Android Development Documentation  
-Date: 
+Date:  
 License: Apache 2.0  
 Availability: https://android-developers.googleblog.com/2011/03/identifying-app-installations.html  
 
@@ -158,13 +158,13 @@ Availability: https://developer.android.com/reference/android/os/AsyncTask.html
 
 Title: How to Structure Your Data  
 Author: Firebase  
-Date: 2018-10-24  
+Date:   
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=haMOUb3KVSo&ab_channel=Firebase  
 
 Title: Better Arrays in Cloud Firestore!  
 Author: Todd Kerpelman  
-Date: 2018-08-09  
+Date:   
 License: Public Domain  
 Availability: https://firebase.googleblog.com/2018/08/better-arrays-in-cloud-firestore.html  
 
