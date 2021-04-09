@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * QuestionTest class for unit testing Question class and its children
  */
-public class QuestionTest {
+public class
+QuestionTest {
 
     private MockClassCreator mockClassCreator = new MockClassCreator();
 
