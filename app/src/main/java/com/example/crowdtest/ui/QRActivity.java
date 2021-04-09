@@ -37,6 +37,12 @@ public class QRActivity extends AppCompatActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.qr_fragment_layout, QRFragment);
             transaction.commit();
+
+        } else if (expType.equals("nonnegative")) {
+            QRCodeCountFragment QRFragment = new QRCodeCountFragment(expId);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.qr_fragment_layout, QRFragment);
+            transaction.commit();
         } else {
             // measurement experiment type
             QRCodeMeasurementFragment QRFragment = new QRCodeMeasurementFragment(expId);

@@ -88,6 +88,14 @@ public class CodeScanActivity extends AppCompatActivity  {
 
                             ((Count) experiment).addTrial();
 
+                        } else if (experiment instanceof Binomial) {
+                            ((Binomial) experiment).addTrial(getBoolean(result.getText()));
+                        } else if (experiment instanceof NonNegative) {
+                            try {
+                                ((NonNegative) experiment).addTrial(1);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                         //new CountTrial()
                         /*
@@ -158,6 +166,16 @@ public class CodeScanActivity extends AppCompatActivity  {
         }
 
         return id;
+    }
+
+    private Boolean getBoolean(String result) {
+        String value = Character.toString(result.charAt(result.length()-1));
+        if ("s".equals(value)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }

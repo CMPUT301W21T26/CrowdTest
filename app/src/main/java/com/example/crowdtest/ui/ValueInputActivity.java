@@ -27,6 +27,7 @@ public class ValueInputActivity extends ExperimentActivity {
     private EditText valueEditText;
     private Button detailsButton;
     private ImageButton qrButton;
+    private ImageButton qrScanButton;
 
     /**
      * To determine whether the experiment is a measurement experiment or a non negative integer experiment
@@ -58,10 +59,24 @@ public class ValueInputActivity extends ExperimentActivity {
         qrButton.setOnClickListener(view -> {
 
             Intent intent = new Intent(view.getContext(), QRActivity.class);
-            intent.putExtra("EXTRA_EXP_TYPE", "measurement");
+            if (isMeasurement) {
+                intent.putExtra("EXTRA_EXP_TYPE", "measurement");
+            }
+            else {
+                intent.putExtra("EXTRA_EXP_TYPE", "nonnegative");
+            }
             intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
             startActivity(intent);
 
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
 
         // Allows user to end an experiment if they are the owner

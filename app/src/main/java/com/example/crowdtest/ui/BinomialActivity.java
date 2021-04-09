@@ -81,8 +81,10 @@ public class BinomialActivity extends ExperimentActivity {
 
         qrScanButton = findViewById(R.id.qr_scan_icon);
         qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
             Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
-            //intent.putExtra("EXTA_EXP", experiment);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
