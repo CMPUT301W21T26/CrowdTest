@@ -40,6 +40,7 @@ public abstract class Experiment implements Serializable {
         status = "Open";
         this.subscribers = new ArrayList<>();
         this.questions = new ArrayList<>();
+        this.blackListedUsers = new ArrayList<>();
         this.published = true;
     }
 

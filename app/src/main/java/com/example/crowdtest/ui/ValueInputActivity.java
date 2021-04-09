@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
+import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
@@ -25,6 +27,9 @@ public class ValueInputActivity extends ExperimentActivity {
     private Button addButton;
     private EditText valueEditText;
     private Button detailsButton;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
 
     /**
@@ -161,6 +166,14 @@ public class ValueInputActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_value_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 }

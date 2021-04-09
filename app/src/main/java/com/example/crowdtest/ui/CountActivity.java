@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
+import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.ExperimenterManager;
 import com.example.crowdtest.R;
-import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,6 +21,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class CountActivity extends ExperimentActivity {
     private Button addButton;
     private Button detailsButton;
+    private ImageButton participantsButton;
+    private ParticipantsHelper participantsHelper;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +109,14 @@ public class CountActivity extends ExperimentActivity {
                 startActivity(intent);
 
             }
+        });
+
+        participantsButton = findViewById(R.id.exp_count_participants_button);
+
+        participantsButton.setOnClickListener(view -> {
+
+            participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
+            participantsHelper.displayParticipantList("Participants","Back");
         });
     }
 }
