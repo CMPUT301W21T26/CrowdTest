@@ -15,6 +15,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.Experimenter;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
@@ -48,6 +49,7 @@ public class CodeScanActivity extends AppCompatActivity  {
     CodeScanner codeScanner;
     CodeScannerView scanView;
     Experiment experiment;
+    String currentUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class CodeScanActivity extends AppCompatActivity  {
             experiment = (NonNegative) experimentBundle.getSerializable("experiment");
         }
 
+        currentUserName = experimentBundle.getString("user");
+
         // resultData = findViewById(R.id.resultsOfQr);
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -89,11 +93,16 @@ public class CodeScanActivity extends AppCompatActivity  {
                             ((Count) experiment).addTrial();
 
                         } else if (experiment instanceof Binomial) {
+
                             ((Binomial) experiment).addTrial(getBoolean(result.getText()));
+
                         } else if (experiment instanceof NonNegative) {
+
                             try {
                                 ((NonNegative) experiment).addTrial(1);
+
                             } catch (Exception e) {
+
                                 e.printStackTrace();
                             }
                         }
@@ -176,6 +185,30 @@ public class CodeScanActivity extends AppCompatActivity  {
         else {
             return false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Bundle experimentDetailsBundle = new Bundle();
+        experimentDetailsBundle.putSerializable("experiment", experiment);
+
+        Intent experimentActivityIntent = null;
+        if (experiment instanceof Binomial){
+            experimentActivityIntent = new Intent(scanView.getContext(), BinomialActivity.class);
+        }
+        else if (experiment instanceof Count){
+            experimentActivityIntent = new Intent(scanView.getContext(), CountActivity.class);
+        }
+        else if (experiment instanceof Measurement || experiment instanceof NonNegative){
+
+            experimentActivityIntent = new Intent(scanView.getContext(), ValueInputActivity.class);
+
+        }
+        experimentActivityIntent.putExtras(experimentDetailsBundle);
+        setResult(1, experimentActivityIntent);
+        finish();
+
     }
 
 }
