@@ -104,22 +104,26 @@ public class ExperimentManager extends DatabaseManager {
                     if (experimentType.equals("Binomial")) {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
+                        String poster = (String) documentSnapshot.getData().get("user");
                         boolean success = (boolean) documentSnapshot.getData().get("success");
-                        getTrials.getBinomialTrials(new BinomialTrial(timeStamp, location, success));
+                        getTrials.getBinomialTrials(new BinomialTrial(timeStamp, location, success, poster));
                     } else if (experimentType.equals("Count")) {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
-                        getTrials.getCountTrials(new CountTrial(timeStamp, location));
+                        String poster = (String) documentSnapshot.getData().get("user");
+                        getTrials.getCountTrials(new CountTrial(timeStamp, location, poster));
                     } else if (experimentType.equals("Measurement")) {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         double measurement = (double) documentSnapshot.getData().get("measurement");
-                        getTrials.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement));
+                        String poster = (String) documentSnapshot.getData().get("user");
+                        getTrials.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement, poster));
                     } else {
                         Location location = (Location) documentSnapshot.getData().get("location");
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         long count = (long) documentSnapshot.getData().get("count");
-                        getTrials.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
+                        String poster = (String) documentSnapshot.getData().get("user");
+                        getTrials.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count, poster));
                     }
                 }
 
@@ -303,7 +307,7 @@ public class ExperimentManager extends DatabaseManager {
 
         HashMap<String, Object> experimentData = new HashMap<>();
 
-        experimentData.put("blacklisted", experiment.getSubscribers());
+        experimentData.put("blacklisted", experiment.getBlackListedUsers());
 
         database.collection(collectionPath)
                 .document(experiment.getExperimentID())
@@ -320,7 +324,7 @@ public class ExperimentManager extends DatabaseManager {
 
         HashMap<String, Object> experimentData = new HashMap<>();
 
-        experimentData.put("blacklisted", experiment.getSubscribers());
+        experimentData.put("blacklisted", experiment.getBlackListedUsers());
 
         database.collection(collectionPath)
                 .document(experiment.getExperimentID())

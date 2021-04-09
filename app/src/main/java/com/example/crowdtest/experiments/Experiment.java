@@ -40,6 +40,7 @@ public abstract class Experiment implements Serializable {
         status = "Open";
         this.subscribers = new ArrayList<>();
         this.questions = new ArrayList<>();
+        this.blackListedUsers = new ArrayList<>();
         this.published = true;
     }
 
@@ -124,6 +125,7 @@ public abstract class Experiment implements Serializable {
      */
     public void addBlackListedUser(String username) {
         blackListedUsers.add(username);
+        subscribers.remove(username);
     }
 
     /**
@@ -132,7 +134,9 @@ public abstract class Experiment implements Serializable {
      * @param username Unique username of blacklisted user
      */
     public void removeBlackListedUser(String username) {
+
         blackListedUsers.remove(username);
+        subscribers.add(username);
     }
 
     /**

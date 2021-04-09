@@ -81,8 +81,9 @@ public class Binomial extends Experiment {
      *
      * @param trialInput The trial that is going to be submitted in the experiment
      */
-    public void addTrial(boolean trialInput) {
+    public void addTrial(boolean trialInput, String userName) {
         BinomialTrial trial = new BinomialTrial(trialInput);
+        trial.setPoster(userName);
         trials.add(trial);
         if (trialInput) {
             successCount += 1;
@@ -112,6 +113,7 @@ public class Binomial extends Experiment {
         trialData.put("location", trial.getLocation());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("success", trial.isSuccess());
+        trialData.put("user", trial.getPoster());
         db.addDataToCollection("Experiments/" + experimentID + "/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -142,13 +144,29 @@ public class Binomial extends Experiment {
         this.trials = trials;
     }
 
+    public ArrayList<BinomialTrial> getTrials() {
+
+        return this.trials;
+    }
+
     /**
      * Function for getting the trials for the binomial experiment
      * @return
      *  ArrayList of binomial trials
      */
-    public ArrayList<BinomialTrial> getTrials() {
-        return trials;
+    public ArrayList<BinomialTrial> getValidTrials() {
+
+        ArrayList<BinomialTrial> validTrials = new ArrayList<>();
+
+        for (BinomialTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                validTrials.add(trial);
+            }
+        }
+
+        return validTrials;
     }
 
     public Hashtable<String, Double> getStatistics(){

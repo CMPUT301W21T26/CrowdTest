@@ -51,7 +51,7 @@ public class MeasurementGraphManager extends GraphManager{
      */
     protected void setPlotValues() {
 
-        ArrayList<MeasurementTrial> trials = ((Measurement) experiment).getTrials();
+        ArrayList<MeasurementTrial> trials = ((Measurement) experiment).getValidTrials();
 
         //iterate through experiment trials
         for (int i=0; i < trials.size(); i++) {

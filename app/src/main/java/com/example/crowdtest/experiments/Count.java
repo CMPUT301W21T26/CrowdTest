@@ -54,8 +54,9 @@ public class Count extends Experiment {
     /**
      * Adds a new trial to the experiment
      */
-    public void addTrial() {
+    public void addTrial(String userName) {
         CountTrial trial = new CountTrial();
+        trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -65,6 +66,7 @@ public class Count extends Experiment {
         HashMap<String, Object> trialData = new HashMap<>();
         trialData.put("location", trial.getLocation());
         trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("user", trial.getPoster());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -77,13 +79,28 @@ public class Count extends Experiment {
         this.trials = trials;
     }
 
+    public ArrayList<CountTrial> getTrials() {
+
+        return this.trials;
+    }
+
     /**
      * Function for getting the trials of the count experiment
      * @return
      *  ArrayList of count trials
      */
-    public ArrayList<CountTrial> getTrials() {
-        return trials;
+    public ArrayList<CountTrial> getValidTrials() {
+        ArrayList<CountTrial> validTrials = new ArrayList<>();
+
+        for (CountTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                validTrials.add(trial);
+            }
+        }
+
+        return validTrials;
     }
 
     public int getCount(){

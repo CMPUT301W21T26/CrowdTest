@@ -38,12 +38,12 @@ public class CountActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Count) experiment).addTrial();
+                        ((Count) experiment).addTrial(currentUser);
                     }
                 });
             });
         } else {
-            addButton.setOnClickListener(v -> ((Count) experiment).addTrial());
+            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser));
         }
 
         // Allows user to end an experiment if they are the owner
@@ -80,8 +80,7 @@ public class CountActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle() + " (Closed)");
             } else {
                 endExperiment.setText("End Experiment");
-//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-                if (experiment.getSubscribers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
                     addButton.setVisibility(View.VISIBLE);
                 } else {
                     addButton.setVisibility(View.INVISIBLE);

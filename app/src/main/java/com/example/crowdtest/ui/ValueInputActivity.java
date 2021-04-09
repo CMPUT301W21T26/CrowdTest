@@ -79,7 +79,7 @@ public class ValueInputActivity extends ExperimentActivity {
         }
 
 //        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-        if (experiment.getSubscribers().contains(currentUser)) {
+        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
             if (experiment.isGeolocationEnabled()) {
                 addButton.setOnClickListener(v -> {
                     String title = "Trial Confirmation";
@@ -89,13 +89,13 @@ public class ValueInputActivity extends ExperimentActivity {
                         public void run() {
                             if (isMeasurement) {
                                 double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                                ((Measurement)experiment).addTrial(trialInput);
+                                ((Measurement)experiment).addTrial(trialInput, currentUser);
                                 valueEditText.setText("");
                             } else {
                                 int trialInput = Integer.parseInt(valueEditText.getText().toString());
                                 valueEditText.setText("");
                                 try {
-                                    ((NonNegative) experiment).addTrial(trialInput);
+                                    ((NonNegative) experiment).addTrial(trialInput, currentUser);
                                     Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                                 } catch (Exception e) {
                                     Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -108,13 +108,13 @@ public class ValueInputActivity extends ExperimentActivity {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement)experiment).addTrial(trialInput);
+                        ((Measurement)experiment).addTrial(trialInput, currentUser);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
                         valueEditText.setText("");
                         try {
-                            ((NonNegative) experiment).addTrial(trialInput);
+                            ((NonNegative) experiment).addTrial(trialInput, currentUser);
                             Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                         } catch (Exception e) {
                             Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);

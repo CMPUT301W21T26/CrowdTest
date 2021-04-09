@@ -60,8 +60,9 @@ public class Measurement extends Experiment {
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(double trialInput) {
+    public void addTrial(double trialInput, String userName) {
         MeasurementTrial trial = new MeasurementTrial(trialInput);
+        trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -72,6 +73,7 @@ public class Measurement extends Experiment {
         trialData.put("location", trial.getLocation());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("measurement", trial.getMeasurement());
+        trialData.put("user", trial.getPoster());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -84,13 +86,27 @@ public class Measurement extends Experiment {
         this.trials = trials;
     }
 
+    public ArrayList<MeasurementTrial> getTrials() {
+
+        return this.trials;
+    }
     /**
      * Function for getting the trials for the measurement experiment
      * @return
      *  ArrayList of measurement trials
      */
-    public ArrayList<MeasurementTrial> getTrials() {
-        return trials;
+    public ArrayList<MeasurementTrial> getValidTrials() {
+        ArrayList<MeasurementTrial> validTrials = new ArrayList<>();
+
+        for (MeasurementTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                validTrials.add(trial);
+            }
+        }
+
+        return validTrials;
     }
 
 }

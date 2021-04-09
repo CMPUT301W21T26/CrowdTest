@@ -45,7 +45,7 @@ public class StatisticsStringCreator {
         if (experiment instanceof Measurement) {
 
 
-            for (MeasurementTrial trial: ((Measurement) experiment).getTrials()){
+            for (MeasurementTrial trial: ((Measurement) experiment).getValidTrials()){
 
                 trialValues.add(trial.getMeasurement());
 
@@ -54,7 +54,7 @@ public class StatisticsStringCreator {
 
         } else if (experiment instanceof NonNegative) {
 
-            for (NonNegativeTrial trial: ((NonNegative) experiment).getTrials()) {
+            for (NonNegativeTrial trial: ((NonNegative) experiment).getValidTrials()) {
 
                 trialValues.add(new Double(trial.getCount()));
 
@@ -62,7 +62,7 @@ public class StatisticsStringCreator {
 
         } else if (experiment instanceof Count) {
 
-            for (CountTrial trial: ((Count) experiment).getTrials()) {
+            for (CountTrial trial: ((Count) experiment).getValidTrials()) {
 
                 trialValues.add(1.0);
             }
@@ -71,7 +71,7 @@ public class StatisticsStringCreator {
 
             Binomial exp = (Binomial) experiment;
 
-            for (BinomialTrial trial: exp.getTrials()){
+            for (BinomialTrial trial: exp.getValidTrials()){
 
                 if (trial.isSuccess()) {
 

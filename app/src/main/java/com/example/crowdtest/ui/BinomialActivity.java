@@ -38,13 +38,13 @@ public class BinomialActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Binomial) experiment).addTrial(true);
+                        ((Binomial) experiment).addTrial(true, currentUser);
                         successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
                     }
                 });
             });
         } else {
-            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true));
+            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, currentUser));
             successButton.setText(String.valueOf(((Binomial) experiment).getSuccessCount()));
         }
 
@@ -56,13 +56,13 @@ public class BinomialActivity extends ExperimentActivity {
                 showConfirmationDialog(title, message, new Runnable() {
                     @Override
                     public void run() {
-                        ((Binomial) experiment).addTrial(false);
+                        ((Binomial) experiment).addTrial(false, currentUser);
                         failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
                     }
                 });
             });
         } else {
-            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false));
+            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, currentUser));
             failButton.setText(String.valueOf(((Binomial) experiment).getFailCount()));
         }
 
@@ -105,8 +105,7 @@ public class BinomialActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle()+" (Closed)");
             } else{
                 endExperiment.setText("End Experiment");
-//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-                if (experiment.getSubscribers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
                     successButton.setVisibility(View.VISIBLE);
                     failButton.setVisibility(View.VISIBLE);
                 } else {
