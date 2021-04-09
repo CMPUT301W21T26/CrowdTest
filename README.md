@@ -114,6 +114,12 @@ Note that if you are not the owned of an experiment, the unpublish option will n
 
 # Sources:
 
+Title: How do I display an alert dialog on Android?  
+Author: David Hedlund, https://stackoverflow.com/users/133802  
+Date: 2021-02-06  
+License: CC BY-SA  
+Availability: https://stackoverflow.com/a/2115770  
+
 Title: Tab Layout with Different Fragments  
 Author: Master Coding  
 Date: 2021-03-13  
