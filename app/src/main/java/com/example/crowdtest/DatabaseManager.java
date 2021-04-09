@@ -116,6 +116,14 @@ public class DatabaseManager implements Serializable {
                 .delete();
     }
 
+    public void getDataFromCollection(String collectionPath, String document) {
+
+        final CollectionReference collectionReference = database.collection(collectionPath);
+        collectionReference
+                .document(document)
+                .getId();
+    }
+
     /**
      * Function for generating a unique document ID
      * @param prefix
