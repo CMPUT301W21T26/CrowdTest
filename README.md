@@ -116,126 +116,126 @@ Note that if you are not the owned of an experiment, the unpublish option will n
 
 Title: Tab Layout with Different Fragments  
 Author: Master Coding  
-Date:  
+Date: 2021-03-13  
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=HHd-Fa3DCng&ab_channel=MasterCoding  
 
 Title: How to retrieve an Unique ID to identify Android devices?  
 Author: Sylvain Saurel    
-Date:  
+Date: 2021-03-15  
 License: Public Domain  
 Availability: https://ssaurel.medium.com/how-to-retrieve-an-unique-id-to-identify-android-devices-6f99fd5369eb
 
 Title: firestore read is asynchronous and I want synchronous behaviour  
 Author: Luca Murra, https://stackoverflow.com/users/8579556/luca-murra  
-Date:  
+Date: 2021-03-16  
 License: Public Domain  
 Availability: https://stackoverflow.com/questions/53970276/firestore-read-is-asynchronous-and-i-want-synchronous-behaviour  
 
 Title: How to get my activity context?  
 Author: hasanghaforian, https://stackoverflow.com/users/1043882/hasanghaforian  
-Date:  
+Date: 2021-03-16  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/12320857/how-to-get-my-activity-context  
 
 Title: Identifying App Installations  
 Author: Android Development Documentation  
-Date:  
+Date: 2021-03-16  
 License: Apache 2.0  
 Availability: https://android-developers.googleblog.com/2011/03/identifying-app-installations.html  
 
 Title: Perform simple and compound queries in Cloud Firestore  
 Author: Firebase  
-Date:  
+Date: 2021-03-16  
 License: Apache 2.0  
 Availability: https://firebase.google.com/docs/firestore/query-data/queries  
 
 Title: AsyncTask  
 Author: Android Development Documentation  
-Date:  
+Date: 2021-03-16  
 License: Apache 2.0  
 Availability: https://developer.android.com/reference/android/os/AsyncTask.html  
 
 Title: How to Structure Your Data  
 Author: Firebase  
-Date:   
+Date: 2021-03-17  
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=haMOUb3KVSo&ab_channel=Firebase  
 
 Title: Better Arrays in Cloud Firestore!  
 Author: Todd Kerpelman  
-Date:   
+Date: 2021-03-17  
 License: Public Domain  
 Availability: https://firebase.googleblog.com/2018/08/better-arrays-in-cloud-firestore.html  
 
 Title: Mockito - Create Mock  
 Author: tutorialspoint  
-Date:   
+Date: 2021-03-18  
 License: Public Domain  
 Availability: https://www.tutorialspoint.com/mockito/mockito_create_mock.htm  
 
 Title: Unit Testing with Mockito & Firebase  
 Author: Jorge Gil, https://stackoverflow.com/users/3116787/jorge-gil  
-Date:   
+Date: 2021-03-18  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/53473006/unit-testing-with-mockito-firebase  
 
 Title: Is there any way to make my app wait for data to be retrieved from Firebase before continuing the code?  
 Author: Ban Markovic, https://stackoverflow.com/users/4039786/ban-markovic  
-Date:   
+Date: 2021-03-19  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/57116491/is-there-any-way-to-make-my-app-wait-for-data-to-be-retrieved-from-firebase-befo  
 
 Title: Sort ArrayList of custom Objects by property  
 Author: Michael Myers, https://stackoverflow.com/users/13531/michael-myers  
-Date:   
+Date: 2021-03-20  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property  
 
 Title: Creating a Simple Bar Graph for your Android Application (part 1/2)  
 Author: CodingWithMitch  
-Date:  
+Date: 2021-03-24  
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=pi1tq-bp7uA&ab_channel=CodingWithMitch  
 
 Title: Java Program To Calculate Median Array | 4 Methods   
 Author: javatutoring  
-Date:  
+Date:  2021-03-24  
 License: Public Domain  
 Availability: https://javatutoring.com/java-calculate-median/  
 
 Title: How to set the x-axis label with MPAndroidChart  
 Author: Prabs, https://stackoverflow.com/users/2820534/prabs  
-Date:  
+Date:  2021-03-24  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/39945375/how-to-set-the-x-axis-label-with-mpandroidchart  
 
 Title: Getting duplicate values at xAxis MPChart  
 Author: Rahul Sharma, https://stackoverflow.com/users/3058050/rahul-sharma  
-Date:  
+Date:  2021-03-24  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/43890668/getting-duplicate-values-at-xaxis-mpchart  
 
 Title: How to remove description from chart in MPAndroidChart?  
 Author: Rahul Singh, https://stackoverflow.com/users/10521937/rahul-singh  
-Date:  
+Date:  2021-03-25  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/27566916/how-to-remove-description-from-chart-in-mpandroidchart#:~:text=you%20can%20remove%20it%20by%20simply%20passing%20null%20into%20it.  
 
 Title: 011 Grouped Bar Chart : MP Android Chart Tutorial  
 Author: Sarthi Technology  
-Date:  
+Date:  2021-03-25  
 License: Public Domain  
 Availability: https://www.youtube.com/watch?v=Bd76zMHdrDE  
 
 Title: Round the given number to nearest multiple of 10  
 Author: GeeksforGeeks  
-Date:  
+Date:  2021-03-26  
 License: Public Domain  
 Availability: https://www.geeksforgeeks.org/round-the-given-number-to-nearest-multiple-of-10/  
 
 Title: Convert java.util.Date to java.time.LocalDate  
 Author: JodaStephen, https://stackoverflow.com/users/38896/jodastephen   
-Date:  
+Date:  2021-03-27  
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate  
