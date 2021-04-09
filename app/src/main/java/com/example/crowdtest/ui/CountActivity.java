@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.NonNegative;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -63,8 +65,10 @@ public class CountActivity extends ExperimentActivity {
 
         qrScanButton = findViewById(R.id.qr_scan_icon);
         qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
             Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
-            //intent.putExtra("EXTA_EXP", experiment);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
