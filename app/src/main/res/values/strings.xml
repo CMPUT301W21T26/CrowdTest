@@ -18,9 +18,11 @@
     <string name="add">Add</string>
     <string name="details">Details</string>
     <string name="value">Value</string>
+    <string name="add_value">Change value (default 1)</string>
     <string name="participants">Participants</string>
     <string name="add_count">Add Count:</string>
     <string name="qrgenerate">Generate QR</string>
     <string name="success">Success:</string>
     <string name="failure">Failure:</string>
+    <string name="change">Change</string>
 </resources>

@@ -81,7 +81,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                     public void run() {
                         String id = getExperimentId(result.getText());
                         //String type = getExperimentType(result.getText());
-                        Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
+                        //Toast.makeText(CodeScanActivity.this, id, Toast.LENGTH_SHORT).show(); // will just pop up the exp id
                         //FirebaseFirestore db = FirebaseFirestore.getInstance();
                         //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
                         if (experiment instanceof Count) {
@@ -92,17 +92,21 @@ public class CodeScanActivity extends AppCompatActivity  {
                             ((Binomial) experiment).addTrial(getBoolean(result.getText()));
                         } else if (experiment instanceof NonNegative) {
                             try {
-                                ((NonNegative) experiment).addTrial(1);
+                                int inputInt= getInt(result.getText());
+                                ((NonNegative) experiment).addTrial(inputInt);
+                                Toast.makeText(CodeScanActivity.this, Integer.toString(inputInt), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                Double inputDouble= getDouble(result.getText());
+                                Toast.makeText(CodeScanActivity.this, Double.toString(inputDouble), Toast.LENGTH_SHORT).show();
+                                ((Measurement) experiment).addTrial(inputDouble);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        //new CountTrial()
-                        /*
-                        help!!! at this point I want to grab the experiment (we have the id) and then add a trial to it, and then update database
-                        I don't know what I'm doing ahhhhh
-                         */
-
                     }
                 });
             }
@@ -168,6 +172,7 @@ public class CodeScanActivity extends AppCompatActivity  {
         return id;
     }
 
+    // getBoolean is for binomial trials, will return true or false depending on success or failure
     private Boolean getBoolean(String result) {
         String value = Character.toString(result.charAt(result.length()-1));
         if ("s".equals(value)) {
@@ -177,5 +182,52 @@ public class CodeScanActivity extends AppCompatActivity  {
             return false;
         }
     }
+
+    private Double getDouble(String result) {
+        String doublePlaceHolder = "";
+
+        int i = 0;
+        while (i < result.length()) {
+            if (" ".equals(Character.toString(result.charAt(i)))) {
+                i++;
+                break;
+            }
+            else {
+                i++;
+            }
+        }
+
+        while (i < result.length()) {
+            doublePlaceHolder += result.charAt(i);
+            i++;
+        }
+
+        double inputDouble = Double.parseDouble(doublePlaceHolder);
+        return inputDouble;
+    }
+
+    private int getInt(String result) {
+        String intPlaceHolder = "";
+
+        int i = 0;
+        while (i < result.length()) {
+            if (" ".equals(Character.toString(result.charAt(i)))) {
+                i++;
+                break;
+            }
+            else {
+                i++;
+            }
+        }
+
+        while (i < result.length()) {
+            intPlaceHolder += result.charAt(i);
+            i++;
+        }
+
+        int inputInt = Integer.parseInt(intPlaceHolder);
+        return inputInt;
+    }
+
 
 }

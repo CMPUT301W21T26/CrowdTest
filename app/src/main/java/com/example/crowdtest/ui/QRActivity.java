@@ -1,19 +1,13 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.crowdtest.R;
-
-import androidmads.library.qrgenearator.QRGEncoder;
 
 public class QRActivity extends AppCompatActivity {
 
@@ -39,13 +33,13 @@ public class QRActivity extends AppCompatActivity {
             transaction.commit();
 
         } else if (expType.equals("nonnegative")) {
-            QRCodeCountFragment QRFragment = new QRCodeCountFragment(expId);
+            QRCodeValueInputFragment QRFragment = new QRCodeValueInputFragment(expId, false);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.qr_fragment_layout, QRFragment);
             transaction.commit();
         } else {
             // measurement experiment type
-            QRCodeMeasurementFragment QRFragment = new QRCodeMeasurementFragment(expId);
+            QRCodeValueInputFragment QRFragment = new QRCodeValueInputFragment(expId, true);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.qr_fragment_layout, QRFragment);
             transaction.commit();
