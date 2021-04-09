@@ -96,6 +96,7 @@ public class CountActivity extends ExperimentActivity {
         qrScanButton.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("experiment", experiment);
+            bundle.putString("user", currentUser);
             Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
             intent.putExtras(bundle);
             startActivityForResult(intent, 1);

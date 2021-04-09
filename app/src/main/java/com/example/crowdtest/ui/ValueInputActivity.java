@@ -60,6 +60,7 @@ public class ValueInputActivity extends ExperimentActivity {
         Bundle experimentBundle = getIntent().getExtras();
         if (experimentBundle.getSerializable("experiment") instanceof Measurement){
             experiment = (Measurement) experimentBundle.getSerializable("experiment");
+
             isMeasurement = true;
         }
         else {
@@ -94,6 +95,7 @@ public class ValueInputActivity extends ExperimentActivity {
         qrScanButton.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("experiment", experiment);
+            bundle.putString("user", currentUser);
             Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
             intent.putExtras(bundle);
             startActivityForResult(intent,1);

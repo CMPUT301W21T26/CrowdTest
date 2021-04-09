@@ -93,7 +93,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                             //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
                             if (experiment instanceof Count) {
                                 if (id.equals(experiment.getExperimentID())) {
-                                    ((Count) experiment).addTrial();
+                                    ((Count) experiment).addTrial(currentUserName);
                                     output = "Added trial with value 1 to " + id;
                                     Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();}
                                 else {
@@ -102,7 +102,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 }
                             } else if (experiment instanceof Binomial) {
                                 if (id.equals(experiment.getExperimentID())) {
-                                    ((Binomial) experiment).addTrial(getBoolean(result.getText()));
+                                    ((Binomial) experiment).addTrial(getBoolean(result.getText()), currentUserName);
                                     if (getBoolean(result.getText())) {
                                         output = "Added successful trial to " + id;
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
@@ -120,7 +120,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 if (id.equals(experiment.getExperimentID())) {
                                     try {
                                         int inputInt = getInt(result.getText());
-                                        ((NonNegative) experiment).addTrial(inputInt);
+                                        ((NonNegative) experiment).addTrial(inputInt, currentUserName);
                                         output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -134,7 +134,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 if (id.equals(experiment.getExperimentID())) {
                                     try {
                                         Double inputDouble = getDouble(result.getText());
-                                        ((Measurement) experiment).addTrial(inputDouble);
+                                        ((Measurement) experiment).addTrial(inputDouble, currentUserName);
                                         output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
                                     } catch (Exception e) {
 
