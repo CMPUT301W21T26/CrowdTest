@@ -266,20 +266,20 @@ Date:  2021-03-27
 License: CC BY-SA  
 Availability: https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
 
-Title:          code-scanner
-Author:         Yuriy Budiyev et al (https://github.com/yuriy-budiyev/code-scanner/graphs/contributors)
-Date:           2021-04-08
-License:        MIT
-Availability:   https://github.com/yuriy-budiyev/code-scanner
+Title:          code-scanner  
+Author:         Yuriy Budiyev et al (https://github.com/yuriy-budiyev/code-scanner/graphs/contributors)  
+Date:           2021-04-08  
+License:        MIT  
+Availability:   https://github.com/yuriy-budiyev/code-scanner  
 
-Title:          QRGenerator
-Author:         AndroidMad / Mushtaq M A et al, (https://github.com/androidmads)
-Date:           2021-04-08
-License:        MIT
-Availability:   https://github.com/androidmads/QRGenerator
+Title:          QRGenerator  
+Author:         AndroidMad / Mushtaq M A et al, (https://github.com/androidmads)  
+Date:           2021-04-08  
+License:        MIT  
+Availability:   https://github.com/androidmads/QRGenerator  
 
-Title:          Dexter
-Author:         Karumi et al (https://github.com/Karumi/Dexter/graphs/contributors)
-Date:           2021-04-08
-License:        APACHE 2.0
-Availability:   https://github.com/Karumi/Dexter
+Title:          Dexter  
+Author:         Karumi et al (https://github.com/Karumi/Dexter/graphs/contributors)  
+Date:           2021-04-08  
+License:        APACHE 2.0  
+Availability:   https://github.com/Karumi/Dexter  
