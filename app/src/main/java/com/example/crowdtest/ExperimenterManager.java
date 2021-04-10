@@ -195,6 +195,12 @@ public class ExperimenterManager extends DatabaseManager {
         removeDataFromCollection(collectionPath, username);
     }
 
+
+    /**
+     * Method used for getting the Experimenter based on the given userID
+     * @param userID The userID of the experimenter
+     * @return The Experimenter
+     */
     public static Experimenter getUser(String userID){
         DocumentSnapshot ds = FirebaseFirestore.getInstance().collection("Users").document(userID).get().getResult();
         Experimenter experimenter = new Experimenter(new UserProfile(userID, (String) ds.getData().get("installationID"), (String) ds.getData().get("email"), (String) ds.getData().get("phoneNumber")));

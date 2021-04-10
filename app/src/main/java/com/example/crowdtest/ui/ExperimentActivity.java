@@ -1,33 +1,24 @@
 package com.example.crowdtest.ui;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.hardware.camera2.params.MandatoryStreamCombination;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crowdtest.CommentManager;
-import com.example.crowdtest.LocationService;
 import com.example.crowdtest.Question;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Experiment;
@@ -36,9 +27,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -85,15 +74,12 @@ public abstract class ExperimentActivity extends AppCompatActivity implements Ac
             toolbar.setTitleTextColor(0xFFE91E63);
         }
 
-        //TODO: participants needs to be implemented
-
         experimentDescription = findViewById(R.id.experiment_description_textview);
         experimentDescription.setText(experiment.getDescription());
 
         datePublished = findViewById(R.id.experiment_publish_date_textview);
         datePublished.setText(experiment.getDatePublished().toString());
-        //TODO: details button needs to be implemented
-        //TODO: endExperiment button needs to be implemented
+
 
         questionList = (RecyclerView) findViewById(R.id.experiment_question_recyclerView);
         layoutManager = new LinearLayoutManager(this);

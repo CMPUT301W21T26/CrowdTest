@@ -78,17 +78,6 @@ public class CommentManager extends DatabaseManager {
         return question;
     }
 
-
-//    public Question loadQuestion(QueryDocumentSnapshot documentSnapshot) {
-//        String userID = (String) documentSnapshot.getData().get("poster");
-//        Experimenter commenter = ExperimenterManager.getUser(userID);
-//        String questionID = documentSnapshot.getId();
-//        String content = (String) documentSnapshot.getData().get("content");
-//        String timestamp = (String) documentSnapshot.getData().get("timestamp");
-//        Question question = new Question(commenter.getUserProfile().getUsername(), questionID, content, timestamp);
-//        return question;
-//    }
-
     /**
      * Function that retrieves all the replies to the given question from the database
      */
@@ -100,40 +89,6 @@ public class CommentManager extends DatabaseManager {
         Reply reply = new Reply(userID, replyID, content, timestamp);
         return reply;
     }
-
-//    public void getReply(String questionID, CommentRetriever commentRetriever) {
-//        Query query = database.collection(QUESTION_COLLECTION_PATH).document(questionID).collection("replies");
-//        final Task<QuerySnapshot> task = query.get();
-//        task.addOnCompleteListener(task1 -> {
-//            if (task.isSuccessful()) {
-//                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-//                    String userID = (String) documentSnapshot.getData().get("poster");
-//                    Experimenter commenter = ExperimenterManager.getUser(userID);
-//                    String replyID = documentSnapshot.getId();
-//                    String content = (String) documentSnapshot.getData().get("content");
-//                    String timestamp = (String) documentSnapshot.getData().get("timestamp");
-//                    Reply reply = new Reply(commenter.getUserProfile().getUsername(), replyID, content, timestamp);
-//                    commentRetriever.getComments(reply);
-//                }
-//            } else {
-//
-//                //if firestore query is unsuccessful, log an error and return
-//                Log.d(TAG, "Error getting documents: ", task.getException());
-//
-//                return;
-//
-//            }
-//        });
-//    }
-//
-//    /**
-//     * Function that retrieves all reply IDs from the database
-//     *
-//     * @return ArrayList of all reply IDs stored in database
-//     */
-//    public ArrayList<String> getAllReplyIDs() {
-//        return getAllDocuments(REPLY_COLLECTION_PATH);
-//    }
 
 
     public void getCollectionSize(String collection, CommentSizeRetriever collectionSize) {
@@ -234,32 +189,4 @@ public class CommentManager extends DatabaseManager {
     public interface CommentSizeRetriever {
         void getSize(long size);
     }
-
-//    /**
-//     * Function for deleting a question from the database
-//     *
-//     * @param question Instance of Question object to delete from database
-//     */
-//    public void deleteQuestion(Question question) {
-//        // Retrieve question ID and remove question from database
-//        String questionID = question.getCommentID();
-//        removeDataFromCollection(QUESTION_COLLECTION_PATH, questionID);
-//
-//        // Retrieve reply ID's and remove all child replies from database
-//        ArrayList<String> replyIDs = question.getReplyIDs();
-//        for (String replyID : replyIDs) {
-//            removeDataFromCollection(REPLY_COLLECTION_PATH, replyID);
-//        }
-//    }
-//
-//    /**
-//     * Function for deleting a comment from the database
-//     *
-//     * @param reply Instance of Reply object to delete from database
-//     */
-//    public void deleteReply(Reply reply) {
-//        // Retrieve reply ID and remove reply from database
-//        String replyID = reply.getCommentID();
-//        removeDataFromCollection(REPLY_COLLECTION_PATH, replyID);
-//    }
 }

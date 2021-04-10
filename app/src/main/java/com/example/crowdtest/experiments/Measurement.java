@@ -37,17 +37,19 @@ public class Measurement extends Experiment {
     /**
      * Constructor for uploading from the database
      *
-     * @param owner
-     * @param experimentID
-     * @param status
-     * @param title
-     * @param description
-     * @param region
-     * @param subscribers
-     * @param questions
-     * @param geoLocation
-     * @param datePublished
-     * @param minTrials
+     * @param owner         Owner of the experiment
+     * @param experimentID  A unique ID for this experiment
+     * @param status        Whether the experiment is closed or open
+     * @param title         The title of the experiment
+     * @param description   The description of the experiment
+     * @param region        The region of the experiment
+     * @param subscribers   ArrayList of subscribers to this experiment
+     * @param questions     ArrayList of Questions for this experiment
+     * @param geoLocation   Whether this experiment requires geo location or not
+     * @param datePublished The date the experiment was published
+     * @param minTrials     The minimum number of trials needed to be done
+     * @param trials        The ArrayList of trials
+     * @param published     Whether the experiment should be published or not
      */
     public Measurement(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
@@ -71,6 +73,11 @@ public class Measurement extends Experiment {
         addTrialToDB(trial);
     }
 
+    /**
+     * Adds a new trial to the experiment
+     *
+     * @param trial The trial that is going to be submitted in the experiment
+     */
     public void addTrialToDB (MeasurementTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();

@@ -11,8 +11,8 @@ public class CountTrial extends Trial {
     /**
      * Constructor for getting trials from the database
      *
-     * @param timestamp
-     * @param location
+     * @param timestamp The date and time of submission
+     * @param location The location where the trial was submitted
      */
     public CountTrial(Date timestamp, Location location, String poster) {
         super(timestamp, location, poster);

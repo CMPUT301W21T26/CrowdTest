@@ -68,6 +68,11 @@ public class Count extends Experiment {
         addTrialToDB(trial);
     }
 
+    /**
+     * Method for adding trials to the database
+     *
+     * @param trial The trial to be added to the database
+     */
     public void addTrialToDB(CountTrial trial) {
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
@@ -111,6 +116,11 @@ public class Count extends Experiment {
         return validTrials;
     }
 
+    /**
+     * Method for getting the number of recorded trials for the experiment
+     *
+     * @return Number of trials submitted
+     */
     public int getCount() {
         return trials.size();
     }
@@ -131,6 +141,11 @@ public class Count extends Experiment {
 
     }
 
+    /**
+     * Method for getting the success rate of the experiment
+     *
+     * @return The success rate
+     */
     public Hashtable<String, Double> getStatistics() {
 
         Hashtable<String, Double> statistics = new Hashtable<>();

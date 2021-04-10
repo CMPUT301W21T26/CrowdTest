@@ -38,8 +38,8 @@ public class NonNegativeTrial extends Trial {
     /**
      * Constructor for getting trials from the database
      *
-     * @param timestamp
-     * @param location
+     * @param timestamp The date and time of the trial submission
+     * @param location The location where the trial was submitted from
      */
     public NonNegativeTrial(Date timestamp, Location location, long count, String poster) {
         super(timestamp, location, poster);
