@@ -63,7 +63,6 @@ public class QRCodeValueInputFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inputvalue_qr, container, false);
         qrImage = view.findViewById(R.id.qr_image);
-        //text = view.findViewById(R.id.count_textView);
         //text.setText("Add NonNegative Count:");
         text = view.findViewById(R.id.count_textView);
         if (inputValue.length() > 0) {
@@ -86,11 +85,14 @@ public class QRCodeValueInputFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isMeasurement) {
+                    text.setText("Add count (set to " + changeValueEditText.getText().toString() + ")");
                     double trialInput = Double.parseDouble(changeValueEditText.getText().toString());
                     inputValueUpdated = inputValue + " " + Double.toString(trialInput);
                     changeValueEditText.setText("");
+
                 }
                 else {
+                    text.setText("Add count (set to " + changeValueEditText.getText().toString() + ")");
                     int trialInput = Integer.parseInt(changeValueEditText.getText().toString());
                     inputValueUpdated = inputValue + " " + Integer.toString(trialInput);
                     changeValueEditText.setText("");

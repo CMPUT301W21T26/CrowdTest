@@ -95,10 +95,13 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 if (id.equals(experiment.getExperimentID())) {
                                     ((Count) experiment).addTrial(currentUserName);
                                     output = "Added trial with value 1 to " + id;
-                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();}
-                                else {
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                    output = "Tap anywhere on screen to scan again.";
+                                    Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                } else {
                                     output = "Using wrong QR code for " + experiment.getExperimentID() + ".";
                                     Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+
                                 }
                             } else if (experiment instanceof Binomial) {
                                 if (id.equals(experiment.getExperimentID())) {
@@ -106,9 +109,13 @@ public class CodeScanActivity extends AppCompatActivity  {
                                     if (getBoolean(result.getText())) {
                                         output = "Added successful trial to " + id;
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                        output = "Tap anywhere on screen to scan again.";
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                     }
                                     else {
                                         output = "Added failure trial to " + id;
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                        output = "Tap anywhere on screen to scan again.";
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -122,6 +129,9 @@ public class CodeScanActivity extends AppCompatActivity  {
                                         int inputInt = getInt(result.getText());
                                         ((NonNegative) experiment).addTrial(inputInt, currentUserName);
                                         output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                        output = "Tap anywhere on screen to scan again.";
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -136,6 +146,9 @@ public class CodeScanActivity extends AppCompatActivity  {
                                         Double inputDouble = getDouble(result.getText());
                                         ((Measurement) experiment).addTrial(inputDouble, currentUserName);
                                         output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
+                                        output = "Tap anywhere on screen to scan again.";
+                                        Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
 
                                         e.printStackTrace();
