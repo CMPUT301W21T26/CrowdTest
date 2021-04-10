@@ -112,6 +112,26 @@ Note that if you are not the owned of an experiment, the unpublish option will n
 2. Within the participants list for an owned experiment, clicking a blacklisted user will bring up a dialog for their user information.
 3. From there, selecting the "UN-BLACKLIST" option will un-blacklist them from the experiment.
 
+## Generate QR Code for an Experiment
+1. Click on an Experiment that you either own or are subscribed to as an experimenter (in list of experiments).
+2. Click on the QR Code Generator button in the top right-middle (button in the middle of the other two buttons) of the experiment page.
+3. Edit the QR code's encoding value if the Experiment is of the non-negative count or measurement type.
+4. Capture the QR code, or both QR codes in the case of a binomial experiment for future use.
+
+## Scan a QR Code to add a Trial to an Experiment
+1. Click on an Experiment that you either own or are subscribed to as an experimenter (in list of experiments).
+2. Cick on the QR Code Capture button in the very top right of the experiment page (button is a QR capture icon).
+3. Accept camera permission.
+4. Scan the Correct QR Code for the experiment (it will warn you if you use the wrong code).
+5. Tap anywhere on the screen to scan again, or press the back arrow to see updated Experiment page.
+
+## Scan a custom Barcode for an Experiment
+1. Click on an Experiment that you either own or are subscribed to as an experimenter (in list of experiments).
+2. Click on the QR Code Generator button in the top right-middle (button in the middle of the other two buttons) of the experiment page.
+3. Click on the Register Custom Barcode button.
+4. Scan a Barcode (it will alert you if you scan a QR code instead).
+5. Set the values for the Barcode if it is a Measurement, Nonnegative, or Binomial Experiment.
+
 # Sources:
 
 Title: How do I display an alert dialog on Android?  
@@ -244,4 +264,22 @@ Title: Convert java.util.Date to java.time.LocalDate
 Author: JodaStephen, https://stackoverflow.com/users/38896/jodastephen   
 Date:  2021-03-27  
 License: CC BY-SA  
-Availability: https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate  
+Availability: https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
+
+Title:          code-scanner
+Author:         Yuriy Budiyev et al (https://github.com/yuriy-budiyev/code-scanner/graphs/contributors)
+Date:           2021-04-08
+License:        MIT
+Availability:   https://github.com/yuriy-budiyev/code-scanner
+
+Title:          QRGenerator
+Author:         AndroidMad / Mushtaq M A et al, (https://github.com/androidmads)
+Date:           2021-04-08
+License:        MIT
+Availability:   https://github.com/androidmads/QRGenerator
+
+Title:          Dexter
+Author:         Karumi et al (https://github.com/Karumi/Dexter/graphs/contributors)
+Date:           2021-04-08
+License:        APACHE 2.0
+Availability:   https://github.com/Karumi/Dexter
