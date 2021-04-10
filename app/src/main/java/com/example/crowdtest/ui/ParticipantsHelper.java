@@ -16,20 +16,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.example.crowdtest.ExperimentManager;
-import com.example.crowdtest.Experimenter;
-import com.example.crowdtest.ExperimenterManager;
-import com.example.crowdtest.GetTrials;
 import com.example.crowdtest.R;
-import com.example.crowdtest.UserProfile;
-import com.example.crowdtest.experiments.Binomial;
-import com.example.crowdtest.experiments.BinomialTrial;
-import com.example.crowdtest.experiments.Count;
-import com.example.crowdtest.experiments.CountTrial;
+
 import com.example.crowdtest.experiments.Experiment;
-import com.example.crowdtest.experiments.Measurement;
-import com.example.crowdtest.experiments.MeasurementTrial;
-import com.example.crowdtest.experiments.NonNegative;
-import com.example.crowdtest.experiments.NonNegativeTrial;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;

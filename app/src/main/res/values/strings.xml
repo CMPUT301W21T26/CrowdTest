@@ -25,4 +25,8 @@
     <string name="success">Success:</string>
     <string name="failure">Failure:</string>
     <string name="change">Change</string>
+    <string name="post">Post</string>
+    <string name="reply">Reply</string>
+    <string name="comment">comment</string>
+    <string name="question">Question</string>
 </resources>

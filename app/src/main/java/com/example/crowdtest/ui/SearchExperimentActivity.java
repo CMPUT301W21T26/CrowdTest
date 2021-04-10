@@ -16,10 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.crowdtest.CustomList;
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.Experimenter;
-import com.example.crowdtest.GetTrials;
+import com.example.crowdtest.TrialRetriever;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
@@ -31,11 +30,8 @@ import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -99,16 +95,15 @@ public class SearchExperimentActivity extends AppCompatActivity {
 
                     if (experiment.isPublished()) {
 
-                        experimentDataList.add(experiment);
+                    experimentDataList.add(experiment);
 
                         allExperimentDataList.add(experiment);
 
-                        experimentAdapter.notifyDataSetChanged();
-
-                    }
+                    experimentAdapter.notifyDataSetChanged();
 
                 }
 
+            }
         });
 
 

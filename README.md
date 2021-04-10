@@ -104,13 +104,13 @@ Note that if you are not the owned of an experiment, the unpublish option will n
 
 ## Blacklist a Participant of an Experiment
 1. If you are an owner of an experiment, you may blacklist any given participant whose trials you do not want considered.
-2. Within the participants list for an owned experiment, long-clicking a listed user will bring up a context menu.
-3. From there, selecting the "Blacklist" option will blacklist them from participating in the experiment further.
+2. Within the participants list for an owned experiment, clicking a listed user will bring up a dialog for their user information.
+3. From there, selecting the "BLACKLIST" option will blacklist them from participating in the experiment further.
 
 ## Un-blacklist a Participant from an Experiment
 1. If you are an owner of an experiment, you may un-blacklist a given participant who may have been blacklist in the past.
-2. Within the participants list for an owned experiment, long-clicking a blacklisted user will bring up a context menu.
-3. From there, selecting the "Un-Blacklist" option will un-blacklist them from the experiment.
+2. Within the participants list for an owned experiment, clicking a blacklisted user will bring up a dialog for their user information.
+3. From there, selecting the "UN-BLACKLIST" option will un-blacklist them from the experiment.
 
 # Sources:
 

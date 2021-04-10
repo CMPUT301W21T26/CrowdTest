@@ -1,6 +1,9 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
+import com.example.crowdtest.Question;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +47,7 @@ public class NonNegative extends Experiment {
      */
     public NonNegative(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
-                       ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                       ArrayList<String> blackListedUsers, ArrayList<Question> questions,
                        boolean geoLocation, Date datePublished, int minTrials,
                        ArrayList<NonNegativeTrial> trials, boolean published) {
         super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);
@@ -56,8 +59,9 @@ public class NonNegative extends Experiment {
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(int trialInput, String userName) throws Exception {
+    public void addTrial(int trialInput, String userName, Location location) throws Exception {
         NonNegativeTrial trial = new NonNegativeTrial(trialInput);
+        if (geolocationEnabled) trial.setLocation(location);
         trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
@@ -66,7 +70,8 @@ public class NonNegative extends Experiment {
     public void addTrialToDB (NonNegativeTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("location", trial.getLocation());
+        trialData.put("locationLong", trial.getLocationLong());
+        trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("count", trial.getCount());
         trialData.put("user", trial.getPoster());

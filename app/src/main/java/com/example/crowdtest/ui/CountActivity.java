@@ -3,6 +3,7 @@ package com.example.crowdtest.ui;
 import android.content.Intent;
 import android.os.Build;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +19,8 @@ import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.ExperimenterManager;
-import com.example.crowdtest.GetTrials;
+import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
-import com.example.crowdtest.experiments.Binomial;
-import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Measurement;
@@ -56,6 +55,7 @@ public class CountActivity extends ExperimentActivity {
     private ExperimentManager experimentManager = new ExperimentManager();
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +69,10 @@ public class CountActivity extends ExperimentActivity {
         addButton = findViewById(R.id.count_add_button);
         if (experiment.isGeolocationEnabled()) {
             addButton.setOnClickListener(v -> {
-                String title = "Trial Confirmation";
-                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                showConfirmationDialog(title, message, new Runnable() {
-                    @Override
-                    public void run() {
-                        ((Count) experiment).addTrial(currentUser);
-                    }
-                });
+                ((Count) experiment).addTrial(currentUser, currentLocation);
             });
         } else {
-            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser));
+            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser, null));
         }
 
         qrButton = findViewById(R.id.qr_icon);
@@ -159,7 +152,11 @@ public class CountActivity extends ExperimentActivity {
             ((Count) experiment).getTrials().clear();
             for (QueryDocumentSnapshot document: value) {
 
-                Location location = (Location) document.getData().get("location");
+                double locationLat = (Double) document.getData().get("locationLat");
+                double locationLong = (Double) document.getData().get("locationLong");
+                Location location = new Location("Provider");
+                location.setLatitude(locationLat);
+                location.setLongitude(locationLong);
                 Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
                 String poster = (String) document.getData().get("user");
                 CountTrial countTrial = new CountTrial(timeStamp, location, poster);

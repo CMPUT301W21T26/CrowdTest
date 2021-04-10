@@ -124,19 +124,52 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/experiment_date_published_const_textview" />
 
+            <Button
+                android:id="@+id/question_thread_post_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="72dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/post"
+                android:textColor="#313435"
+                android:textStyle="bold"
+                app:backgroundTint="#FFFFFF"
+                app:iconPadding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/experiment_comment_editText" />
+
+            <EditText
+                android:id="@+id/experiment_comment_editText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/question"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/experiment_end_experiment_button" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/experiment_question_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/experiment_end_experiment_button" />
+                app:layout_constraintTop_toBottomOf="@+id/question_thread_post_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
