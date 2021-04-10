@@ -3,6 +3,7 @@ package com.example.crowdtest.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -93,7 +94,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                             //CollectionReference collectionReference = db.collection("Experiments").document(id).collection("trials");
                             if (experiment instanceof Count) {
                                 if (id.equals(experiment.getExperimentID())) {
-                                    ((Count) experiment).addTrial(currentUserName);
+                                    ((Count) experiment).addTrial(currentUserName, new Location("Local"));
                                     output = "Added trial with value 1 to " + id;
                                     Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                     output = "Tap anywhere on screen to scan again.";
@@ -105,7 +106,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 }
                             } else if (experiment instanceof Binomial) {
                                 if (id.equals(experiment.getExperimentID())) {
-                                    ((Binomial) experiment).addTrial(getBoolean(result.getText()), currentUserName);
+                                    ((Binomial) experiment).addTrial(getBoolean(result.getText()), currentUserName, new Location("Local"));
                                     if (getBoolean(result.getText())) {
                                         output = "Added successful trial to " + id;
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
@@ -127,7 +128,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 if (id.equals(experiment.getExperimentID())) {
                                     try {
                                         int inputInt = getInt(result.getText());
-                                        ((NonNegative) experiment).addTrial(inputInt, currentUserName);
+                                        ((NonNegative) experiment).addTrial(inputInt, currentUserName, new Location("Local"));
                                         output = "Added trial with value " + Integer.toString(inputInt) + " to " + id;
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                         output = "Tap anywhere on screen to scan again.";
@@ -144,7 +145,7 @@ public class CodeScanActivity extends AppCompatActivity  {
                                 if (id.equals(experiment.getExperimentID())) {
                                     try {
                                         Double inputDouble = getDouble(result.getText());
-                                        ((Measurement) experiment).addTrial(inputDouble, currentUserName);
+                                        ((Measurement) experiment).addTrial(inputDouble, currentUserName, new Location("Local"));
                                         output = "Added trial with value " + Double.toString(inputDouble) + " to " + id;
                                         Toast.makeText(CodeScanActivity.this, output, Toast.LENGTH_SHORT).show();
                                         output = "Tap anywhere on screen to scan again.";
