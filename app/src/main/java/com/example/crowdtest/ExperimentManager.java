@@ -1,5 +1,6 @@
 package com.example.crowdtest;
 
+import android.icu.text.MessagePattern;
 import android.location.Location;
 import android.util.Log;
 
@@ -75,7 +76,7 @@ public class ExperimentManager extends DatabaseManager {
         String status = (String) document.getData().get("status");
         String title = (String) document.getData().get("title");
         String region = (String) document.getData().get("region");
-        ArrayList<String> questions = (ArrayList<String>) document.getData().get("questions");
+        ArrayList<Question> questions = new ArrayList<>();
         ArrayList<String> subscribers = (ArrayList<String>) document.getData().get("subscribers");
         ArrayList<String> blackListedUsers = (ArrayList<String>) document.getData().get("blacklisted");
         boolean isPublished = (boolean) document.getData().get("published");
@@ -92,45 +93,58 @@ public class ExperimentManager extends DatabaseManager {
         }
         return experiment;
     }
-
-    public void getTrials(String experimentID, String experimentType, GetTrials getTrials) {
-        Query query = database.collection(collectionPath).whereEqualTo("installationID", experimentID);
+    public void getTrials(Experiment experiment, String experimentType, TrialRetriever trialRetriever) {
+        Query query = database.collection(collectionPath).whereEqualTo("installationID", experiment.getExperimentID());
 
         //run query to see if the installation id is already in the database
-        final Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection(collectionPath).document(experimentID).collection("trials").get();
+        final Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection(collectionPath).document(experiment.getExperimentID()).collection("trials").get();
         task.addOnCompleteListener(task1 -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                     if (experimentType.equals("Binomial")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         String poster = (String) documentSnapshot.getData().get("user");
                         boolean success = (boolean) documentSnapshot.getData().get("success");
-                        getTrials.getBinomialTrials(new BinomialTrial(timeStamp, location, success, poster));
+                        trialRetriever.getBinomialTrials(new BinomialTrial(timeStamp, location, success, poster));
                     } else if (experimentType.equals("Count")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         String poster = (String) documentSnapshot.getData().get("user");
-                        getTrials.getCountTrials(new CountTrial(timeStamp, location, poster));
+                        trialRetriever.getCountTrials(new CountTrial(timeStamp, location, poster));
                     } else if (experimentType.equals("Measurement")) {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         double measurement = (double) documentSnapshot.getData().get("measurement");
                         String poster = (String) documentSnapshot.getData().get("user");
-                        getTrials.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement, poster));
+                        trialRetriever.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement, poster));
                     } else {
-                        Location location = (Location) documentSnapshot.getData().get("location");
+                        Location location = new Location("database");
+                        if (experiment.isGeoLocationEnabled()) {
+                            location.setLongitude((Double) documentSnapshot.getData().get("locationLong"));
+                            location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
+                        }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         long count = (long) documentSnapshot.getData().get("count");
                         String poster = (String) documentSnapshot.getData().get("user");
-                        getTrials.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count, poster));
+                        trialRetriever.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count, poster));
                     }
                 }
 
-//                experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials, isPublished);
             } else {
 
-                //if firestore query is unsuccessful, log an error and return
                 Log.d(TAG, "Error getting documents: ", task.getException());
 
                 return;
@@ -316,7 +330,6 @@ public class ExperimentManager extends DatabaseManager {
     }
 
     /**
-     *
      * @param experiment
      * @param username
      */

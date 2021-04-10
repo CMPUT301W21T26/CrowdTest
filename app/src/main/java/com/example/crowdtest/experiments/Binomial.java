@@ -1,7 +1,10 @@
 package com.example.crowdtest.experiments;
 
 
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
+import com.example.crowdtest.Question;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,8 +30,8 @@ public class Binomial extends Experiment {
     /**
      * Constructor for uploading from the database
      *
-     * @param owner of the experiment
-     * @param experimentID A unique ID for this experiment
+     * @param owner         of the experiment
+     * @param experimentID  A unique ID for this experiment
      * @param status
      * @param title
      * @param description
@@ -38,11 +41,11 @@ public class Binomial extends Experiment {
      * @param geoLocation
      * @param datePublished
      * @param minTrials
-     * @param trials The ArrayList of trials
+     * @param trials        The ArrayList of trials
      */
     public Binomial(String owner, String experimentID, String status, String title,
                     String description, String region, ArrayList<String> subscribers,
-                    ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                    ArrayList<String> blackListedUsers, ArrayList<Question> questions,
                     boolean geoLocation, Date datePublished, int minTrials,
                     ArrayList<BinomialTrial> trials, boolean published) {
         super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);
@@ -60,10 +63,9 @@ public class Binomial extends Experiment {
 
     /**
      * Experiment constructor
-     * @param owner
-     *  Owner of the experiment
-     * @param experimentID
-     *  A unique ID for this experiment
+     *
+     * @param owner        Owner of the experiment
+     * @param experimentID A unique ID for this experiment
      */
     public Binomial(String owner, String experimentID) {
         super(owner, experimentID);
@@ -82,8 +84,9 @@ public class Binomial extends Experiment {
      *
      * @param trialInput The trial that is going to be submitted in the experiment
      */
-    public void addTrial(boolean trialInput, String userName) {
+    public void addTrial(boolean trialInput, String userName, Location location) {
         BinomialTrial trial = new BinomialTrial(trialInput);
+        if (geolocationEnabled) trial.setLocation(location);
         trial.setPoster(userName);
         trials.add(trial);
         if (trialInput) {
@@ -111,7 +114,8 @@ public class Binomial extends Experiment {
     public void addTrialToDB(BinomialTrial trial) {
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("location", trial.getLocation());
+        trialData.put("locationLong", trial.getLocationLong());
+        trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("success", trial.isSuccess());
         trialData.put("user", trial.getPoster());
@@ -120,8 +124,8 @@ public class Binomial extends Experiment {
 
     /**
      * Function for getting the number of recorded success trials for the binomial experiment
-     * @return
-     *  Number of success trials
+     *
+     * @return Number of success trials
      */
     public int getSuccessCount() {
         return successCount;
@@ -144,8 +148,8 @@ public class Binomial extends Experiment {
 
     /**
      * Function for getting the number of recorded fail trials for the binomial experiment
-     * @return
-     *  Number of fail trials
+     *
+     * @return Number of fail trials
      */
     public int getFailCount() {
         return failCount;
@@ -168,8 +172,8 @@ public class Binomial extends Experiment {
 
     /**
      * Function for setting the trials for the binomial experiment
-     * @param trials
-     *  ArrayList of binomial trials
+     *
+     * @param trials ArrayList of binomial trials
      */
     public void setTrials(ArrayList<BinomialTrial> trials) {
         this.trials = trials;
@@ -182,8 +186,8 @@ public class Binomial extends Experiment {
 
     /**
      * Function for getting the trials for the binomial experiment
-     * @return
-     *  ArrayList of binomial trials
+     *
+     * @return ArrayList of binomial trials
      */
     public ArrayList<BinomialTrial> getValidTrials() {
 
@@ -200,7 +204,7 @@ public class Binomial extends Experiment {
         return validTrials;
     }
 
-    public Hashtable<String, Double> getStatistics(){
+    public Hashtable<String, Double> getStatistics() {
 
         Hashtable<String, Double> statistics = new Hashtable<>();
 
@@ -210,11 +214,13 @@ public class Binomial extends Experiment {
         statistics.put("SuccessRate", getSuccessRate());
 
         return statistics;
-    };
+    }
 
-    private Double getSuccessRate(){
+    ;
 
-        return (new Double(getSuccessCount())/new Double(trials.size()))*100;
+    private Double getSuccessRate() {
+
+        return (new Double(getSuccessCount()) / new Double(trials.size())) * 100;
     }
 
 

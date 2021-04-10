@@ -1,6 +1,9 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
+import com.example.crowdtest.Question;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class Measurement extends Experiment {
      */
     public Measurement(String owner, String experimentID, String status, String title,
                        String description, String region, ArrayList<String> subscribers,
-                       ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                       ArrayList<String> blackListedUsers, ArrayList<Question> questions,
                        boolean geoLocation, Date datePublished, int minTrials,
                        ArrayList<MeasurementTrial> trials, boolean published) {
         super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);
@@ -60,9 +63,10 @@ public class Measurement extends Experiment {
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(double trialInput, String userName) {
+    public void addTrial(double trialInput, String username,  Location location) {
         MeasurementTrial trial = new MeasurementTrial(trialInput);
-        trial.setPoster(userName);
+        trial.setPoster(username);
+        if (geolocationEnabled) trial.setLocation(location);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -70,7 +74,8 @@ public class Measurement extends Experiment {
     public void addTrialToDB (MeasurementTrial trial){
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("location", trial.getLocation());
+        trialData.put("locationLong", trial.getLocationLong());
+        trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("measurement", trial.getMeasurement());
         trialData.put("user", trial.getPoster());

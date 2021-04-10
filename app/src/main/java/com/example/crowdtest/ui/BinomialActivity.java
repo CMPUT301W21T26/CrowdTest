@@ -2,6 +2,7 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +10,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
@@ -26,6 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Date;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 /**
  * Binomial experiment activity class that has two buttons for submitting success and failure
@@ -38,6 +46,7 @@ public class BinomialActivity extends ExperimentActivity {
     private ParticipantsHelper participantsHelper;
     private ExperimentManager experimentManager = new ExperimentManager();
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,36 +60,22 @@ public class BinomialActivity extends ExperimentActivity {
         successButton = findViewById(R.id.binomial_success_button);
         if (experiment.isGeolocationEnabled()) {
             successButton.setOnClickListener(v -> {
-                String title = "Trial Confirmation";
-                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                showConfirmationDialog(title, message, new Runnable() {
-                    @Override
-                    public void run() {
-                        ((Binomial) experiment).addTrial(true, currentUser);
+                        ((Binomial) experiment).addTrial(true, currentUser, currentLocation);
                         successButton.setText(String.valueOf(((Binomial) experiment).getValidSuccessCount()));
-                    }
-                });
             });
         } else {
-            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, currentUser));
+            successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, currentUser, null));
             successButton.setText(String.valueOf(((Binomial) experiment).getValidSuccessCount()));
         }
 
         failButton = findViewById(R.id.binomial_fail_button);
         if (experiment.isGeolocationEnabled()) {
             failButton.setOnClickListener(v -> {
-                String title = "Trial Confirmation";
-                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                showConfirmationDialog(title, message, new Runnable() {
-                    @Override
-                    public void run() {
-                        ((Binomial) experiment).addTrial(false, currentUser);
-                        failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
-                    }
-                });
+                ((Binomial) experiment).addTrial(false, currentUser, currentLocation);
+                failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
             });
         } else {
-            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, currentUser));
+            failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, currentUser, null));
             failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
         }
 
@@ -145,8 +140,13 @@ public class BinomialActivity extends ExperimentActivity {
             ((Binomial) experiment).getTrials().clear();
 
             for (QueryDocumentSnapshot document: value) {
-
-                Location location = (Location) document.getData().get("location");
+                Location location = new Location("Provider");
+                if (experiment.isGeoLocationEnabled()) {
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
+                }
                 Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
                 String poster = (String) document.getData().get("user");
                 boolean success = (boolean) document.getData().get("success");
@@ -198,7 +198,7 @@ public class BinomialActivity extends ExperimentActivity {
         participantsButton.setOnClickListener(view -> {
 
             participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
-            participantsHelper.displayParticipantList("Participants","Back");
+            participantsHelper.displayParticipantList("Participants", "Back");
         });
     }
 }

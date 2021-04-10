@@ -3,6 +3,7 @@ package com.example.crowdtest.ui;
 import android.content.Intent;
 import android.icu.util.Measure;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
@@ -27,7 +29,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.Date;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -50,15 +56,15 @@ public class ValueInputActivity extends ExperimentActivity {
      */
     boolean isMeasurement;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle experimentBundle = getIntent().getExtras();
-        if (experimentBundle.getSerializable("experiment") instanceof Measurement){
+        if (experimentBundle.getSerializable("experiment") instanceof Measurement) {
             experiment = (Measurement) experimentBundle.getSerializable("experiment");
             isMeasurement = true;
-        }
-        else {
+        } else {
             experiment = (NonNegative) experimentBundle.getSerializable("experiment");
             isMeasurement = false;
         }
@@ -100,39 +106,32 @@ public class ValueInputActivity extends ExperimentActivity {
         if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
             if (experiment.isGeolocationEnabled()) {
                 addButton.setOnClickListener(v -> {
-                    String title = "Trial Confirmation";
-                    String message = "Adding a trial will record your geo-location. Do you wish to continue?";
-                    showConfirmationDialog(title, message, new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isMeasurement) {
-                                double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                                ((Measurement)experiment).addTrial(trialInput, currentUser);
-                                valueEditText.setText("");
-                            } else {
-                                int trialInput = Integer.parseInt(valueEditText.getText().toString());
-                                valueEditText.setText("");
-                                try {
-                                    ((NonNegative) experiment).addTrial(trialInput, currentUser);
-                                    Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
-                                } catch (Exception e) {
-                                    Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
-                                }
-                            }
-                        }
-                    });
-                });
-            } else {
-                addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement)experiment).addTrial(trialInput, currentUser);
+                        ((Measurement) experiment).addTrial(trialInput, currentUser, currentLocation);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
                         valueEditText.setText("");
                         try {
-                            ((NonNegative) experiment).addTrial(trialInput, currentUser);
+                            ((NonNegative) experiment).addTrial(trialInput, currentUser, currentLocation);
+                            Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
+                        } catch (Exception e) {
+                            Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
+                        }
+                    }
+                });
+            } else {
+                addButton.setOnClickListener(v -> {
+                    if (isMeasurement) {
+                        double trialInput = Double.parseDouble(valueEditText.getText().toString());
+                        ((Measurement) experiment).addTrial(trialInput,currentUser,  null);
+                        valueEditText.setText("");
+                    } else {
+                        int trialInput = Integer.parseInt(valueEditText.getText().toString());
+                        valueEditText.setText("");
+                        try {
+                            ((NonNegative) experiment).addTrial(trialInput, currentUser, null);
                             Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                         } catch (Exception e) {
                             Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -155,7 +154,11 @@ public class ValueInputActivity extends ExperimentActivity {
             for (QueryDocumentSnapshot document: value) {
                 if (isMeasurement) {
                     ((Measurement) experiment).getTrials().clear();
-                    Location location = (Location) document.getData().get("location");
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    Location location = new Location("Provider");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
                     Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
                     double measurement = (double) document.getData().get("measurement");
                     String poster = (String) document.getData().get("user");
@@ -164,7 +167,11 @@ public class ValueInputActivity extends ExperimentActivity {
                 } else {
 
                     ((NonNegative) experiment).getTrials().clear();
-                    Location location = (Location) document.getData().get("location");
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    Location location = new Location("Provider");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
                     Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
                     long count = (long) document.getData().get("count");
                     String poster = (String) document.getData().get("user");
@@ -198,17 +205,14 @@ public class ValueInputActivity extends ExperimentActivity {
 
         detailsButton = findViewById(R.id.experiment_details_button);
 
-        detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        detailsButton.setOnClickListener(view -> {
 
-                Intent intent = new Intent(view.getContext(), ExpStatisticsActivity.class);
+            Intent intent = new Intent(view.getContext(), ExpStatisticsActivity.class);
 
-                intent.putExtra("EXP", experiment);
+            intent.putExtra("EXP", experiment);
 
-                startActivity(intent);
+            startActivity(intent);
 
-            }
         });
 
         participantsButton = findViewById(R.id.exp_value_participants_button);

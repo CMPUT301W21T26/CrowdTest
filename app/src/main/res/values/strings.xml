@@ -20,4 +20,8 @@
     <string name="value">Value</string>
     <string name="participants">Participants</string>
     <string name="add_count">Add count</string>
+    <string name="post">Post</string>
+    <string name="reply">Reply</string>
+    <string name="comment">comment</string>
+    <string name="question">Question</string>
 </resources>

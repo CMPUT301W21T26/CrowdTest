@@ -5,38 +5,26 @@ package com.example.crowdtest;
  */
 public class Reply extends Comment {
 
-    // Reply attributes
-    private String parentID;
-
     /**
      * Reply constructor
-     * @param replyID
-     *  Unique ID of reply
-     * @param commenterID
-     *  Unique ID of experimenter who created the reply
-     * @param content
-     *  Content of reply
+     *
+     * @param replyID   Unique ID of reply
+     * @param replierID The experimenter who created the reply
+     * @param content   Content of reply
      */
-    public Reply(String replyID, String parentID, String commenterID, String content) {
-        super(replyID, commenterID, content);
-        this.parentID = parentID;
+    public Reply(String replyID, String replierID, String content) {
+        super(replyID, replierID, content);
     }
 
     /**
-     * Function for getting the ID of the parent question
-     * @return
-     *  Unique ID of parent question
+     * Constructor for retrieving data from the database
+     *
+     * @param commenterID Experimenter who created the comment
+     * @param commentID   Unique ID of comment
+     * @param content     Comment's content
+     * @param timestamp   Time posted
      */
-    public String getParentID() {
-        return parentID;
-    }
-
-    /**
-     * Function for setting the ID of the parent question
-     * @param parentID
-     *  Unique ID of parent question
-     */
-    public void setParentID(String parentID) {
-        this.parentID = parentID;
+    public Reply(String commenterID, String commentID, String content, String timestamp) {
+        super(commenterID, commentID, content, timestamp);
     }
 }

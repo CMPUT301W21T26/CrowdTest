@@ -1,6 +1,11 @@
 package com.example.crowdtest.experiments;
 
+import android.location.Location;
+
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
+import com.example.crowdtest.Question;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,12 +16,13 @@ import java.util.Hashtable;
  * Class to represent a Count Experiment
  */
 public class Count extends Experiment {
-    private ArrayList <CountTrial> trials;
+    private ArrayList<CountTrial> trials;
 
     /**
      * Count constructor
-     * @param owner         Owner of the experiment
-     * @param experimentID  A unique ID for this experiment
+     *
+     * @param owner        Owner of the experiment
+     * @param experimentID A unique ID for this experiment
      */
     public Count(String owner, String experimentID) {
         super(owner, experimentID);
@@ -44,7 +50,7 @@ public class Count extends Experiment {
      */
     public Count(String owner, String experimentID, String status, String title,
                  String description, String region, ArrayList<String> subscribers,
-                 ArrayList<String> blackListedUsers, ArrayList<String> questions,
+                 ArrayList<String> blackListedUsers, ArrayList<Question> questions,
                  boolean geoLocation, Date datePublished, int minTrials,
                  ArrayList<CountTrial> trials, boolean published) {
         super(owner, experimentID, status, title, description, region, subscribers, blackListedUsers, questions, geoLocation, datePublished, minTrials, published);
@@ -54,26 +60,28 @@ public class Count extends Experiment {
     /**
      * Adds a new trial to the experiment
      */
-    public void addTrial(String userName) {
+    public void addTrial(String userName, Location location) {
         CountTrial trial = new CountTrial();
+        if (geolocationEnabled) trial.setLocation(location);
         trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
     }
 
-    public void addTrialToDB (CountTrial trial){
+    public void addTrialToDB(CountTrial trial) {
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
-        trialData.put("location", trial.getLocation());
+        trialData.put("locationLong", trial.getLocationLong());
+        trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("user", trial.getPoster());
-        db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
+        db.addDataToCollection("Experiments/" + experimentID + "/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
     /**
      * Function for setting the trials of the count experiment
-     * @param trials
-     *  ArrayList of count trials
+     *
+     * @param trials ArrayList of count trials
      */
     public void setTrials(ArrayList<CountTrial> trials) {
         this.trials = trials;
@@ -86,13 +94,13 @@ public class Count extends Experiment {
 
     /**
      * Function for getting the trials of the count experiment
-     * @return
-     *  ArrayList of count trials
+     *
+     * @return ArrayList of count trials
      */
     public ArrayList<CountTrial> getValidTrials() {
         ArrayList<CountTrial> validTrials = new ArrayList<>();
 
-        for (CountTrial trial: trials) {
+        for (CountTrial trial : trials) {
 
             if (!blackListedUsers.contains(trial.getPoster())) {
 
@@ -103,15 +111,15 @@ public class Count extends Experiment {
         return validTrials;
     }
 
-    public int getCount(){
+    public int getCount() {
         return trials.size();
     }
 
-    public Integer getValidCount(){
+    public Integer getValidCount() {
 
         Integer count = 0;
 
-        for (CountTrial trial: trials) {
+        for (CountTrial trial : trials) {
 
             if (!blackListedUsers.contains(trial.getPoster())) {
 
@@ -123,12 +131,14 @@ public class Count extends Experiment {
 
     }
 
-    public Hashtable<String, Double> getStatistics(){
+    public Hashtable<String, Double> getStatistics() {
 
         Hashtable<String, Double> statistics = new Hashtable<>();
 
         statistics.put("Total Trials", new Double(trials.size()));
 
         return statistics;
-    };
+    }
+
+    ;
 }

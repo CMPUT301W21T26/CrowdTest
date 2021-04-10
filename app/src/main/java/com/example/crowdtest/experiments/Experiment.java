@@ -1,5 +1,6 @@
 package com.example.crowdtest.experiments;
 
+import com.example.crowdtest.Question;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -21,7 +22,7 @@ public abstract class Experiment implements Serializable {
     protected String region;
     protected ArrayList<String> subscribers; //array of subscriber usernames
     protected ArrayList<String> blackListedUsers;
-    protected ArrayList<String> questions; //Array of question ids
+    protected ArrayList<Question> questions;
     protected Date datePublished;
     protected int minTrials;
     protected boolean geolocationEnabled;
@@ -62,7 +63,7 @@ public abstract class Experiment implements Serializable {
     public Experiment(String owner, String experimentID, String status,
                       String title, String description, String region,
                       ArrayList<String> subscribers, ArrayList<String> blackListedUsers,
-                      ArrayList<String> questions, boolean geoLocation, Date datePublished,
+                      ArrayList<Question> questions, boolean geoLocation, Date datePublished,
                       int minTrials, boolean published) {
         this.experimentID = experimentID;
         this.owner = owner;
@@ -142,7 +143,7 @@ public abstract class Experiment implements Serializable {
      *
      * @param question the question
      */
-    public void addQuestion(String question) {
+    public void addQuestion(Question question) {
         questions.add(question);
     }
 
@@ -164,7 +165,7 @@ public abstract class Experiment implements Serializable {
         this.experimentID = experimentID;
     }
 
-    public void setQuestions(ArrayList<String> questions) {
+    public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
 
@@ -322,7 +323,7 @@ public abstract class Experiment implements Serializable {
     }
 
 
-    public ArrayList<String> getQuestions() {
+    public ArrayList<Question> getQuestions() {
         return questions;
     }
 
@@ -352,4 +353,6 @@ public abstract class Experiment implements Serializable {
     public int getMinTrials() {
         return minTrials;
     }
+
+    public abstract ArrayList getTrials();
 }
