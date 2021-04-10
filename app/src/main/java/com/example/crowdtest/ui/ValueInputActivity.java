@@ -2,6 +2,7 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.icu.util.Measure;
+import android.os.Build;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class ValueInputActivity extends ExperimentActivity {
     private Button addButton;
     private EditText valueEditText;
     private Button detailsButton;
+    private ImageButton qrButton;
+    private ImageButton qrScanButton;
     private ImageButton participantsButton;
     private ParticipantsHelper participantsHelper;
     private ExperimentManager experimentManager = new ExperimentManager();
@@ -63,6 +66,7 @@ public class ValueInputActivity extends ExperimentActivity {
         Bundle experimentBundle = getIntent().getExtras();
         if (experimentBundle.getSerializable("experiment") instanceof Measurement) {
             experiment = (Measurement) experimentBundle.getSerializable("experiment");
+
             isMeasurement = true;
         } else {
             experiment = (NonNegative) experimentBundle.getSerializable("experiment");
@@ -76,6 +80,31 @@ public class ValueInputActivity extends ExperimentActivity {
 
         addButton = findViewById(R.id.value_input_add_button);
         valueEditText = findViewById(R.id.value_input_trial_input_editText);
+
+        qrButton = findViewById(R.id.qr_icon);
+        qrButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(view.getContext(), QRActivity.class);
+            if (isMeasurement) {
+                intent.putExtra("EXTRA_EXP_TYPE", "measurement");
+            }
+            else {
+                intent.putExtra("EXTRA_EXP_TYPE", "nonnegative");
+            }
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            startActivity(intent);
+
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
+            bundle.putString("user", currentUser);
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent,1);
+        });
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
@@ -223,4 +252,23 @@ public class ValueInputActivity extends ExperimentActivity {
             participantsHelper.displayParticipantList("Participants","Back");
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1)
+        {
+            Bundle experimentBundle = data.getExtras();
+            if (experimentBundle.getSerializable("experiment") instanceof Measurement){
+                experiment = (Measurement) experimentBundle.getSerializable("experiment");
+            }
+            else {
+                experiment = (NonNegative) experimentBundle.getSerializable("experiment");
+            }
+        }
+    }
+
 }

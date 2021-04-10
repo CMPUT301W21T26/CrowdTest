@@ -20,14 +20,39 @@
         android:id="@+id/exp_count_participants_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+
+        android:layout_marginRight="10dp"
+        android:background="#FFFFFF"
+        android:contentDescription="@string/participants"
+        app:layout_constraintBottom_toBottomOf="@+id/experiment_toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/qr_icon"
+        app:layout_constraintTop_toTopOf="@+id/experiment_toolbar"
+        app:srcCompat="@drawable/people_24px" />
+
+    <ImageButton
+        android:id="@+id/qr_icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="#FFFFFF"
+        android:contentDescription="@string/participants"
+        app:layout_constraintBottom_toBottomOf="@+id/experiment_toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/qr_scan_icon"
+        app:layout_constraintTop_toTopOf="@+id/experiment_toolbar"
+        app:srcCompat="@drawable/ic_baseline_qr_code_24" />
+
+    <ImageButton
+        android:id="@+id/qr_scan_icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:background="#FFFFFF"
         android:contentDescription="@string/participants"
         app:layout_constraintBottom_toBottomOf="@+id/experiment_toolbar"
         app:layout_constraintEnd_toEndOf="@+id/experiment_toolbar"
         app:layout_constraintTop_toTopOf="@+id/experiment_toolbar"
-        app:srcCompat="@drawable/people_24px" />
+        app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24" />
 
     <ScrollView
         android:id="@+id/count_scrollView"

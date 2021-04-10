@@ -1,6 +1,7 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
@@ -42,6 +44,8 @@ public class BinomialActivity extends ExperimentActivity {
     private Button successButton;
     private Button failButton;
     private Button detailsButton;
+    private ImageButton qrButton;
+    private ImageButton qrScanButton;
     private ImageButton participantsButton;
     private ParticipantsHelper participantsHelper;
     private ExperimentManager experimentManager = new ExperimentManager();
@@ -78,6 +82,26 @@ public class BinomialActivity extends ExperimentActivity {
             failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, currentUser, null));
             failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
         }
+
+        qrButton = findViewById(R.id.qr_icon);
+        qrButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(view.getContext(), QRActivity.class);
+            intent.putExtra("EXTRA_EXP_TYPE", "binomial");
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            startActivity(intent);
+
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
+            bundle.putString("user", currentUser);
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent,1);
+        });
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
@@ -200,5 +224,19 @@ public class BinomialActivity extends ExperimentActivity {
             participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
             participantsHelper.displayParticipantList("Participants", "Back");
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1)
+        {
+            Bundle experimentBundle = data.getExtras();
+            experiment = (Binomial) experimentBundle.getSerializable("experiment");
+            setValues();
+        }
     }
 }

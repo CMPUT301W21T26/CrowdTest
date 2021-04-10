@@ -1,6 +1,7 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.crowdtest.ExperimentManager;
+import com.example.crowdtest.R;
+import com.example.crowdtest.experiments.Binomial;
+import com.example.crowdtest.experiments.BinomialTrial;
 import com.example.crowdtest.ExperimenterManager;
 import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
@@ -22,6 +26,7 @@ import com.example.crowdtest.experiments.Measurement;
 import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
 import com.example.crowdtest.experiments.NonNegativeTrial;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,11 +43,16 @@ import java.util.Date;
  * Count experiment activity class
  */
 public class CountActivity extends ExperimentActivity {
+
     private Button addButton;
     private Button detailsButton;
+    private ImageButton qrButton;
+    private ImageButton qrScanButton;
+
     private ImageButton participantsButton;
     private ParticipantsHelper participantsHelper;
     private ExperimentManager experimentManager = new ExperimentManager();
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -63,6 +73,27 @@ public class CountActivity extends ExperimentActivity {
         } else {
             addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser, null));
         }
+
+        qrButton = findViewById(R.id.qr_icon);
+        qrButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(view.getContext(), QRActivity.class);
+            intent.putExtra("EXTRA_EXP_TYPE", "count");
+            intent.putExtra("EXTRA_EXP_ID", experiment.getExperimentID());
+            startActivity(intent);
+
+        });
+
+        qrScanButton = findViewById(R.id.qr_scan_icon);
+        qrScanButton.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("experiment", experiment);
+            bundle.putString("user", currentUser);
+            Intent intent = new Intent(view.getContext(), CodeScanActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, 1);
+        });
+
 
         // Allows user to end an experiment if they are the owner
         endExperiment = findViewById(R.id.experiment_end_experiment_button);
@@ -173,4 +204,19 @@ public class CountActivity extends ExperimentActivity {
             participantsHelper.displayParticipantList("Participants","Back");
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1)
+        {
+            Bundle experimentBundle = data.getExtras();
+            experiment = (Count) experimentBundle.getSerializable("experiment");
+            setValues();
+        }
+    }
+
 }
