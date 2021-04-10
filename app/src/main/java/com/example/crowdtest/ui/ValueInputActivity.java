@@ -2,8 +2,10 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.icu.util.Measure;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +18,26 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
 import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.Date;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.Date;
 
 /**
  * Value input experiment activity class. Value input experiments are experiments that require a number for their trials. Double for measurement trials and positive int for Non negative trials
@@ -86,18 +103,18 @@ public class ValueInputActivity extends ExperimentActivity {
         }
 
 //        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-        if (experiment.getSubscribers().contains(currentUser)) {
+        if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
             if (experiment.isGeolocationEnabled()) {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement) experiment).addTrial(trialInput, currentLocation);
+                        ((Measurement) experiment).addTrial(trialInput, currentUser, currentLocation);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
                         valueEditText.setText("");
                         try {
-                            ((NonNegative) experiment).addTrial(trialInput, currentLocation);
+                            ((NonNegative) experiment).addTrial(trialInput, currentUser, currentLocation);
                             Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                         } catch (Exception e) {
                             Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -108,13 +125,13 @@ public class ValueInputActivity extends ExperimentActivity {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement) experiment).addTrial(trialInput, null);
+                        ((Measurement) experiment).addTrial(trialInput,currentUser,  null);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
                         valueEditText.setText("");
                         try {
-                            ((NonNegative) experiment).addTrial(trialInput, null);
+                            ((NonNegative) experiment).addTrial(trialInput, currentUser, null);
                             Snackbar.make(v, "Trial added successfully", Snackbar.LENGTH_SHORT);
                         } catch (Exception e) {
                             Snackbar.make(v, "Please enter a non negative integer", Snackbar.LENGTH_SHORT);
@@ -124,9 +141,47 @@ public class ValueInputActivity extends ExperimentActivity {
             }
         }
 
+
+
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        final DocumentReference docRef = db.collection("Experiments").document(experiment.getExperimentID());
+
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
+
+            for (QueryDocumentSnapshot document: value) {
+                if (isMeasurement) {
+                    ((Measurement) experiment).getTrials().clear();
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    Location location = new Location("Provider");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
+                    Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
+                    double measurement = (double) document.getData().get("measurement");
+                    String poster = (String) document.getData().get("user");
+                    MeasurementTrial measurementTrial = new MeasurementTrial(timeStamp, location, measurement, poster);
+                    ((Measurement) experiment).getTrials().add(measurementTrial);
+                } else {
+
+                    ((NonNegative) experiment).getTrials().clear();
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    Location location = new Location("Provider");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
+                    Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
+                    long count = (long) document.getData().get("count");
+                    String poster = (String) document.getData().get("user");
+                    NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(timeStamp, location, count, poster);
+                    ((NonNegative) experiment).getTrials().add(nonNegativeTrial);
+
+                }
+            }
+
+
             if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);

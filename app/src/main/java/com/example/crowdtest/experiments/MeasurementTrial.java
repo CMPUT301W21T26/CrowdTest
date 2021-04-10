@@ -37,8 +37,8 @@ public class MeasurementTrial extends Trial {
      * @param timestamp
      * @param location
      */
-    public MeasurementTrial(Date timestamp, Location location, double measurement) {
-        super(timestamp, location);
+    public MeasurementTrial(Date timestamp, Location location, double measurement, String poster) {
+        super(timestamp, location, poster);
         this.measurement = measurement;
     }
 

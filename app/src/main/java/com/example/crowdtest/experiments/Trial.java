@@ -9,6 +9,7 @@ public class Trial implements Serializable {
     private Date timestamp;
     private double locationLong;
     private double locationLat;
+    private String poster;
 
     /**
      * Constructor for getting trials from the database
@@ -16,10 +17,19 @@ public class Trial implements Serializable {
      * @param timestamp
      * @param location
      */
-    public Trial(Date timestamp, Location location) {
+    public Trial(Date timestamp, Location location, String user) {
         this.timestamp = timestamp;
         this.locationLong = location.getLongitude();
         this.locationLat = location.getLatitude();
+        this.poster = user;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
     /**

@@ -59,9 +59,10 @@ public class NonNegative extends Experiment {
      * @param trialInput
      *  The trial that is going to be submitted in the experiment
      */
-    public void addTrial(int trialInput, Location location) throws Exception {
+    public void addTrial(int trialInput, String userName, Location location) throws Exception {
         NonNegativeTrial trial = new NonNegativeTrial(trialInput);
         if (geolocationEnabled) trial.setLocation(location);
+        trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -73,6 +74,7 @@ public class NonNegative extends Experiment {
         trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
         trialData.put("count", trial.getCount());
+        trialData.put("user", trial.getPoster());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -85,13 +87,29 @@ public class NonNegative extends Experiment {
         this.trials = trials;
     }
 
+    public ArrayList<NonNegativeTrial> getTrials() {
+
+        return this.trials;
+    }
+
     /**
      * Function for getting the trials for the non-negative experiment
      * @return
      *  ArrayList of non-negative trials
      */
-    public ArrayList<NonNegativeTrial> getTrials() {
-        return trials;
+    public ArrayList<NonNegativeTrial> getValidTrials() {
+        ArrayList<NonNegativeTrial> validTrials = new ArrayList<>();
+
+        for (NonNegativeTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                validTrials.add(trial);
+            }
+        }
+
+        return validTrials;
+
     }
 
     public Hashtable<String, Double> getStatistics(){

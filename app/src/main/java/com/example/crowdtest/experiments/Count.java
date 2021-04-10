@@ -2,6 +2,8 @@ package com.example.crowdtest.experiments;
 
 import android.location.Location;
 
+import android.location.Location;
+
 import com.example.crowdtest.DatabaseManager;
 import com.example.crowdtest.Question;
 
@@ -57,9 +59,10 @@ public class Count extends Experiment {
     /**
      * Adds a new trial to the experiment
      */
-    public void addTrial(Location location) {
+    public void addTrial(String userName, Location location) {
         CountTrial trial = new CountTrial();
         if (geolocationEnabled) trial.setLocation(location);
+        trial.setPoster(userName);
         trials.add(trial);
         addTrialToDB(trial);
     }
@@ -70,6 +73,7 @@ public class Count extends Experiment {
         trialData.put("locationLong", trial.getLocationLong());
         trialData.put("locationLat", trial.getLocationLat());
         trialData.put("timestamp", trial.getTimestamp());
+        trialData.put("user", trial.getPoster());
         db.addDataToCollection("Experiments/"+experimentID+"/trials", "trial#" + String.format("%05d", trials.size() - 1), trialData);
     }
 
@@ -82,17 +86,48 @@ public class Count extends Experiment {
         this.trials = trials;
     }
 
+    public ArrayList<CountTrial> getTrials() {
+
+        return this.trials;
+    }
+
     /**
      * Function for getting the trials of the count experiment
      * @return
      *  ArrayList of count trials
      */
-    public ArrayList<CountTrial> getTrials() {
-        return trials;
+    public ArrayList<CountTrial> getValidTrials() {
+        ArrayList<CountTrial> validTrials = new ArrayList<>();
+
+        for (CountTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                validTrials.add(trial);
+            }
+        }
+
+        return validTrials;
     }
 
     public int getCount(){
         return trials.size();
+    }
+
+    public Integer getValidCount(){
+
+        Integer count = 0;
+
+        for (CountTrial trial: trials) {
+
+            if (!blackListedUsers.contains(trial.getPoster())) {
+
+                count++;
+            }
+        }
+
+        return count;
+
     }
 
     public Hashtable<String, Double> getStatistics(){

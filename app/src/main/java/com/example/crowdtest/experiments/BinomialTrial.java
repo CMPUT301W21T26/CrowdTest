@@ -19,8 +19,8 @@ public class BinomialTrial extends Trial {
      * @param timestamp
      * @param location
      */
-    public BinomialTrial(Date timestamp, Location location, boolean success) {
-        super(timestamp, location);
+    public BinomialTrial(Date timestamp, Location location, boolean success, String poster) {
+        super(timestamp, location, poster);
         this.success = success;
     }
 

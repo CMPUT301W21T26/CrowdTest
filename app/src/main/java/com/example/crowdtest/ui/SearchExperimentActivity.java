@@ -1,6 +1,7 @@
 package com.example.crowdtest.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -91,34 +92,12 @@ public class SearchExperimentActivity extends AppCompatActivity {
             for (QueryDocumentSnapshot document: value) {
 
                 Experiment experiment = experimentManager.getFirestoreExperiment(document);
-                experimentManager.getTrials(experiment, experiment.getClass().getSimpleName(), new TrialRetriever() {
-                    @Override
-                    public void getBinomialTrials(BinomialTrial binomialTrial) {
-                        ((Binomial) experiment).addTrialFromDb(binomialTrial);
-                    }
 
-                    @Override
-                    public void getCountTrials(CountTrial countTrial) {
-                        ((Count) experiment).getTrials().add(countTrial);
-                    }
-
-                    @Override
-                    public void getNonNegativeTrials(NonNegativeTrial nonnegativeTrial) {
-                        ((NonNegative) experiment).getTrials().add(nonnegativeTrial);
-                    }
-
-                    @Override
-                    public void getMeasurementTrials(MeasurementTrial measurementTrial) {
-                        ((Measurement) experiment).getTrials().add(measurementTrial);
-                    }
-
-                });
-
-                if (experiment.isPublished()) {
+                    if (experiment.isPublished()) {
 
                     experimentDataList.add(experiment);
 
-                    allExperimentDataList.add(experiment);
+                        allExperimentDataList.add(experiment);
 
                     experimentAdapter.notifyDataSetChanged();
 

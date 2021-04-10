@@ -1,7 +1,7 @@
 package com.example.crowdtest.ui;
 
 import android.content.Intent;
-import android.os.Build;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +12,25 @@ import androidx.annotation.RequiresApi;
 
 import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.ExperimenterManager;
+import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
+import com.example.crowdtest.experiments.CountTrial;
+import com.example.crowdtest.experiments.Measurement;
+import com.example.crowdtest.experiments.MeasurementTrial;
+import com.example.crowdtest.experiments.NonNegative;
+import com.example.crowdtest.experiments.NonNegativeTrial;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Count experiment activity class
@@ -41,10 +56,10 @@ public class CountActivity extends ExperimentActivity {
         addButton = findViewById(R.id.count_add_button);
         if (experiment.isGeolocationEnabled()) {
             addButton.setOnClickListener(v -> {
-                ((Count) experiment).addTrial(currentLocation);
+                ((Count) experiment).addTrial(currentUser, currentLocation);
             });
         } else {
-            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(null));
+            addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser, null));
         }
 
         // Allows user to end an experiment if they are the owner
@@ -71,9 +86,51 @@ public class CountActivity extends ExperimentActivity {
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        final DocumentReference docRef = db.collection("Experiments").document(experiment.getExperimentID());
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+
+
+                if (e != null) {
+                    Log.w("FAIL", "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+
+                    addButton.setText(String.valueOf(((Count) experiment).getValidCount()));
+
+                    //if there was a change to the experiment (not trials), it was that a user was blacklisted.
+                    Log.d("SUCCESS", "Current data: " + snapshot.getData());
+
+                } else {
+                    Log.d("SNAPSHOT NOT EXISTENT", "Current data: null");
+                }
+            }
+        });
+
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
-            addButton.setText(String.valueOf(((Count) experiment).getCount()));
+
+            ((Count) experiment).getTrials().clear();
+            for (QueryDocumentSnapshot document: value) {
+
+                double locationLat = (Double) document.getData().get("locationLat");
+                double locationLong = (Double) document.getData().get("locationLong");
+                Location location = new Location("Provider");
+                location.setLatitude(locationLat);
+                location.setLongitude(locationLong);
+                Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
+                String poster = (String) document.getData().get("user");
+                CountTrial countTrial = new CountTrial(timeStamp, location, poster);
+                ((Count) experiment).getTrials().add(countTrial);
+            }
+
+
+            addButton.setText(String.valueOf(((Count) experiment).getValidCount()));
             if (experiment.getStatus().toLowerCase().equals("closed")) {
                 endExperiment.setText("Reopen Experiment");
                 addButton.setVisibility(View.INVISIBLE);
@@ -81,8 +138,7 @@ public class CountActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle() + " (Closed)");
             } else {
                 endExperiment.setText("End Experiment");
-//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-                if (experiment.getSubscribers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
                     addButton.setVisibility(View.VISIBLE);
                 } else {
                     addButton.setVisibility(View.INVISIBLE);

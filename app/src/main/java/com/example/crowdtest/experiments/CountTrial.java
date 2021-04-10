@@ -14,8 +14,8 @@ public class CountTrial extends Trial {
      * @param timestamp
      * @param location
      */
-    public CountTrial(Date timestamp, Location location) {
-        super(timestamp, location);
+    public CountTrial(Date timestamp, Location location, String poster) {
+        super(timestamp, location, poster);
     }
 
     /**
