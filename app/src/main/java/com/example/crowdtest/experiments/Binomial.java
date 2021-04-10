@@ -30,18 +30,19 @@ public class Binomial extends Experiment {
     /**
      * Constructor for uploading from the database
      *
-     * @param owner         of the experiment
+     * @param owner         Owner of the experiment
      * @param experimentID  A unique ID for this experiment
-     * @param status
-     * @param title
-     * @param description
-     * @param region
-     * @param subscribers
-     * @param questions
-     * @param geoLocation
-     * @param datePublished
-     * @param minTrials
+     * @param status        Whether the experiment is closed or open
+     * @param title         The title of the experiment
+     * @param description   The description of the experiment
+     * @param region        The region of the experiment
+     * @param subscribers   ArrayList of subscribers to this experiment
+     * @param questions     ArrayList of Questions for this experiment
+     * @param geoLocation   Whether this experiment requires geo location or not
+     * @param datePublished The date the experiment was published
+     * @param minTrials     The minimum number of trials needed to be done
      * @param trials        The ArrayList of trials
+     * @param published     Whether the experiment should be published or not
      */
     public Binomial(String owner, String experimentID, String status, String title,
                     String description, String region, ArrayList<String> subscribers,
@@ -74,6 +75,9 @@ public class Binomial extends Experiment {
         failCount = 0;
     }
 
+    /**
+     * Empty constructor for database
+     */
     public Binomial() {
 
     }
@@ -111,6 +115,11 @@ public class Binomial extends Experiment {
         }
     }
 
+    /**
+     * Method for adding trials to the database
+     *
+     * @param trial The trial to be added to the database
+     */
     public void addTrialToDB(BinomialTrial trial) {
         DatabaseManager db = new DatabaseManager();
         HashMap<String, Object> trialData = new HashMap<>();
@@ -123,7 +132,7 @@ public class Binomial extends Experiment {
     }
 
     /**
-     * Function for getting the number of recorded success trials for the binomial experiment
+     * Method for getting the number of recorded success trials for the binomial experiment
      *
      * @return Number of success trials
      */
@@ -131,15 +140,20 @@ public class Binomial extends Experiment {
         return successCount;
     }
 
-    public int getValidSuccessCount(){
+    /**
+     * Method for getting the number of successes without the blacklisted experimenters
+     *
+     * @return Number of valid successes
+     */
+    public int getValidSuccessCount() {
 
         Integer validSuccessCount = 0;
 
-        for (BinomialTrial trial: trials) {
+        for (BinomialTrial trial : trials) {
 
             if (!blackListedUsers.contains(trial.getPoster()) && trial.isSuccess()) {
 
-                validSuccessCount ++;
+                validSuccessCount++;
             }
         }
 
@@ -155,15 +169,20 @@ public class Binomial extends Experiment {
         return failCount;
     }
 
-    public int getValidFailCount(){
+    /**
+     * Method for getting the number of failures without the blacklisted experimenters
+     *
+     * @return Number of valid failures
+     */
+    public int getValidFailCount() {
 
         Integer validFailCount = 0;
 
-        for (BinomialTrial trial: trials) {
+        for (BinomialTrial trial : trials) {
 
             if (!blackListedUsers.contains(trial.getPoster()) && !trial.isSuccess()) {
 
-                validFailCount ++;
+                validFailCount++;
             }
         }
 
@@ -179,6 +198,12 @@ public class Binomial extends Experiment {
         this.trials = trials;
     }
 
+
+    /**
+     * Method for getting the trials ArrayList
+     *
+     * @return An ArrayList of trials
+     */
     public ArrayList<BinomialTrial> getTrials() {
 
         return this.trials;
@@ -193,7 +218,7 @@ public class Binomial extends Experiment {
 
         ArrayList<BinomialTrial> validTrials = new ArrayList<>();
 
-        for (BinomialTrial trial: trials) {
+        for (BinomialTrial trial : trials) {
 
             if (!blackListedUsers.contains(trial.getPoster())) {
 
@@ -204,6 +229,11 @@ public class Binomial extends Experiment {
         return validTrials;
     }
 
+    /**
+     * Method for getting the statistic data of the experiment
+     *
+     * @return A hash table of the statistic values
+     */
     public Hashtable<String, Double> getStatistics() {
 
         Hashtable<String, Double> statistics = new Hashtable<>();
@@ -216,8 +246,12 @@ public class Binomial extends Experiment {
         return statistics;
     }
 
-    ;
 
+    /**
+     * Method for getting the success rate of the experiment
+     *
+     * @return The success rate
+     */
     private Double getSuccessRate() {
 
         return (new Double(getSuccessCount()) / new Double(trials.size())) * 100;

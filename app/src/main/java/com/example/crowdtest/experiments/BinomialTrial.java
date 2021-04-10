@@ -24,6 +24,10 @@ public class BinomialTrial extends Trial {
         this.success = success;
     }
 
+
+    /**
+     * Empty constructor needed for the databse
+     */
     public BinomialTrial(){
 
         //Required for firestore access

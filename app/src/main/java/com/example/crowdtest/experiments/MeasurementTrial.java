@@ -15,7 +15,7 @@ public class MeasurementTrial extends Trial {
      * Empty constructor for MeasurementTrial object
      * Necessary for converting Firestore documents to MeasurementTrial objects
      */
-    public MeasurementTrial(){
+    public MeasurementTrial() {
 
         //Empty constructor required
 
@@ -34,8 +34,8 @@ public class MeasurementTrial extends Trial {
     /**
      * Constructor for getting trials from the database
      *
-     * @param timestamp
-     * @param location
+     * @param timestamp The date and time of the trial submission
+     * @param location  The location where the trial was submitted from
      */
     public MeasurementTrial(Date timestamp, Location location, double measurement, String poster) {
         super(timestamp, location, poster);
@@ -44,8 +44,8 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Function for getting the measurement value of the measurement trial
-     * @return
-     *  Returns the measurement value for the Trial
+     *
+     * @return Returns the measurement value for the Trial
      */
     public double getMeasurement() {
         return measurement;

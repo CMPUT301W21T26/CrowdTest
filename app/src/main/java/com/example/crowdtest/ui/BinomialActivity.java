@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crowdtest.ExperimentManager;
-import com.example.crowdtest.LocationService;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.Count;
@@ -92,7 +91,7 @@ public class BinomialActivity extends ExperimentActivity {
             startActivity(intent);
 
         });
-
+        // QR code implementation
         qrScanButton = findViewById(R.id.qr_scan_icon);
         qrScanButton.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
@@ -108,20 +107,22 @@ public class BinomialActivity extends ExperimentActivity {
         if (experiment.getOwner().equals(currentUser)) {
             endExperiment.setVisibility(View.VISIBLE);
             endExperiment.setOnClickListener(v -> {
-                if (endExperiment.getText().equals("End Experiment")) {
-                    experiment.setStatus("closed");
-                    endExperiment.setText("Reopen Experiment");
-                    successButton.setVisibility(View.INVISIBLE);
-                    failButton.setVisibility(View.INVISIBLE);
-                    toolbar.setTitleTextColor(0xFFE91E63);
-                    toolbar.setTitle(experiment.getTitle() + " (Closed)");
-                } else if (endExperiment.getText().equals("Reopen Experiment")) {
-                    experiment.setStatus("open");
-                    endExperiment.setText("End Experiment");
-                    successButton.setVisibility(View.VISIBLE);
-                    failButton.setVisibility(View.VISIBLE);
-                    toolbar.setTitleTextColor(0xFF000000);
-                    toolbar.setTitle(experiment.getTitle());
+                if (experiment.getTrials().size() >= experiment.getMinTrials()) {
+                    if (endExperiment.getText().equals("End Experiment")) {
+                        experiment.setStatus("closed");
+                        endExperiment.setText("Reopen Experiment");
+                        successButton.setVisibility(View.INVISIBLE);
+                        failButton.setVisibility(View.INVISIBLE);
+                        toolbar.setTitleTextColor(0xFFE91E63);
+                        toolbar.setTitle(experiment.getTitle() + " (Closed)");
+                    } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                        experiment.setStatus("open");
+                        endExperiment.setText("End Experiment");
+                        successButton.setVisibility(View.VISIBLE);
+                        failButton.setVisibility(View.VISIBLE);
+                        toolbar.setTitleTextColor(0xFF000000);
+                        toolbar.setTitle(experiment.getTitle());
+                    }
                 }
             });
         } else {

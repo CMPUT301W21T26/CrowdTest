@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Date;
+
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -111,20 +112,22 @@ public class ValueInputActivity extends ExperimentActivity {
         if (experiment.getOwner().equals(currentUser)) {
             endExperiment.setVisibility(View.VISIBLE);
             endExperiment.setOnClickListener(v -> {
-                if (endExperiment.getText().equals("End Experiment")) {
-                    experiment.setStatus("closed");
-                    endExperiment.setText("Reopen Experiment");
-                    addButton.setVisibility(View.INVISIBLE);
-                    valueEditText.setVisibility(View.INVISIBLE);
-                    toolbar.setTitleTextColor(0xFFE91E63);
-                    toolbar.setTitle(experiment.getTitle() + " (Closed)");
-                } else if (endExperiment.getText().equals("Reopen Experiment")) {
-                    experiment.setStatus("open");
-                    endExperiment.setText("End Experiment");
-                    addButton.setVisibility(View.VISIBLE);
-                    valueEditText.setVisibility(View.VISIBLE);
-                    toolbar.setTitleTextColor(0xFF000000);
-                    toolbar.setTitle(experiment.getTitle());
+                if (experiment.getTrials().size() >= experiment.getMinTrials()) {
+                    if (endExperiment.getText().equals("End Experiment")) {
+                        experiment.setStatus("closed");
+                        endExperiment.setText("Reopen Experiment");
+                        addButton.setVisibility(View.INVISIBLE);
+                        valueEditText.setVisibility(View.INVISIBLE);
+                        toolbar.setTitleTextColor(0xFFE91E63);
+                        toolbar.setTitle(experiment.getTitle() + " (Closed)");
+                    } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                        experiment.setStatus("open");
+                        endExperiment.setText("End Experiment");
+                        addButton.setVisibility(View.VISIBLE);
+                        valueEditText.setVisibility(View.VISIBLE);
+                        toolbar.setTitleTextColor(0xFF000000);
+                        toolbar.setTitle(experiment.getTitle());
+                    }
                 }
             });
         } else {
@@ -154,7 +157,7 @@ public class ValueInputActivity extends ExperimentActivity {
                 addButton.setOnClickListener(v -> {
                     if (isMeasurement) {
                         double trialInput = Double.parseDouble(valueEditText.getText().toString());
-                        ((Measurement) experiment).addTrial(trialInput,currentUser,  null);
+                        ((Measurement) experiment).addTrial(trialInput, currentUser, null);
                         valueEditText.setText("");
                     } else {
                         int trialInput = Integer.parseInt(valueEditText.getText().toString());
@@ -171,8 +174,6 @@ public class ValueInputActivity extends ExperimentActivity {
         }
 
 
-
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         final DocumentReference docRef = db.collection("Experiments").document(experiment.getExperimentID());
@@ -180,7 +181,7 @@ public class ValueInputActivity extends ExperimentActivity {
         CollectionReference collectionReference = db.collection("Experiments").document(experiment.getExperimentID()).collection("trials");
         collectionReference.addSnapshotListener((value, error) -> {
 
-            for (QueryDocumentSnapshot document: value) {
+            for (QueryDocumentSnapshot document : value) {
                 if (isMeasurement) {
                     ((Measurement) experiment).getTrials().clear();
                     Double locationLat = (Double) document.getData().get("locationLat");
@@ -249,7 +250,7 @@ public class ValueInputActivity extends ExperimentActivity {
         participantsButton.setOnClickListener(view -> {
 
             participantsHelper = new ParticipantsHelper(this, experimentManager, experiment, currentUser);
-            participantsHelper.displayParticipantList("Participants","Back");
+            participantsHelper.displayParticipantList("Participants", "Back");
         });
     }
 

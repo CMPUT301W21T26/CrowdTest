@@ -46,19 +46,20 @@ public abstract class Experiment implements Serializable {
     }
 
     /**
+     * Constructor for uploading from the database
      *
-     * @param owner
-     * @param experimentID
-     * @param status
-     * @param title
-     * @param description
-     * @param region
-     * @param subscribers
-     * @param questions
-     * @param geoLocation
-     * @param datePublished
-     * @param minTrials
-     * @param published
+     * @param owner         Owner of the experiment
+     * @param experimentID  A unique ID for this experiment
+     * @param status        Whether the experiment is closed or open
+     * @param title         The title of the experiment
+     * @param description   The description of the experiment
+     * @param region        The region of the experiment
+     * @param subscribers   ArrayList of subscribers to this experiment
+     * @param questions     ArrayList of Questions for this experiment
+     * @param geoLocation   Whether this experiment requires geo location or not
+     * @param datePublished The date the experiment was published
+     * @param minTrials     The minimum number of trials needed to be done
+     * @param published     Whether the experiment is published or not
      */
     public Experiment(String owner, String experimentID, String status,
                       String title, String description, String region,
@@ -81,11 +82,13 @@ public abstract class Experiment implements Serializable {
     }
 
     /**
-     *
+     * Empty constructor for the database
      */
-    protected Experiment() { }
+    protected Experiment() {
+    }
 
     /**
+     * Whether the experiment is published or not
      *
      * @return
      */
@@ -94,6 +97,7 @@ public abstract class Experiment implements Serializable {
     }
 
     /**
+     * Set if the experiment should be published or not
      *
      * @param published
      */
@@ -216,6 +220,7 @@ public abstract class Experiment implements Serializable {
 
     /**
      * Function fro getting the IDs of the experiment's blacklisted users
+     *
      * @return
      */
     public ArrayList<String> getBlackListedUsers() {
@@ -224,6 +229,7 @@ public abstract class Experiment implements Serializable {
 
     /**
      * Function for setting the IDs of the experiment's blacklsited users
+     *
      * @param blackListedUsers
      */
     public void setBlackListedUsers(ArrayList<String> blackListedUsers) {

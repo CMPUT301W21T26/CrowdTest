@@ -14,8 +14,8 @@ public class Trial implements Serializable {
     /**
      * Constructor for getting trials from the database
      *
-     * @param timestamp
-     * @param location
+     * @param timestamp The date and time of the trial submission
+     * @param location  The location where the trial was submitted from
      */
     public Trial(Date timestamp, Location location, String user) {
         this.timestamp = timestamp;
@@ -24,6 +24,11 @@ public class Trial implements Serializable {
         this.poster = user;
     }
 
+    /**
+     * Method for getting the poster of  the trial
+     *
+     * @return The poster of the trial
+     */
     public String getPoster() {
         return poster;
     }

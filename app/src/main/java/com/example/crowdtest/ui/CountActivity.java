@@ -17,9 +17,6 @@ import com.example.crowdtest.ExperimentManager;
 import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Binomial;
 import com.example.crowdtest.experiments.BinomialTrial;
-import com.example.crowdtest.ExperimenterManager;
-import com.example.crowdtest.LocationService;
-import com.example.crowdtest.R;
 import com.example.crowdtest.experiments.Count;
 import com.example.crowdtest.experiments.CountTrial;
 import com.example.crowdtest.experiments.Measurement;
@@ -100,18 +97,20 @@ public class CountActivity extends ExperimentActivity {
         if (experiment.getOwner().equals(currentUser)) {
             endExperiment.setVisibility(View.VISIBLE);
             endExperiment.setOnClickListener(v -> {
-                if (endExperiment.getText().equals("End Experiment")) {
-                    experiment.setStatus("closed");
-                    endExperiment.setText("Reopen Experiment");
-                    addButton.setVisibility(View.INVISIBLE);
-                    toolbar.setTitleTextColor(0xFFE91E63);
-                    toolbar.setTitle(experiment.getTitle() + " (Closed)");
-                } else if (endExperiment.getText().equals("Reopen Experiment")) {
-                    experiment.setStatus("open");
-                    endExperiment.setText("End Experiment");
-                    addButton.setVisibility(View.VISIBLE);
-                    toolbar.setTitleTextColor(0xFF000000);
-                    toolbar.setTitle(experiment.getTitle());
+                if (experiment.getTrials().size() >= experiment.getMinTrials()) {
+                    if (endExperiment.getText().equals("End Experiment")) {
+                        experiment.setStatus("closed");
+                        endExperiment.setText("Reopen Experiment");
+                        addButton.setVisibility(View.INVISIBLE);
+                        toolbar.setTitleTextColor(0xFFE91E63);
+                        toolbar.setTitle(experiment.getTitle() + " (Closed)");
+                    } else if (endExperiment.getText().equals("Reopen Experiment")) {
+                        experiment.setStatus("open");
+                        endExperiment.setText("End Experiment");
+                        addButton.setVisibility(View.VISIBLE);
+                        toolbar.setTitleTextColor(0xFF000000);
+                        toolbar.setTitle(experiment.getTitle());
+                    }
                 }
             });
         } else {
