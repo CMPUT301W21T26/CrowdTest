@@ -2,7 +2,9 @@ package com.example.crowdtest.ui;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -138,12 +140,13 @@ public class BinomialActivity extends ExperimentActivity {
             ((Binomial) experiment).getTrials().clear();
 
             for (QueryDocumentSnapshot document: value) {
-
-                Double locationLat = (Double) document.getData().get("locationLat");
-                Double locationLong = (Double) document.getData().get("locationLong");
                 Location location = new Location("Provider");
-                location.setLongitude(locationLong);
-                location.setLatitude(locationLat);
+                if (experiment.isGeoLocationEnabled()) {
+                    Double locationLat = (Double) document.getData().get("locationLat");
+                    Double locationLong = (Double) document.getData().get("locationLong");
+                    location.setLongitude(locationLong);
+                    location.setLatitude(locationLat);
+                }
                 Date timeStamp = ((Timestamp) document.getData().get("timestamp")).toDate();
                 String poster = (String) document.getData().get("user");
                 boolean success = (boolean) document.getData().get("success");

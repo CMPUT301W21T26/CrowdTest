@@ -1,5 +1,6 @@
 package com.example.crowdtest;
 
+import android.icu.text.MessagePattern;
 import android.location.Location;
 import android.util.Log;
 
@@ -92,7 +93,6 @@ public class ExperimentManager extends DatabaseManager {
         }
         return experiment;
     }
-
     public void getTrials(Experiment experiment, String experimentType, TrialRetriever trialRetriever) {
         Query query = database.collection(collectionPath).whereEqualTo("installationID", experiment.getExperimentID());
 
@@ -110,7 +110,6 @@ public class ExperimentManager extends DatabaseManager {
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         String poster = (String) documentSnapshot.getData().get("user");
                         boolean success = (boolean) documentSnapshot.getData().get("success");
-                        trialRetriever.getBinomialTrials(new BinomialTrial(timeStamp, location, success));
                         trialRetriever.getBinomialTrials(new BinomialTrial(timeStamp, location, success, poster));
                     } else if (experimentType.equals("Count")) {
                         Location location = new Location("database");
@@ -119,7 +118,6 @@ public class ExperimentManager extends DatabaseManager {
                             location.setLatitude((Double) documentSnapshot.getData().get("locationLat"));
                         }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
-                        trialRetriever.getCountTrials(new CountTrial(timeStamp, location));
                         String poster = (String) documentSnapshot.getData().get("user");
                         trialRetriever.getCountTrials(new CountTrial(timeStamp, location, poster));
                     } else if (experimentType.equals("Measurement")) {
@@ -130,7 +128,6 @@ public class ExperimentManager extends DatabaseManager {
                         }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         double measurement = (double) documentSnapshot.getData().get("measurement");
-                        trialRetriever.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement));
                         String poster = (String) documentSnapshot.getData().get("user");
                         trialRetriever.getMeasurementTrials(new MeasurementTrial(timeStamp, location, measurement, poster));
                     } else {
@@ -141,16 +138,13 @@ public class ExperimentManager extends DatabaseManager {
                         }
                         Date timeStamp = ((Timestamp) documentSnapshot.getData().get("timestamp")).toDate();
                         long count = (long) documentSnapshot.getData().get("count");
-                        trialRetriever.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count));
                         String poster = (String) documentSnapshot.getData().get("user");
                         trialRetriever.getNonNegativeTrials(new NonNegativeTrial(timeStamp, location, count, poster));
                     }
                 }
 
-//                experiment = new NonNegative(owner, experimentID, status, title, description, region, subscribers, questions, geoLocation, datePublished, 0, trials, isPublished);
             } else {
 
-                //if firestore query is unsuccessful, log an error and return
                 Log.d(TAG, "Error getting documents: ", task.getException());
 
                 return;
