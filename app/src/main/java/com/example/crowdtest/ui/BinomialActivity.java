@@ -63,8 +63,15 @@ public class BinomialActivity extends ExperimentActivity {
         successButton = findViewById(R.id.binomial_success_button);
         if (experiment.isGeolocationEnabled()) {
             successButton.setOnClickListener(v -> {
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
                         ((Binomial) experiment).addTrial(true, currentUser, currentLocation);
                         successButton.setText(String.valueOf(((Binomial) experiment).getValidSuccessCount()));
+                    }
+                });
             });
         } else {
             successButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(true, currentUser, null));
@@ -74,8 +81,15 @@ public class BinomialActivity extends ExperimentActivity {
         failButton = findViewById(R.id.binomial_fail_button);
         if (experiment.isGeolocationEnabled()) {
             failButton.setOnClickListener(v -> {
-                ((Binomial) experiment).addTrial(false, currentUser, currentLocation);
-                failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Binomial) experiment).addTrial(false, currentUser, currentLocation);
+                        failButton.setText(String.valueOf(((Binomial) experiment).getValidFailCount()));
+                    }
+                });
             });
         } else {
             failButton.setOnClickListener(v -> ((Binomial) experiment).addTrial(false, currentUser, null));

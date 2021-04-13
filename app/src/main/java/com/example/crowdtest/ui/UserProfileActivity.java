@@ -62,9 +62,7 @@ public class UserProfileActivity extends AppCompatActivity{
         // onClickListener for the back button. Sends back experimenter and finishes activity
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                intent.putExtra("User", user);
-                setResult(RESULT_OK, intent);
-                finish();
+                goBack();
             }
         });
     }
@@ -83,7 +81,16 @@ public class UserProfileActivity extends AppCompatActivity{
      */
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        goBack();
+    }
+
+    /**
+     * Private function for returning to the main page
+     */
+    private void goBack() {
+        intent.putExtra("User", user);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
 

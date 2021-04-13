@@ -1,6 +1,8 @@
 package com.example.crowdtest.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -181,55 +183,55 @@ public abstract class ExperimentActivity extends AppCompatActivity implements Ac
 
     /**
      * Function for creating and showing an AlertDialog for confirmation before doing something
-     * <p>
+     *
      * Title:          How do I display an alert dialog on Android?
      * Author:         David Hedlund, https://stackoverflow.com/users/133802
      * Date:           2021-02-06
      * License:        CC BY-SA
      * Availability:   https://stackoverflow.com/a/2115770
      */
-//    public void showConfirmationDialog(String title, String message, Runnable runnable) {
-//        // Build the AlertDialog and define its contents
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        // Set builder attributes
-//        builder.setTitle(title);
-//        builder.setMessage(message);
-//        builder.setCancelable(false);
-//
-//        // Delete the experiment item if the user presses "Yes"
-//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//            /**
-//             * Function for defining the dialog's behavior when the "Yes" button is pressed
-//             * @param dialog    :   The dialog that received the click
-//             * @param which     :   The item that was clicked (represented by an integer)
-//             */
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                runnable.run();
-//            }
-//
-//        });
-//
-//        // Cancel the dialog if the user presses "No"
-//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//            /**
-//             * Function for defining the dialog's behavior when the "No" button is pressed
-//             * @param dialog    :   The dialog that received the click
-//             * @param which     :   The button that was clicked (represented by an integer)
-//             */
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//
-//        });
-//
-//        // Create and show the dialog
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
+    public void showConfirmationDialog(String title, String message, Runnable runnable) {
+        // Build the AlertDialog and define its contents
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Set builder attributes
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+
+        // Delete the experiment item if the user presses "Yes"
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            /**
+             * Function for defining the dialog's behavior when the "Yes" button is pressed
+             * @param dialog    :   The dialog that received the click
+             * @param which     :   The item that was clicked (represented by an integer)
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                runnable.run();
+            }
+
+        });
+
+        // Cancel the dialog if the user presses "No"
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            /**
+             * Function for defining the dialog's behavior when the "No" button is pressed
+             * @param dialog    :   The dialog that received the click
+             * @param which     :   The button that was clicked (represented by an integer)
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+
+        });
+
+        // Create and show the dialog
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 }
