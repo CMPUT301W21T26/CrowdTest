@@ -89,9 +89,15 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
 
         statsText.setText(statisticsString);
 
+        TextView submissionMap = findViewById(R.id.participants_map_textView);
+        submissionMap.setText("");
         trialMapView = findViewById(R.id.participants_mapView);
-        trialMapView.onCreate(savedInstanceState);
-        trialMapView.getMapAsync(this);
+
+        if (experiment.isGeoLocationEnabled()) {
+            submissionMap.setText("Submission Map");
+            trialMapView.onCreate(savedInstanceState);
+            trialMapView.getMapAsync(this);
+        }
 
     }
 
@@ -129,8 +135,7 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
 
             binomialGraphManager.createGraph(barChart);
 
-        }
-        else if (experiment instanceof NonNegative){
+        } else if (experiment instanceof NonNegative) {
 
             histogramTitle.setText("Num. of Trials by Non-Negative Count Value");
 
@@ -158,7 +163,7 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
             countPlotManager.createPlot(lineChart);
 
 
-        } else if (experiment instanceof Binomial){
+        } else if (experiment instanceof Binomial) {
 
             plotTitle.setText("Success Rate Over Time ");
 
@@ -187,7 +192,7 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
 
     }
 
-    private void formatLineChart(){
+    private void formatLineChart() {
 
         lineChart.setNoDataText("No Trials Recorded Yet");
         lineChart.getDescription().setEnabled(false);
@@ -199,7 +204,7 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
         xAxis.setGranularityEnabled(true);
     }
 
-    private void formatBarChart(){
+    private void formatBarChart() {
 
         barChart.setNoDataText("No Trials Recorded Yet");
         barChart.getDescription().setEnabled(false);
@@ -215,9 +220,9 @@ public class ExpStatisticsActivity extends AppCompatActivity implements OnMapRea
         trialMap = googleMap;
         trialMap.getUiSettings().setMyLocationButtonEnabled(true);
         trialMap.setMyLocationEnabled(true);
-        for (Object trial: experiment.getTrials()){
-            LatLng submissionLocation = new LatLng(((Trial)trial).getLocationLat(), ((Trial)trial).getLocationLong());
-            trialMap.addMarker(new MarkerOptions().position(submissionLocation).title(((Trial)trial).getTimestamp().toString()));
+        for (Object trial : experiment.getTrials()) {
+            LatLng submissionLocation = new LatLng(((Trial) trial).getLocationLat(), ((Trial) trial).getLocationLong());
+            trialMap.addMarker(new MarkerOptions().position(submissionLocation).title(((Trial) trial).getTimestamp().toString()));
             trialMap.moveCamera(CameraUpdateFactory.newLatLng(submissionLocation));
         }
         trialMapView.onResume();
