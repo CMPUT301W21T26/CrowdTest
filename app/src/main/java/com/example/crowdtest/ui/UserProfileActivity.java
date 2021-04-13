@@ -77,6 +77,14 @@ public class UserProfileActivity extends AppCompatActivity{
         userEmail.setText(userProfile.getEmail());
         userPhoneNumber.setText(userProfile.getPhoneNumber());
     }
+    
+    /**
+     * Overrides the devices back button to move app to the background instead of returning to the previous activity
+     */
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
 
 
