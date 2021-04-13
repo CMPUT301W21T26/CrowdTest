@@ -29,6 +29,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * ParticipantsHelper class for showing and defining the behaviour for Dialog Fragments
+ * when viewing a participation list
+ */
 public class ParticipantsHelper {
 
     private Context context;
@@ -41,7 +45,14 @@ public class ParticipantsHelper {
     private CollectionReference collectionReference;
 
     private ExperimentManager experimentManager;
-
+    
+    /**
+     * ParticipantsHelper constructor
+     * @param activity  :   Activity instance to be 'helped'
+     * @param experimentManager
+     * @param experiment
+     * @param currentUser
+     */
     public ParticipantsHelper(Activity activity, ExperimentManager experimentManager, Experiment experiment, String currentUser) {
         this.context = (Context) activity;
         this.experimentManager = experimentManager;
@@ -49,6 +60,11 @@ public class ParticipantsHelper {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Function for creating and showing an AlertDialog with a list of clickable participants
+     * @param title
+     * @param negButtonText
+     */
     public void displayParticipantList(String title, String negButtonText) {
         // Build an AlertDialog and define its contents
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -93,6 +109,11 @@ public class ParticipantsHelper {
         });
     }
 
+    /**
+     * Function for creating and showing an AlertDialog with text boxes for user information and buttons for blacklisting users
+     * @param title
+     * @param participant
+     */
     public void showUserInfo(String title, String participant) {
 
         ArrayList<String> blacklisted = experiment.getBlackListedUsers();
