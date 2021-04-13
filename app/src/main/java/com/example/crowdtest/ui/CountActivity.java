@@ -65,7 +65,14 @@ public class CountActivity extends ExperimentActivity {
         addButton = findViewById(R.id.count_add_button);
         if (experiment.isGeolocationEnabled()) {
             addButton.setOnClickListener(v -> {
-                ((Count) experiment).addTrial(currentUser, currentLocation);
+                String title = "Trial Confirmation";
+                String message = "Adding a trial will record your geo-location. Do you wish to continue?";
+                showConfirmationDialog(title, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Count) experiment).addTrial(currentUser, currentLocation);
+                    }
+                });
             });
         } else {
             addButton.setOnClickListener(v -> ((Count) experiment).addTrial(currentUser, null));
