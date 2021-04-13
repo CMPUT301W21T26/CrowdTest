@@ -42,7 +42,7 @@
             android:foregroundServiceType="location" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyBy1uS7rlu-Mx1sGYbWzr92LB3m8TgmehE" />
     </application>
 
 </manifest>
