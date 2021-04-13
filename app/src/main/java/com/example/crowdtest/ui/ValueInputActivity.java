@@ -220,8 +220,7 @@ public class ValueInputActivity extends ExperimentActivity {
                 toolbar.setTitle(experiment.getTitle() + " (Closed)");
             } else {
                 endExperiment.setText("End Experiment");
-//                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
-                if (experiment.getSubscribers().contains(currentUser)) {
+                if (experiment.getSubscribers().contains(currentUser) && !experiment.getBlackListedUsers().contains(currentUser)) {
                     addButton.setVisibility(View.VISIBLE);
                     valueEditText.setVisibility(View.VISIBLE);
                 } else {
